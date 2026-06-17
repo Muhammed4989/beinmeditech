@@ -67,7 +67,7 @@ export default function AboutPage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="relative">
               <Image
-                src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=540&q=80"
+                src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=540&q=60"
                 alt="beIN Meditech medical technology expertise"
                 width={540}
                 height={400}

@@ -43,7 +43,7 @@ export default function CustomITSolutionsPage() {
         { q: 'What about data security and patient privacy?', a: 'We prioritize advanced security protocols and full compliance with healthcare regulations including GDPR to protect data integrity.' },
         { q: 'How does beIN Meditech provide ongoing support?', a: 'We offer continuous optimization, regular updates, and responsive support to ensure your systems function smoothly at all times.' },
       ]}
-      imageUrl="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80"
+      imageUrl="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=60"
       imageAlt="Custom IT Solutions for Healthcare – beIN Meditech"
       schema={schema}
     />

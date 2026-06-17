@@ -112,6 +112,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: `document.addEventListener('DOMContentLoaded',function(){if('IntersectionObserver'in window){var o=new IntersectionObserver(function(e){e.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');o.unobserve(e.target)}})},{threshold:0.1});document.querySelectorAll('.reveal').forEach(function(e){o.observe(e)})}});`,
           }}
         />
+        {/* Preconnect to external image sources */}
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" />
       </head>
       <body>
         {/* GTM noscript */}

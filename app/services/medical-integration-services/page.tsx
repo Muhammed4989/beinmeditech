@@ -44,7 +44,7 @@ export default function MedicalIntegrationServicesPage() {
         { q: 'How do you handle post-integration issues?', a: 'We offer ongoing optimization and responsive support to ensure continued peak performance after deployment.' },
         { q: 'Can you integrate a wide range of healthcare technologies?', a: 'Yes, we specialize in integrating a diverse array of medical devices, EMR systems, and IT solutions from multiple vendors.' },
       ]}
-      imageUrl="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&q=80"
+      imageUrl="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&q=60"
       imageAlt="Medical Integration Services – beIN Meditech"
       schema={schema}
     />

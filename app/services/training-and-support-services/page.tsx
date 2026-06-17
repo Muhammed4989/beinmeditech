@@ -43,7 +43,7 @@ export default function TrainingAndSupportPage() {
         { q: 'How often are updates and refreshers provided?', a: 'We provide regular updates and refresher sessions to keep your team proficient with the latest technologies.' },
         { q: 'What is your approach to problem-solving?', a: 'We proactively identify and solve potential issues before they impact operations, ensuring smooth functionality.' },
       ]}
-      imageUrl="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&q=80"
+      imageUrl="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&q=60"
       imageAlt="Training and Support Services for healthcare professionals – beIN Meditech"
       schema={schema}
     />

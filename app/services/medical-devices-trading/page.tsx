@@ -44,7 +44,7 @@ export default function MedicalDevicesTradingPage() {
         { q: 'What is the process for ordering medical devices from beIN Meditech?', a: 'Contact us with your requirements, receive a consultation, and we will guide you through selection, ordering, and delivery.' },
         { q: 'How does beIN Meditech support clients after purchase?', a: 'We provide comprehensive after-sales support including installation, training, and maintenance services.' },
       ]}
-      imageUrl="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=600&q=80"
+      imageUrl="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=600&q=60"
       imageAlt="Medical devices trading – beIN Meditech"
       schema={schema}
     />

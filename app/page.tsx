@@ -161,12 +161,12 @@ export default function HomePage() {
                 {/* Medical tech image inside */}
                 <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full">
                   <Image
-                    src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=520&q=80"
+                    src="/images/hero.svg"
                     alt="beIN Meditech medical technology solutions"
                     width={520}
                     height={520}
                     priority
-                    className="object-cover scale-110"
+                    className="object-contain scale-110 p-8"
                   />
                 </div>
                 {/* Floating stat badge */}
@@ -230,7 +230,7 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1">
               <Image
-                src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=540&q=80"
+                src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=540&q=60"
                 alt="Medical technology expertise"
                 width={540}
                 height={380}
