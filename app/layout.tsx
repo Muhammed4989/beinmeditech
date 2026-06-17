@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     description: 'Leading medical technology company providing medical devices, healthcare IT, and integration services in Germany and worldwide.',
     images: [
       {
-        url: 'https://beinmeditech.com/wp-content/uploads/2024/01/cropped-beIN-MediTech-4-270x270.png',
+        url: '/images/icon.svg',
         width: 270,
         height: 270,
         alt: 'beIN Meditech logo',
@@ -40,11 +40,11 @@ export const metadata: Metadata = {
     card: 'summary',
     title: 'beIN Meditech – Empowering Care, Enhancing Life',
     description: 'Leading medical technology company providing medical devices, healthcare IT, and integration services.',
-    images: ['https://beinmeditech.com/wp-content/uploads/2024/01/cropped-beIN-MediTech-4-270x270.png'],
+    images: ['/images/icon.svg'],
   },
   icons: {
-    icon: 'https://beinmeditech.com/wp-content/uploads/2024/01/cropped-beIN-MediTech-4-270x270.png',
-    apple: 'https://beinmeditech.com/wp-content/uploads/2024/01/cropped-beIN-MediTech-4-270x270.png',
+    icon: '/images/icon.svg',
+    apple: '/images/icon.svg',
   },
   alternates: {
     canonical: 'https://beinmeditech.com',
@@ -62,7 +62,7 @@ const organizationSchema = {
   name: 'beIN Meditech',
   alternateName: 'beinmeditech',
   url: 'https://beinmeditech.com',
-  logo: 'https://beinmeditech.com/wp-content/uploads/2023/12/beINmeditech-random-fotor-bg-remover-20231228181255.png',
+  logo: '/images/logo.svg',
   description:
     'beIN Meditech is a leading medical technology company dedicated to revolutionizing healthcare through cutting-edge medical devices and advanced IT solutions.',
   foundingDate: '2013',

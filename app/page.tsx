@@ -161,12 +161,12 @@ export default function HomePage() {
                 {/* Medical tech image inside */}
                 <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full">
                   <Image
-                    src="https://beinmeditech.com/wp-content/uploads/2023/12/Untitled-design-24-1.png"
+                    src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=520&q=80"
                     alt="beIN Meditech medical technology solutions"
-                    width={480}
-                    height={480}
+                    width={520}
+                    height={520}
                     priority
-                    className="object-contain scale-110"
+                    className="object-cover scale-110"
                   />
                 </div>
                 {/* Floating stat badge */}
@@ -230,7 +230,7 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1">
               <Image
-                src="https://beinmeditech.com/wp-content/uploads/2023/12/card.png"
+                src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=540&q=80"
                 alt="Medical technology expertise"
                 width={540}
                 height={380}

@@ -17,7 +17,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Image
-              src="https://beinmeditech.com/wp-content/uploads/2023/12/Be-1.png"
+              src="/images/logo-white.svg"
               alt="beIN Meditech"
               width={140}
               height={50}

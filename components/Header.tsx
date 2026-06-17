@@ -33,7 +33,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
             <Image
-              src="https://beinmeditech.com/wp-content/uploads/2023/12/beINmeditech-random-fotor-bg-remover-20231228181255.png"
+              src="/images/logo.svg"
               alt="beIN Meditech – Medical Devices & Healthcare IT Solutions"
               width={160}
               height={48}

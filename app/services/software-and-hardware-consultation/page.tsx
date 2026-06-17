@@ -43,7 +43,7 @@ export default function SoftwareHardwareConsultationPage() {
         { q: 'How do you ensure minimal disruption during integration?', a: 'Our team plans meticulously and executes seamlessly, ensuring quick and efficient integration with minimal downtime.' },
         { q: 'What kind of post-integration support do you offer?', a: 'We provide comprehensive support including troubleshooting, updates, and regular check-ins to ensure smooth operation.' },
       ]}
-      imageUrl="https://beinmeditech.com/wp-content/uploads/2024/01/rm373batch7-banner-06-s88-1024x683.jpg"
+      imageUrl="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=600&q=80"
       imageAlt="Software and Hardware Consultation for healthcare – beIN Meditech"
       schema={schema}
     />

@@ -7,6 +7,10 @@ const nextConfig = {
         hostname: 'beinmeditech.com',
         pathname: '/wp-content/uploads/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
     ],
   },
   // Strict mode for better DX
