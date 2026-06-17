@@ -1,0 +1,38 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+      ]
+    },
+    {
+      "source": "/fonts/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/_next/static/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ],
+  "redirects": [
+    { "source": "/home", "destination": "/", "permanent": true },
+    { "source": "/medical-devices-trading", "destination": "/services/medical-devices-trading", "permanent": true },
+    { "source": "/software-and-hardware-consultation", "destination": "/services/software-and-hardware-consultation", "permanent": true },
+    { "source": "/training-and-support-services", "destination": "/services/training-and-support-services", "permanent": true },
+    { "source": "/custom-it-solutions-for-healthcare", "destination": "/services/custom-it-solutions-for-healthcare", "permanent": true },
+    { "source": "/medical-integration-services", "destination": "/services/medical-integration-services", "permanent": true }
+  ]
+}
