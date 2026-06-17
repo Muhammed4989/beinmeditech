@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import WhatsAppButton from '@/components/WhatsAppButton';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://beinmeditech.com'),
@@ -105,6 +106,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WVK83TB5');`,
           }}
         />
+        {/* Scroll reveal */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.addEventListener('DOMContentLoaded',function(){if('IntersectionObserver'in window){var o=new IntersectionObserver(function(e){e.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');o.unobserve(e.target)}})},{threshold:0.1});document.querySelectorAll('.reveal').forEach(function(e){o.observe(e)})}});`,
+          }}
+        />
       </head>
       <body>
         {/* GTM noscript */}
@@ -119,6 +126,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main>{children}</main>
         <Footer />
+        <WhatsAppButton />
       </body>
     </html>
   );

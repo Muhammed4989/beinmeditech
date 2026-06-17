@@ -105,6 +105,7 @@ export default function HomePage() {
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-0 w-2/3 h-full bg-gradient-to-br from-primary-50 via-primary-100/40 to-transparent" />
           <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-primary-100/50 blur-3xl -translate-x-1/3 translate-y-1/3" />
+          <div className="absolute top-1/4 right-0 w-96 h-96 rounded-full bg-orange/5 blur-3xl translate-x-1/3" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -187,7 +188,7 @@ export default function HomePage() {
       </section>
 
       {/* ── WHY WORK WITH US ── */}
-      <section className="py-6 bg-white">
+      <section className="py-6 bg-white reveal">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-primary-600 rounded-3xl p-8 md:p-12">
             <div className="grid md:grid-cols-4 gap-0">
@@ -207,7 +208,7 @@ export default function HomePage() {
               ].map((item) => (
                 <div
                   key={item.title}
-                  className={`rounded-2xl p-6 mx-2 ${item.highlight ? 'bg-orange' : 'bg-[#F3F6FD]0'}`}
+                   className={`rounded-2xl p-6 mx-2 ${item.highlight ? 'bg-orange' : 'bg-[#F3F6FD]'}`}
                 >
                   <div className={`w-10 h-10 rounded-lg mb-4 flex items-center justify-center ${item.highlight ? 'bg-orange-600' : 'bg-primary-600'}`}>
                     <svg className="w-5 h-5 text-orange-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -224,7 +225,7 @@ export default function HomePage() {
       </section>
 
       {/* ── ABOUT STRIP ── */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white reveal">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1">
@@ -256,7 +257,7 @@ export default function HomePage() {
       </section>
 
       {/* ── SERVICES ── */}
-      <section className="py-20 bg-white" id="services">
+      <section className="py-20 bg-white reveal" id="services">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
             <p className="section-label">Our Services</p>
@@ -287,7 +288,7 @@ export default function HomePage() {
       </section>
 
       {/* ── ACHIEVEMENTS ── */}
-      <section className="py-20 bg-primary-600 text-white">
+      <section className="py-20 bg-primary-600 text-white reveal">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -322,7 +323,7 @@ export default function HomePage() {
       </section>
 
       {/* ── TESTIMONIAL ── */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white reveal">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="section-label">Testimonials</p>
           <h2 className="section-title">What Clients Say About beIN Meditech</h2>
@@ -379,6 +380,20 @@ export default function HomePage() {
                   </svg>
                 </a>
               </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PARTNERS ── */}
+      <section className="py-16 bg-white reveal">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">Trusted by healthcare facilities worldwide</p>
+          <div className="flex flex-wrap justify-center items-center gap-10 md:gap-16 opacity-50 grayscale">
+            {['🏥', '🫀', '🔬', '🧬', '🩺', '💊'].map((icon, i) => (
+              <div key={i} className="text-4xl md:text-5xl" title={`Partner ${i + 1}`}>
+                {icon}
+              </div>
             ))}
           </div>
         </div>

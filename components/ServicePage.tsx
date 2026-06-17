@@ -71,7 +71,7 @@ export default function ServicePage({
       </section>
 
       {/* Intro + image */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white reveal">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             <div>
@@ -96,7 +96,7 @@ export default function ServicePage({
                 </address>
               </div>
             </div>
-            <div>
+            <div className="img-zoom rounded-2xl">
               <Image
                 src={imageUrl}
                 alt={imageAlt}
@@ -110,7 +110,7 @@ export default function ServicePage({
       </section>
 
       {/* Features */}
-      <section className="py-20 bg-[#F3F6FD]">
+      <section className="py-20 bg-[#F3F6FD] reveal">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <p className="section-label">{sectionLabel}</p>

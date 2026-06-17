@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import ContactForm from '@/components/ContactForm';
 
 export const metadata: Metadata = {
   title: 'Contact Us',
@@ -138,105 +139,7 @@ export default function ContactPage() {
             <div>
               <div className="bg-gray-50 rounded-2xl p-8">
                 <h3 className="text-xl font-bold text-gray-900 mb-6">Send Us a Message</h3>
-                <form
-                  action="https://formspree.io/f/placeholder"
-                  method="POST"
-                  className="space-y-5"
-                >
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
-                        First Name
-                      </label>
-                      <input
-                        type="text"
-                        id="firstName"
-                        name="firstName"
-                        required
-                        className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent bg-white text-gray-900 text-sm"
-                        placeholder="John"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
-                        Last Name
-                      </label>
-                      <input
-                        type="text"
-                        id="lastName"
-                        name="lastName"
-                        required
-                        className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent bg-white text-gray-900 text-sm"
-                        placeholder="Doe"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent bg-white text-gray-900 text-sm"
-                      placeholder="john@hospital.com"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent bg-white text-gray-900 text-sm"
-                      placeholder="+1 000 000 0000"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                      Subject
-                    </label>
-                    <select
-                      id="subject"
-                      name="subject"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent bg-white text-gray-900 text-sm"
-                    >
-                      <option value="">Select a service…</option>
-                      <option>Medical Devices Trading</option>
-                      <option>Software & Hardware Consultation</option>
-                      <option>Training & Support Services</option>
-                      <option>Custom IT Solutions for Healthcare</option>
-                      <option>Integration Services</option>
-                      <option>General Inquiry</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                      Message
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={5}
-                      required
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent bg-white text-gray-900 text-sm resize-none"
-                      placeholder="Tell us about your healthcare facility and how we can help…"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="btn-primary w-full justify-center"
-                  >
-                    Send Message
-                  </button>
-                  <p className="text-xs text-gray-500 text-center">
-                    We typically respond within 24 hours.
-                  </p>
-                </form>
+                <ContactForm />
               </div>
             </div>
           </div>
