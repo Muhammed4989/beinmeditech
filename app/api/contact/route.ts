@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
+  if (!process.env.RESEND_API_KEY) {
+    return NextResponse.json({ error: 'no_key' }, { status: 503 });
+  }
+
   try {
     const { firstName, lastName, email, phone, subject, message } = await req.json();
 
-    if (!firstName || !email || !message) {
-      return NextResponse.json({ error: 'Name, email, and message are required.' }, { status: 400 });
+    if (!firstName || !email) {
+      return NextResponse.json({ error: 'Name and email are required.' }, { status: 400 });
     }
 
     const html = `
@@ -38,7 +42,7 @@ export async function POST(req: NextRequest) {
             </tr>` : ''}
             <tr>
               <td style="padding: 10px 0; color: #64748b; font-size: 13px; vertical-align: top;">Message</td>
-              <td style="padding: 10px 0; color: #0f172a; font-size: 14px; line-height: 1.6;">${message.replace(/\n/g, '<br>')}</td>
+              <td style="padding: 10px 0; color: #0f172a; font-size: 14px; line-height: 1.6;">${message ? message.replace(/\n/g, '<br>') : ''}</td>
             </tr>
           </table>
         </div>
