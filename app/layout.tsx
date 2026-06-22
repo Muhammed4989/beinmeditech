@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import WhatsAppButton from '@/components/WhatsAppButton';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -8,115 +11,6 @@ const inter = Inter({
   display: 'swap',
   variable: '--font-inter',
 });
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import WhatsAppButton from '@/components/WhatsAppButton';
-
-export const metadata: Metadata = {
-  metadataBase: new URL('https://beinmeditech.com'),
-  title: {
-    default: 'beIN Meditech – Empowering Care, Enhancing Life',
-    template: '%s | beIN Meditech',
-  },
-  description:
-    'beIN Meditech is a leading medical technology company providing state-of-the-art medical devices, healthcare IT solutions, software consulting, and integration services across Germany, Europe, and globally.',
-  keywords: [
-    'medical devices', 'healthcare IT', 'medical technology', 'medical device trading',
-    'healthcare software', 'hospital IT solutions', 'medical integration services',
-    'beIN Meditech', 'beinmeditech', 'Lübeck Germany medical',
-  ],
-  authors: [{ name: 'beIN Meditech', url: 'https://beinmeditech.com' }],
-  creator: 'beIN Meditech',
-  publisher: 'beIN Meditech',
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://beinmeditech.com',
-    siteName: 'beIN Meditech',
-    title: 'beIN Meditech – Empowering Care, Enhancing Life',
-    description: 'Leading medical technology company providing medical devices, healthcare IT, and integration services in Germany and worldwide.',
-    images: [
-      {
-        url: '/images/icon.svg',
-        width: 270,
-        height: 270,
-        alt: 'beIN Meditech logo',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary',
-    title: 'beIN Meditech – Empowering Care, Enhancing Life',
-    description: 'Leading medical technology company providing medical devices, healthcare IT, and integration services.',
-    images: ['/images/icon.svg'],
-  },
-  icons: {
-    icon: '/images/icon.svg',
-    apple: '/images/icon.svg',
-  },
-  alternates: {
-    canonical: 'https://beinmeditech.com',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
-  },
-};
-
-const organizationSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'beIN Meditech',
-  alternateName: 'beinmeditech',
-  url: 'https://beinmeditech.com',
-  logo: '/images/logo.svg',
-  description:
-    'beIN Meditech is a leading medical technology company dedicated to revolutionizing healthcare through cutting-edge medical devices and advanced IT solutions.',
-  foundingDate: '2013',
-  address: [
-    {
-      '@type': 'PostalAddress',
-      streetAddress: 'Kirchwerderstraße 12',
-      addressLocality: 'Lübeck',
-      postalCode: '23556',
-      addressCountry: 'DE',
-    },
-    {
-      '@type': 'PostalAddress',
-      addressLocality: 'Bahçeşehir',
-      postalCode: '34488',
-      addressRegion: 'Istanbul',
-      addressCountry: 'TR',
-    },
-  ],
-  contactPoint: {
-    '@type': 'ContactPoint',
-    telephone: '+4915750316400',
-    contactType: 'customer service',
-    email: 'info@beinmeditech.com',
-    availableLanguage: ['English', 'German', 'Turkish'],
-  },
-  sameAs: ['https://beinmeditech.com'],
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en" className={inter.variable}>
-      <head>
-        <script
-import { Inter } from 'next/font/google';
-import './globals.css';
-
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800'],
-  display: 'swap',
-  variable: '--font-inter',
-});
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import WhatsAppButton from '@/components/WhatsAppButton';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://beinmeditech.com'),
@@ -228,7 +122,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         {/* Preconnect to external image sources */}
         <link rel="preconnect" href="https://images.unsplash.com" />
-        <link rel="dns-prefetch" href="https://images.unsplash.com" />      </head>
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+      </head>
       <body className={inter.className}>
         {/* GTM noscript */}
         <noscript>
