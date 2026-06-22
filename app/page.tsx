@@ -101,23 +101,19 @@ export default function HomePage() {
 
       {/* ── HERO ── */}
       <section className="relative bg-white pt-24 pb-0 overflow-hidden min-h-[85vh] flex items-center">
-        {/* Light lavender gradient blobs */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-0 w-2/3 h-full bg-gradient-to-br from-primary-50 via-primary-100/40 to-transparent" />
-          <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-primary-100/50 blur-3xl -translate-x-1/3 translate-y-1/3" />
-          <div className="absolute top-1/4 right-0 w-96 h-96 rounded-full bg-orange/5 blur-3xl translate-x-1/3" />
-        </div>
+        {/* Subtle background tint */}
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-primary-50/60 to-transparent" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="py-12">
-              <a href="tel:+4915750316400" className="inline-flex items-center gap-2 text-orange font-semibold text-sm mb-6 hover:text-orange-600 transition-colors">
+              <a href="tel:+4917641963598" className="inline-flex items-center gap-2 text-orange font-semibold text-sm mb-6 hover:text-orange-600 transition-colors">
                 <span className="w-8 h-8 rounded-full bg-orange flex items-center justify-center">
                   <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                   </svg>
                 </span>
-                (+49) 1575 031 64 00
+                (+49) 176 419 63598
               </a>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-primary-600 mb-4 speakable">
                 Empowering Care,<br />
@@ -215,8 +211,8 @@ export default function HomePage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                   </div>
-                  <h3 className="font-bold text-white text-lg mb-2">{item.title}</h3>
-                  <p className={`text-sm leading-relaxed ${item.highlight ? 'text-orange-50' : 'text-primary-200'}`}>{item.desc}</p>
+                  <h3 className={`font-bold text-lg mb-2 ${item.highlight ? 'text-white' : 'text-primary-700'}`}>{item.title}</h3>
+                  <p className={`text-sm leading-relaxed ${item.highlight ? 'text-white' : 'text-gray-600'}`}>{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -234,6 +230,8 @@ export default function HomePage() {
                 alt="Medical technology expertise"
                 width={540}
                 height={380}
+                loading="lazy"
+                sizes="(max-width: 768px) 100vw, 540px"
                 className="rounded-2xl object-cover w-full"
               />
             </div>
@@ -413,4 +411,4 @@ export default function HomePage() {
       </section>
     </>
   );
-}
+      }
