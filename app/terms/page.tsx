@@ -65,7 +65,7 @@ export default function TermsPage() {
           <p>For questions about these Terms, please contact us:</p>
           <p>
             <strong>Email:</strong> <a href="mailto:info@beinmeditech.com" className="text-orange">info@beinmeditech.com</a><br />
-            <strong>Phone:</strong> <a href="tel:+4915750316400" className="text-orange">(+49) 1575 031 64 00</a><br />
+            <strong>Phone:</strong> <a href="tel:+4917641963598" className="text-orange">(+49) 176 419 63598</a><br />
             <strong>Address:</strong> Kirchwerderstraße 12, 23556 Lübeck, Germany
           </p>
         </div>
