@@ -22,6 +22,19 @@ export default function ContactForm() {
       const json = await res.json();
       if (json.success) {
         setDone(true);
+      } else if (json.error === 'no_key') {
+        // No email service configured — open mailto
+        const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+        const body = encodeURIComponent(
+          `Name: ${data.firstName || ''} ${data.lastName || ''}
+Email: ${data.email || ''}
+Phone: ${data.phone || ''}
+Subject: ${data.subject || ''}
+
+${data.message || ''}`
+        );
+        window.location.href = `mailto:info@beinmeditech.com?subject=Enquiry%20from%20${encodeURIComponent(data.firstName || 'Website')}&body=${body}`;
+        setDone(true);
       } else {
         setError(json.error || 'Something went wrong. Please try again.');
       }
@@ -111,8 +124,8 @@ export default function ContactForm() {
         >
           <option value="">Select a service…</option>
           <option>Medical Devices Trading</option>
-          <option>Software & Hardware Consultation</option>
-          <option>Training & Support Services</option>
+          <option>Software &amp; Hardware Consultation</option>
+          <option>Training &amp; Support Services</option>
           <option>Custom IT Solutions for Healthcare</option>
           <option>Integration Services</option>
           <option>General Inquiry</option>
@@ -120,13 +133,12 @@ export default function ContactForm() {
       </div>
       <div>
         <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-          Message *
+          Message
         </label>
         <textarea
           id="message"
           name="message"
           rows={5}
-          required
           className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent bg-white text-gray-900 text-sm resize-none"
           placeholder="Tell us about your healthcare facility and how we can help…"
         />
@@ -146,4 +158,4 @@ export default function ContactForm() {
       </p>
     </form>
   );
-}
+        }
