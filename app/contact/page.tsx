@@ -17,7 +17,7 @@ const contactSchema = {
   mainEntity: {
     '@type': 'Organization',
     name: 'beIN Meditech',
-    telephone: '+4915750316400',
+    telephone: '+4917641963598',
     email: 'info@beinmeditech.com',
     address: [
       {
@@ -109,8 +109,8 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <h3 className="font-bold text-gray-900 mb-1">Phone</h3>
-                      <a href="tel:+4915750316400" className="text-orange hover:text-orange-600 font-medium">
-                        (+49) 1575 031 64 00
+                      <a href="tel:+4917641963598" className="text-orange hover:text-orange-600 font-medium">
+                        (+49) 176 419 63598
                       </a>
                     </div>
                   </div>
