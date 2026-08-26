@@ -71,6 +71,8 @@ export default function AboutPage() {
                 alt="beIN Meditech medical technology expertise"
                 width={540}
                 height={400}
+                loading="lazy"
+                sizes="(max-width: 768px) 100vw, 540px"
                 className="rounded-2xl object-cover w-full"
               />
             </div>

@@ -25,6 +25,12 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+/data/zec-monitor/telegram.json
+/data/*-monitor/state.json
+/data/*-monitor/last-run.json
+/data/*-monitor/alerts.jsonl
+/data/*-monitor/errors.log
+/data/*-monitor/task.log
 
 # vercel
 .vercel

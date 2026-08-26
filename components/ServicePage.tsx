@@ -102,6 +102,8 @@ export default function ServicePage({
                 alt={imageAlt}
                 width={600}
                 height={420}
+                loading="lazy"
+                sizes="(max-width: 768px) 100vw, 600px"
                 className="rounded-2xl object-cover w-full"
               />
             </div>
