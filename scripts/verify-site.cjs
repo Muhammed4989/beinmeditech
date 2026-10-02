@@ -15,7 +15,12 @@ async function main() {
     assert(html.includes('bein-meditech.png'), route + ' uses the repaired brand asset');
     assert(!html.includes('/images/logo.svg') && !html.includes('/images/logo-white.svg'), route + ' has no tiny placeholder logo');
     assert(!html.includes('images.unsplash.com'), route + ' has no remote image dependency');
-    assert(!html.includes('hero.svg'), route + ' no schematic hero');
+    if (route === '/') {
+      assert(html.includes('Empowering Care,') && html.includes('Enhancing Life'), 'Restored homepage headline');
+      assert(html.includes('hero.svg'), 'Preserve the user-requested legacy home hero');
+      assert(!html.includes('The right technology.'), 'Do not reapply the rejected homepage redesign');
+      assert(html.includes('unverified placeholders'), 'Legacy company claims remain visibly unverified');
+    } else assert(!html.includes('hero.svg'), route + ' no legacy hero outside home');
     assert(html.includes('rel="canonical"'), route + ' canonical');
     for (const match of html.matchAll(/<a[^>]+href="([^"]+)"/g)) {
       const href = match[1].replace(/&amp;/g, '&');

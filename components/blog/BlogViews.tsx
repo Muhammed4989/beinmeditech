@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { BLOG_UPDATED, BLOG_DATE_LABEL, blogCover, blogPath, childTopics, findBlogTopic, readingMinutes, type BlogArticle, type BlogTopic } from '@/lib/blog';
+import { articlePublishedDate, articleUpdatedDate, formatBlogDate, blogCover, blogPath, childTopics, findBlogTopic, readingMinutes, type BlogArticle, type BlogTopic } from '@/lib/blog';
 import { sectionId, type Breadcrumb, type ContentLink } from '@/lib/content';
 import Breadcrumbs from '@/components/content/Breadcrumbs';
 import ArticleCards from './ArticleCards';
@@ -49,13 +49,15 @@ export function BlogArchive({ topic, path, crumbs, articles }: { topic: BlogTopi
 
 export function BlogArticleView({ article, path, crumbs, related }: { article: BlogArticle; path: string; crumbs: Breadcrumb[]; related: BlogArticle[] }) {
   const cover = blogCover(article);
+  const published = articlePublishedDate(article);
+  const updated = articleUpdatedDate(article);
   return <div className="journal journal-article">
     <header className="journal-article-heading journal-container">
       <Breadcrumbs items={crumbs} />
       <div className="journal-article-title">
         <Link href={blogPath(article.topic)} className="journal-topic-tag">{findBlogTopic(article.topic)?.name}</Link>
         <h1>{article.title}</h1>
-        <div className="journal-article-meta"><Link href="/about">By beIN MediTech</Link><time dateTime={BLOG_UPDATED}>{BLOG_DATE_LABEL}</time><span>{readingMinutes(article)} min read</span></div>
+        <div className="journal-article-meta"><Link href="/about">By beIN MediTech</Link><span>Published <time dateTime={published}>{formatBlogDate(published)}</time></span>{updated !== published && <span>Updated <time dateTime={updated}>{formatBlogDate(updated)}</time></span>}<span>{readingMinutes(article)} min read</span></div>
       </div>
     </header>
     <div className="journal-container journal-layout">

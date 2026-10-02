@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { BLOG_UPDATED, BLOG_DATE_LABEL, articlePath, blogPath, blogCover, findBlogTopic, readingMinutes, type BlogArticle } from '@/lib/blog';
+import { articlePublishedDate, formatBlogDate, articlePath, blogPath, blogCover, findBlogTopic, readingMinutes, type BlogArticle } from '@/lib/blog';
 
 export default function ArticleCards({ articles, layout = 'cards' }: { articles: BlogArticle[]; layout?: 'cards' | 'list' | 'related' }) {
   if (layout !== 'cards') return <div className={layout === 'list' ? 'journal-list' : 'journal-related-grid'}>
@@ -14,7 +14,7 @@ export default function ArticleCards({ articles, layout = 'cards' }: { articles:
           <Link href={blogPath(article.topic)} className="journal-topic-tag">{findBlogTopic(article.topic)?.name}</Link>
           <h3><Link href={articlePath(article)} prefetch={false}>{article.title}</Link></h3>
           <p>{article.description}</p>
-          <div className="journal-list-meta"><time dateTime={BLOG_UPDATED}>{BLOG_DATE_LABEL}</time><span aria-hidden="true">·</span><span>{readingMinutes(article)} min read</span></div>
+          <div className="journal-list-meta"><time dateTime={articlePublishedDate(article)}>{formatBlogDate(articlePublishedDate(article))}</time><span aria-hidden="true">·</span><span>{readingMinutes(article)} min read</span></div>
         </div>
       </article>;
     })}

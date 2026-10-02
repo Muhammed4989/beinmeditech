@@ -35,6 +35,14 @@ function guideFor(page, state = filters.readFilters(catalog.collectionPath(page.
 }
 const topicPaths = blog.blogTopics.map((topic) => blog.blogPath(topic.segments));
 const articlePaths = blog.blogArticles.map(blog.articlePath);
+const revisedQuoteGuide = blog.blogArticles.find((article) => article.slug === 'compare-equipment-quotations');
+assert.equal(blog.articlePublishedDate(revisedQuoteGuide), '2026-10-02', 'An update preserves the original publication date');
+assert.equal(blog.articleUpdatedDate(revisedQuoteGuide), '2026-10-03', 'Updated guide has its own date');
+assert.equal(blog.articleUpdatedDate(blog.blogArticles[0]), '2026-10-02', 'Updating one article must not refresh other dates');
+assert.equal(blog.blogTopicUpdatedDate(['equipment-guides']), '2026-10-02', 'Unchanged topic stays unchanged');
+assert.equal(blog.blogTopicUpdatedDate(['procurement']), '2026-10-03', 'Parent reflects revised guide');
+assert.equal(blog.formatBlogDate('2026-10-03'), '3 October 2026', 'Deterministic timezone-safe display');
+assert([revisedQuoteGuide.intro, ...revisedQuoteGuide.sections.map((section) => section.body)].join(' ').split(/\s+/).length >= 900, 'Expanded comparison guide has substantive body content');
 const collectionPaths = catalog.seoCollections.map((page) => catalog.collectionPath(page.segments));
 const productPaths = products.demoProducts.map(products.demoProductPath);
 const articleImages = blog.blogArticles.map((article) => blog.blogCover(article).src);
@@ -58,6 +66,11 @@ for (const topic of blog.blogTopics) {
   if (topic.segments.length) assert(blog.findBlogTopic(topic.segments.slice(0, -1)), 'A topic must have a valid parent');
 }
 for (const article of blog.blogArticles) {
+  for (const date of [blog.articlePublishedDate(article), blog.articleUpdatedDate(article)]) {
+    assert(/^\d{4}-\d{2}-\d{2}$/.test(date), 'Editorial date uses ISO format');
+    assert.equal(new Date(date).toISOString().slice(0, 10), date, 'Editorial date exists');
+  }
+  assert(blog.articleUpdatedDate(article) >= blog.articlePublishedDate(article), 'Update cannot precede publication');
   assert(blog.findBlogTopic(article.topic), 'Article topic must exist');
   const cover = blog.blogCover(article);
   assert(cover.src === '/images/blog/articles/' + article.slug + '.webp', 'Image is attached to the individual article');
@@ -142,6 +155,11 @@ async function verifyHttp(base) {
         const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((match) => JSON.parse(match[1]));
         const posting = schemas.flatMap((schema) => schema['@graph'] || [schema]).find((schema) => schema['@type'] === 'BlogPosting');
         assert.deepEqual(posting.image, [image], route + ' structured data matches its own cover');
+        assert.equal(posting.datePublished, blog.articlePublishedDate(article), route + ' schema publication date');
+        assert.equal(posting.dateModified, blog.articleUpdatedDate(article), route + ' schema update date');
+        assert(html.includes('property="article:published_time" content="' + blog.articlePublishedDate(article) + '"'), route + ' OG publication date');
+        assert(html.includes('property="article:modified_time" content="' + blog.articleUpdatedDate(article) + '"'), route + ' OG modification date');
+        assert(html.includes('dateTime="' + blog.articlePublishedDate(article) + '"'), route + ' visible date');
       }
       if (route.includes('/demo-')) {
         assert(/name="robots" content="[^"]*noindex/.test(html), route + ' demo noindex');
@@ -167,6 +185,10 @@ async function verifyHttp(base) {
   }
   for (const route of [...topicPaths, ...articlePaths, ...collectionPaths]) assert(sitemap.includes(catalog.SITE_URL + route + '</loc>'), route + ' in sitemap');
   assert(!sitemap.includes('/demo-'), 'Demo products excluded from sitemap');
+  for (const article of blog.blogArticles) {
+    assert(sitemap.includes('<loc>' + catalog.SITE_URL + blog.articlePath(article) + '</loc>\n<lastmod>' + blog.articleUpdatedDate(article) + 'T00:00:00.000Z</lastmod>'), 'Sitemap uses article-specific date: ' + article.slug);
+    for (const link of article.equipment) assert.equal((await fetch(base + link.href)).status, 200, 'Reachable contextual link ' + link.href);
+  }
   const legacy = await fetch(base + '/products/demo-siemens-acuson-nx3-2019', { redirect: 'manual' });
   assert.equal(legacy.status, 308);
   assert.equal(legacy.headers.get('location'), products.demoProductPath(products.demoProducts[0]));
