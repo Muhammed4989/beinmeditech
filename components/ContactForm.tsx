@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 
-export default function ContactForm() {
+export default function ContactForm({ initialSubject = '' }: { initialSubject?: string }) {
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState('');
@@ -120,9 +120,12 @@ ${data.message || ''}`
         <select
           id="subject"
           name="subject"
+          defaultValue={initialSubject}
           className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent bg-white text-gray-900 text-sm"
         >
           <option value="">Select a service…</option>
+          {initialSubject && <option value={initialSubject}>{initialSubject}</option>}
+          <option>Medical Equipment Sourcing &amp; Delivered Quote</option>
           <option>Medical Devices Trading</option>
           <option>Software &amp; Hardware Consultation</option>
           <option>Training &amp; Support Services</option>

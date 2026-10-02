@@ -18,7 +18,7 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center gap-2 bg-orange hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md;
+    @apply inline-flex items-center gap-2 bg-orange hover:bg-orange-600 text-primary-900 font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md;
   }
   .btn-outline {
     @apply inline-flex items-center gap-2 border-2 border-orange text-orange hover:bg-orange hover:text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200;
@@ -35,7 +35,13 @@
   .faq-item {
     @apply border border-gray-200 rounded-xl overflow-hidden;
   }
+  .content-card {
+    @apply rounded-2xl border border-primary-100 bg-white transition duration-200 hover:border-primary-300 hover:shadow-md;
+  }
 }
+
+:focus-visible { outline: 3px solid #28214C; outline-offset: 4px; }
+.blog-topic [aria-current="page"] { color: #C04400; font-weight: 700; }
 
 /* Scroll reveal animations */
 @keyframes fadeInUp {
@@ -109,4 +115,18 @@
 }
 .img-zoom:hover img {
   transform: scale(1.05);
+}
+
+@keyframes filterDropdownIn {
+  from { opacity: 0; transform: translateY(-6px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.filter-dropdown {
+  transform-origin: top;
+  animation: filterDropdownIn 180ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .filter-dropdown, .animate-fade-in, .animate-fade-in-up, .animate-scale-in { animation: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
 }

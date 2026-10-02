@@ -31,7 +31,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Arial', 'Helvetica', 'sans-serif'],
       },
       animation: {
         'count-up': 'countUp 2s ease-out forwards',

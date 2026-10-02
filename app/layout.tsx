@@ -1,17 +1,9 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import ScrollReveal from '@/components/ScrollReveal';
-
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800'],
-  display: 'swap',
-  variable: '--font-inter',
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://beinmeditech.com'),
@@ -38,18 +30,18 @@ export const metadata: Metadata = {
     description: 'Leading medical technology company providing medical devices, healthcare IT, and integration services in Germany and worldwide.',
     images: [
       {
-        url: '/images/icon.svg',
-        width: 270,
-        height: 270,
-        alt: 'beIN Meditech logo',
+        url: '/images/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'beIN Meditech – Empowering Care, Enhancing Life',
       },
     ],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'beIN Meditech – Empowering Care, Enhancing Life',
     description: 'Leading medical technology company providing medical devices, healthcare IT, and integration services.',
-    images: ['/images/icon.svg'],
+    images: ['/images/og-image.png'],
   },
   icons: {
     icon: '/images/icon.svg',
@@ -61,17 +53,19 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 },
   },
 };
+
 
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': 'https://beinmeditech.com/#organization',
   name: 'beIN Meditech',
   alternateName: 'beinmeditech',
   url: 'https://beinmeditech.com',
-  logo: '/images/logo.svg',
+  logo: 'https://beinmeditech.com/images/logo.svg',
   description:
     'beIN Meditech is a leading medical technology company dedicated to revolutionizing healthcare through cutting-edge medical devices and advanced IT solutions.',
   foundingDate: '2013',
@@ -98,16 +92,32 @@ const organizationSchema = {
     email: 'info@beinmeditech.com',
     availableLanguage: ['English', 'German', 'Turkish'],
   },
-  sameAs: ['https://beinmeditech.com'],
+  knowsAbout: ['Medical equipment sourcing', 'Used ultrasound systems', 'Endoscopy equipment', 'Patient monitoring', 'Healthcare IT integration'],
+  areaServed: ['Germany', 'Europe', 'Saudi Arabia', 'Türkiye', 'Middle East'],
+  sameAs: ['https://www.linkedin.com/company/beinmeditech', 'https://www.facebook.com/beinmeditech', 'https://www.instagram.com/beinmeditech'],
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': 'https://beinmeditech.com/#website',
+  url: 'https://beinmeditech.com',
+  name: 'beIN MediTech',
+  publisher: { '@id': 'https://beinmeditech.com/#organization' },
+  inLanguage: 'en',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en">
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
         {/* Google Tag Manager */}
         <script
@@ -125,7 +135,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
       </head>
-      <body className={inter.className}>
+      <body>
         {/* GTM noscript */}
         <noscript>
           <iframe

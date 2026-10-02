@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { blogArticles } from '@/lib/blog';
+import ArticleCards from '@/components/blog/ArticleCards';
 
 export const metadata: Metadata = {
   title: 'beIN Meditech – Empowering Care, Enhancing Life',
@@ -56,27 +58,6 @@ const achievements = [
   'Robust network with partnerships across leading medical institutions',
   '95% customer retention rate — a testament to lasting trust',
   'Significant contributions to community health initiatives',
-];
-
-const newsArticles = [
-  {
-    title: 'The Revolution of Medicine through Artificial Intelligence',
-    date: 'May 26, 2024',
-    href: 'https://beinmeditech.com/the-revolution-of-medicine-through-artificial-intelligence/',
-    summary: 'Artificial Intelligence has revolutionized medicine, from diagnostic imaging to personalized treatment plans.',
-  },
-  {
-    title: 'The Vital Role of Medical Image Processing in Diagnosis and Treatment',
-    date: 'February 23, 2024',
-    href: 'https://beinmeditech.com/medical-image-processing-diagnosis-and-treatment/',
-    summary: 'Medical image processing is transforming how clinicians diagnose and treat complex conditions.',
-  },
-  {
-    title: 'Heart Health Monitoring with AI and Deep Learning',
-    date: 'February 12, 2024',
-    href: 'https://beinmeditech.com/heart-health-monitoring-with-ai-and-deep-learning/',
-    summary: 'Deep learning models are enabling earlier, more accurate detection of cardiac anomalies.',
-  },
 ];
 
 const webPageSchema = {
@@ -354,32 +335,14 @@ export default function HomePage() {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <p className="section-label">News</p>
-            <h2 className="section-title">Latest News & Articles</h2>
+            <p className="section-label">Our Journal</p>
+            <h2 className="section-title">Medical Equipment Insights</h2>
             <p className="text-gray-600 max-w-xl mx-auto">
-              Stay updated with the latest breakthroughs in medical technology and healthcare solutions.
+              Practical guides to equipment selection, purchasing and healthcare integration.
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {newsArticles.map((article) => (
-              <article key={article.href} className="card">
-                <time className="text-xs text-primary-600 font-semibold uppercase tracking-wide">{article.date}</time>
-                <h3 className="text-lg font-bold text-gray-900 mt-2 mb-3 leading-snug">{article.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">{article.summary}</p>
-                <a
-                  href={article.href}
-                  className="text-primary-600 font-semibold text-sm hover:text-primary-800 inline-flex items-center gap-1"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Read More
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
-              </article>
-            ))}
-          </div>
+          <ArticleCards articles={[blogArticles[0], blogArticles[8]]} />
+          <div className="mt-8 text-center"><Link href="/blog" className="btn-outline">Explore All Guides</Link></div>
         </div>
       </section>
 

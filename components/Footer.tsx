@@ -35,6 +35,8 @@ export default function Footer() {
               {[
                 { name: 'Home', href: '/' },
                 { name: 'About Us', href: '/about' },
+                { name: 'Medical Equipment', href: '/medical-equipment' },
+                { name: 'Blog & Buying Guides', href: '/blog' },
                 { name: 'Services', href: '/services' },
                 { name: 'Contact', href: '/contact' },
               ].map((link) => (
@@ -95,7 +97,7 @@ export default function Footer() {
           </div>
         </div>
 
-          <div className="mt-10 pt-8 border-t border-primary-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-primary-400">
+          <div className="mt-10 pt-8 border-t border-primary-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-primary-200">
           <p>© {new Date().getFullYear()} beIN Meditech. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <a href="https://www.linkedin.com/company/beinmeditech" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" aria-label="LinkedIn">

@@ -43,17 +43,23 @@ export default function Header() {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
+          <nav className="hidden lg:flex items-center gap-6" aria-label="Main navigation">
             <Link href="/" className="text-gray-700 hover:text-orange font-medium transition-colors">
               Home
             </Link>
             <Link href="/about" className="text-gray-700 hover:text-orange font-medium transition-colors">
               About Us
             </Link>
+            <Link href="/medical-equipment" className="text-gray-700 hover:text-orange font-medium transition-colors">
+              Medical Equipment
+            </Link>
 
             {/* Services dropdown */}
             <div className="relative" onMouseEnter={() => setServicesOpen(true)} onMouseLeave={() => setServicesOpen(false)}>
               <button
+                type="button"
+                onClick={() => setServicesOpen(!servicesOpen)}
+                onKeyDown={(event) => { if (event.key === 'Escape') setServicesOpen(false); }}
                 className="flex items-center gap-1 text-gray-700 hover:text-orange font-medium transition-colors"
                 aria-haspopup="true"
                 aria-expanded={servicesOpen}
@@ -78,6 +84,7 @@ export default function Header() {
               )}
             </div>
 
+            <Link href="/blog" className="text-gray-700 hover:text-orange font-medium transition-colors">Blog</Link>
             <Link href="/contact" className="btn-primary text-sm py-2.5">
               Contact Us
             </Link>
@@ -85,7 +92,7 @@ export default function Header() {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden p-2 rounded-lg text-gray-600 hover:text-orange hover:bg-gray-100"
+            className="lg:hidden p-2 rounded-lg text-gray-600 hover:text-orange hover:bg-gray-100"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
             aria-expanded={mobileOpen}
@@ -100,9 +107,11 @@ export default function Header() {
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <nav className="md:hidden border-t border-gray-100 py-4 space-y-1" aria-label="Mobile navigation">
+          <nav className="lg:hidden border-t border-gray-100 py-4 space-y-1" aria-label="Mobile navigation">
             <Link href="/" className="block px-3 py-2 text-gray-700 hover:text-orange font-medium" onClick={() => setMobileOpen(false)}>Home</Link>
             <Link href="/about" className="block px-3 py-2 text-gray-700 hover:text-orange font-medium" onClick={() => setMobileOpen(false)}>About Us</Link>
+            <Link href="/medical-equipment" className="block px-3 py-2 text-gray-700 hover:text-orange font-medium" onClick={() => setMobileOpen(false)}>Medical Equipment</Link>
+            <Link href="/blog" className="block px-3 py-2 text-gray-700 hover:text-orange font-medium" onClick={() => setMobileOpen(false)}>Blog & Buying Guides</Link>
             <div>
               <button
                 className="flex items-center gap-1 w-full px-3 py-2 text-gray-700 font-medium"

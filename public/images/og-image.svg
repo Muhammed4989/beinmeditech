@@ -1,0 +1,10 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#28214C"/>
+  <circle cx="1030" cy="120" r="260" fill="#FF6400" opacity=".16"/>
+  <circle cx="1100" cy="560" r="360" fill="#F3F6FD" opacity=".08"/>
+  <rect x="82" y="94" width="12" height="442" rx="6" fill="#FF6400"/>
+  <text x="140" y="220" font-family="Arial, sans-serif" font-size="78" font-weight="700" fill="white">beIN <tspan fill="#FF6400">MediTech</tspan></text>
+  <text x="140" y="320" font-family="Arial, sans-serif" font-size="48" font-weight="700" fill="white">Medical Equipment</text>
+  <text x="140" y="385" font-family="Arial, sans-serif" font-size="32" fill="#D5D0F5">Sourcing from Germany · International Delivery</text>
+  <text x="140" y="480" font-family="Arial, sans-serif" font-size="27" fill="#FCA972">beinmeditech.com</text>
+</svg>
