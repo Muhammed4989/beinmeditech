@@ -46,7 +46,7 @@ export default function CollectionPage({ page, searchParams = {} }: { page: SeoC
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{children.map((child) => <Link key={collectionPath(child.segments)} href={collectionPath(child.segments)} className="content-card p-6"><p className="text-sm font-semibold text-orange-700">{child.eyebrow}</p><h3 className="mt-2 text-xl font-bold text-primary-900">{child.h1}</h3><p className="mt-3 text-sm leading-6 text-gray-600">{child.intro}</p></Link>)}</div>
     </div></section>}
     <section className="bg-white py-12" data-nosnippet><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="mb-7 rounded-xl border border-orange-100 bg-orange-50 px-4 py-3 text-sm leading-6 text-orange-700"><strong>Demonstration inventory.</strong> These products, prices and configurations are fictional examples for testing the site, not commercial offers.</div>
+      <div className="mb-7 rounded-xl border border-orange-100 bg-orange-50 px-4 py-3 text-sm leading-6 text-primary-600"><strong>Demonstration inventory.</strong> These products, prices and configurations are fictional examples for testing the site, not commercial offers.</div>
       <div className="mb-7 flex flex-wrap items-end justify-between gap-3"><h2 className="text-2xl font-bold text-primary-900">Equipment examples</h2><p className="text-sm text-gray-600">{products.length} demonstration result{products.length === 1 ? '' : 's'}</p></div>
       <DemoInventoryGrid products={products} />
     </div></section>
