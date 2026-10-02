@@ -61,7 +61,7 @@ export function BlogArticleView({ article, path, crumbs, related }: { article: B
     <div className="journal-container journal-layout">
       <BlogSidebar currentPath={path} article={article} />
       <div className="journal-main">
-        <figure className="journal-cover"><Image src={cover.src} alt={cover.alt} width={960} height={600} priority sizes="(max-width: 959px) 100vw, 848px" /><figcaption>Editorial illustration — not a photograph of a specific product.</figcaption></figure>
+        <figure className="journal-cover"><Image src={cover.src} alt={cover.alt} width={1200} height={800} priority sizes="(max-width: 959px) 100vw, 848px" /><figcaption>AI-generated editorial image — not a photograph of a specific product or facility.</figcaption></figure>
         <article className="journal-article-body">
           <p className="journal-article-summary">{article.description}</p>
           <p>{article.intro}</p>

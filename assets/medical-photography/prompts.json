@@ -1,0 +1,55 @@
+{
+  "created": "2026-10-02",
+  "method": "Built-in image_gen",
+  "purpose": "Photorealistic AI-generated editorial illustrations and clearly labelled fictional demonstration listings. Not photographs of actual inventory or specific named models.",
+  "assets": [
+    {
+      "name": "ultrasound",
+      "source": "exec-99c1eaba-5c4c-4f5d-9dd6-94d8fa8d7f9d.png",
+      "output": "public/images/blog/ultrasound.webp",
+      "prompt": "Use case: photorealistic-natural. Create ONE landscape 3:2 editorial photograph for a medical equipment website and ultrasound buying-guide article. A physically plausible unbranded cart-based diagnostic ultrasound machine in a real, tidy examination room, three-quarter view, console keyboard and trackball, articulated dark display with a subtle monochrome sonogram and no readable data, two individually docked transducers with neatly routed cables, wheeled base. Entire machine comfortably inside the central 75% of frame for responsive crops. Soft daylight from a side window, warm-white walls, gentle grey floor, restrained deep-purple upholstery detail in background, realistic molded plastic, slight honest surface texture, true optical perspective, documentary commercial photography, 50mm lens, refined but not sterile CGI. No people or patients, no readable text, no logos, no brand names, no labels, no watermark, no floating shapes, no infographic, no vectors, no impossible connections. This is a generic illustrative scene, NOT a representation of a Siemens or other specific model. Opaque background."
+    },
+    {
+      "name": "endoscopy",
+      "source": "exec-ecfb5f11-90d1-4aa7-bf79-27ad11a49ece.png",
+      "output": "public/images/blog/endoscopy.webp",
+      "prompt": "Use case: photorealistic-natural. Create ONE landscape 3:2 editorial photograph for a medical equipment website and endoscopy buying-guide article. A realistic generic unbranded endoscopy video equipment tower in a tidy clinical equipment room. Mobile medical cart, monitor with dark inactive screen, stacked video processor and light-source modules with credible vents and controls, neatly secured cables; one endoscope control head and its flexible insertion tube resting in a dedicated clean tray beside the cart, no internal anatomy or procedures. Whole primary equipment centered with generous crop-safe breathing room. Soft natural window light, warm-white and pale grey clinical interior, a subtle deep-purple chair in distant background, restrained orange detail on a small background folder. Real plastics, metal, rubber and glass, optical photographic perspective, 50mm lens, realistic professional commercial photography, NOT 3D/CGI or illustration. No patients, people, branding, readable labels, typography, watermark, overlays or decorative shapes. Generic illustration, not a specific Olympus model. Opaque background."
+    },
+    {
+      "name": "monitoring",
+      "source": "exec-d1049114-007e-4976-80cb-1747a2e3ae77.png",
+      "output": "public/images/blog/monitoring.webp",
+      "prompt": "Use case: photorealistic-natural. Create ONE landscape 3:2 professional editorial photograph for a medical equipment website and patient-monitor buying-guide article. A realistic generic unbranded multiparameter patient monitor on a compact mobile hospital stand, three-quarter front view in an empty modern patient room. Screen in subdued standby mode with no patient data, believable casing, side connector ports, neatly coiled leads and a cuff on the shelf, sturdy wheeled base. No patient is connected. Keep the entire monitor and stand inside central 75% of the image, suitable for wide and square website crops. Soft daylight, warm grey and off-white surfaces, a subtle deep-purple textile in softly blurred background, no flashy effects. Natural material texture, accurate scale and shadows, real photographic depth of field, 50mm lens, premium healthcare editorial photography, not CGI, not a vector or infographic. No text, no logos, no brands, no watermark, no identifiable people. Generic illustrative scene, not a specific Philips model. Opaque background."
+    },
+    {
+      "name": "procurement",
+      "source": "exec-8cee4ca5-ba4e-4aaa-b439-9d537ded8f72.png",
+      "output": "public/images/blog/procurement.webp",
+      "prompt": "Use case: photorealistic-natural. Create ONE landscape 3:2 editorial photograph for medical equipment procurement and quotation guides. Close view of a real biomedical service office desk: an open neutral folder containing neatly aligned unbranded equipment-check forms whose print is too small and out of focus to read, one pen, compact calculator, closed grey laptop, small padded equipment transport case. A generic ultrasound cart softly blurred through an interior glass partition in background establishes the healthcare setting. No people needed. Warm daylight, natural wood and off-white tones, modest deep-purple folder and a tiny orange notebook accent, photographic material detail, believable clean workspace rather than staged abstract objects. Crop-safe central composition, premium documentary commercial photography, 50mm lens. No legible words or numbers, no logos, watermarks, patient details, graphic overlays, vector shapes, CGI or artificial glossy render. Opaque background."
+    },
+    {
+      "name": "integration",
+      "source": "exec-16fca00d-901c-41ab-8ccf-ca1f29969452.png",
+      "output": "public/images/blog/integration.webp",
+      "prompt": "Use case: photorealistic-natural. Create ONE landscape 3:2 editorial photograph for hospital IT integration articles. A believable biomedical engineering workstation in a modern clinic: unbranded medical monitor on desk beside a laptop and a small network switch, properly routed Ethernet cables and a closed maintenance notebook. Screens show subdued abstract configuration panels without readable data, names or code; no patient information. A glass partition and quiet equipment room softly blurred in background. No people. Warm-white clinical finishes, neutral grey devices, soft natural daylight, one restrained deep-purple notebook and small orange cable tag. Real-world scale, physical cable connections, natural reflections, shallow depth of field but sharp principal equipment, 50mm professional documentary commercial photograph. Wide 3:2 frame, objects safely inside central area for responsive crops. No floating digital icons, no futuristic holograms, no vector diagrams, no illustration or obvious CGI, no logos or watermark. Generic illustrative equipment, not a specific commercial model. Opaque background."
+    },
+    {
+      "name": "portable",
+      "source": "exec-e26042b1-7a65-415d-8199-ace266e1c5df.png",
+      "output": "public/images/catalog/portable-ultrasound.webp",
+      "prompt": "Use case: photorealistic-natural. Create ONE landscape 3:2 realistic editorial product photograph of a generic compact portable ultrasound system in an empty clinical room. Laptop-style clamshell medical ultrasound console on a clean worktop, plausible controls including trackball and compact keyboard, dark screen with faint grayscale sonogram but no readable text or patient data; two cabled transducers resting neatly in a tray alongside it, padded carrying case softly blurred in background. Natural off-white and warm-grey materials, subtle deep-purple textile accent far behind. Main device fully within central 70% of frame so it can crop to a square. Soft window light, natural shadows and tiny material imperfections, believable real equipment proportions, premium documentary photograph, not a 3D render, cartoon or illustration. No people, logos, manufacturer names, written labels, watermark, overlays or futuristic effects. Generic illustrative system, not a specific brand or available product. Opaque background."
+    },
+    {
+      "name": "components",
+      "source": "exec-043d18f7-5304-4a9e-8cbf-5dd5798fbf41.png",
+      "output": "public/images/catalog/endoscopy-components.webp",
+      "prompt": "Use case: photorealistic-natural. Create ONE landscape 3:2 realistic editorial product photograph for an endoscopy components catalogue. An unbranded endoscopy video processor module on a clean biomedical workshop bench, credible compact metal casing with ventilation holes, simple front connector ports and restrained control buttons; a coiled disconnected signal cable placed neatly alongside, part of an organized equipment shelf softly blurred in background. Single component, no complete tower. Soft daylight, off-white and pale grey palette, understated purple folder in background. Keep the whole processor in central 70% of frame for square crops. Honest material textures, true photographic perspective, professional commercial equipment photography, no CGI look, no illustration, no text, logos, brands, serial numbers, watermark, people or medical procedures. Generic visual, not an Olympus or other specific model. Opaque background."
+    },
+    {
+      "name": "transport",
+      "source": "exec-339521d7-43e8-4c63-9a9a-e6ab12fcdc31.png",
+      "output": "public/images/catalog/transport-monitor.webp",
+      "prompt": "Use case: photorealistic-natural. Create ONE landscape 3:2 realistic editorial product photograph of a generic compact transport patient monitor. Small sturdy portable monitor with an integrated carrying handle sitting on an empty clean hospital transfer trolley shelf, compact rounded protective casing, modest side ports, dark standby display with no patient data, a neatly coiled cable and cuff next to it. Distinguish it from a large stationary bedside monitor. No connected patient. Soft daylight in a quiet clinic corridor, grey and warm-white surfaces, subtle deep-purple fabric accent in background, naturally detailed rubber, plastic and metal textures. Whole device centrally composed with crop-safe margin for square product cards. Professional documentary commercial photograph, not a cartoon, illustration or CGI rendering. No logos, manufacturer names, readable text, labels, serial numbers, watermark, people or floating graphical elements. Generic illustration, not any named model. Opaque background."
+    }
+  ]
+}

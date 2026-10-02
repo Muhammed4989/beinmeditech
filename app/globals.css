@@ -118,7 +118,7 @@
 .journal-article-title h1 { margin-top: 24px; }
 .journal-article-meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 24px; margin-top: 24px; font-size: 13px; color: #666376; line-height: 1.6; }
 .journal-article-meta a { font-weight: 700; color: #28214c; }
-.journal-cover img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 20px; }
+.journal-cover img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 20px; }
 .journal-cover figcaption { margin-top: 10px; font-size: 12px; color: #686579; line-height: 1.7; }
 .journal-article-body { margin-top: 26px; padding: 36px; border: 1px solid var(--journal-border); border-radius: 22px; background: #fff; font-size: 17px; line-height: 1.9; color: #545164; }
 .journal-article-body .journal-article-summary { padding: 20px 24px; border-left: 3px solid #ff6400; border-radius: 9px; background: #f3f2f8; color: #28214c; font-weight: 500; margin-bottom: 28px; }

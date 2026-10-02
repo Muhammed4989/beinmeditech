@@ -36,6 +36,14 @@ const topicPaths = blog.blogTopics.map((topic) => blog.blogPath(topic.segments))
 const articlePaths = blog.blogArticles.map(blog.articlePath);
 const collectionPaths = catalog.seoCollections.map((page) => catalog.collectionPath(page.segments));
 const productPaths = products.demoProducts.map(products.demoProductPath);
+const imagePaths = [...new Set([...blog.blogArticles.map((article) => blog.blogCover(article).src), ...products.demoProducts.map((product) => product.image)])];
+assert.equal(imagePaths.length, 8, 'Five editorial scenes and three additional equipment formats');
+for (const image of imagePaths) {
+  assert(image.endsWith('.webp'), 'Realistic website imagery uses optimized WebP: ' + image);
+  const bytes = fs.readFileSync(path.join(root, 'public', image));
+  assert(bytes.subarray(0, 4).toString() === 'RIFF' && bytes.subarray(8, 12).toString() === 'WEBP', 'Actual WebP image: ' + image);
+  assert(bytes.length < 180000, 'Image remains within its performance budget: ' + image);
+}
 const allPaths = [...topicPaths, ...articlePaths, ...collectionPaths, ...productPaths];
 assert.equal(new Set(allPaths).size, allPaths.length, 'Content paths must be unique');
 for (const topic of blog.blogTopics) {
@@ -55,6 +63,9 @@ for (const product of products.demoProducts) {
   const parent = products.demoProductPath(product).split('/').slice(0, -1).join('/');
   assert(collectionPaths.includes(parent), 'Product parent must exist');
   assert(product.slug.startsWith('demo-'), 'Fictional inventory must be labelled');
+  if (product.subcategory === 'portable') assert(product.image.includes('portable-ultrasound'), 'Portable systems use their own imagery');
+  if (product.subcategory === 'components') assert(product.image.includes('endoscopy-components'), 'Components do not use a full tower image');
+  if (product.subcategory === 'transport') assert(product.image.includes('transport-monitor'), 'Transport monitors use their own imagery');
 }
 for (const page of catalog.seoCollections) {
   guideFor(page);
@@ -116,8 +127,12 @@ async function verifyHttp(base) {
       if (articlePaths.includes(route)) {
         assert(html.includes('journal-article-body') && html.includes('journal-cover'), route + ' has the reading layout and cover');
         assert(html.includes('id="checklist"'), route + ' keeps article anchors');
+        assert(html.includes('AI-generated editorial image'), route + ' identifies generated imagery');
       }
-      if (route.includes('/demo-')) assert(/name="robots" content="[^"]*noindex/.test(html), route + ' demo noindex');
+      if (route.includes('/demo-')) {
+        assert(/name="robots" content="[^"]*noindex/.test(html), route + ' demo noindex');
+        assert(html.includes('Not a photograph of this model'), route + ' does not present generated imagery as a real unit');
+      }
       if (collectionPaths.includes(route)) {
         const disclosure = html.match(/<details[^>]*id="equipment-buying-guide"[^>]*>([\s\S]*?)<\/details>/);
         assert(disclosure, route + ' has server-rendered guide');
@@ -131,6 +146,11 @@ async function verifyHttp(base) {
     }));
   }
   const sitemap = await (await fetch(base + '/sitemap.xml')).text();
+  for (const image of imagePaths) {
+    const response = await fetch(base + image);
+    assert.equal(response.status, 200, image + ' is served');
+    assert(response.headers.get('content-type').includes('image/webp'), image + ' MIME type');
+  }
   for (const route of [...topicPaths, ...articlePaths, ...collectionPaths]) assert(sitemap.includes(catalog.SITE_URL + route + '</loc>'), route + ' in sitemap');
   assert(!sitemap.includes('/demo-'), 'Demo products excluded from sitemap');
   const legacy = await fetch(base + '/products/demo-siemens-acuson-nx3-2019', { redirect: 'manual' });

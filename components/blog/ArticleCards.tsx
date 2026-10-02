@@ -8,7 +8,7 @@ export default function ArticleCards({ articles, layout = 'cards' }: { articles:
       const cover = blogCover(article);
       return <article key={articlePath(article)} className={layout === 'list' ? 'journal-list-item' : 'journal-related-item'}>
         <Link href={articlePath(article)} className="journal-thumbnail" tabIndex={-1} aria-hidden="true" prefetch={false}>
-          <Image src={cover.src} alt="" width={960} height={600} sizes={layout === 'list' ? '(max-width: 639px) 100vw, 240px' : '(max-width: 639px) 100vw, 400px'} />
+          <Image src={cover.src} alt="" width={1200} height={800} sizes={layout === 'list' ? '(max-width: 639px) 100vw, 240px' : '(max-width: 639px) 100vw, 400px'} />
         </Link>
         <div className="journal-list-copy">
           <Link href={blogPath(article.topic)} className="journal-topic-tag">{findBlogTopic(article.topic)?.name}</Link>

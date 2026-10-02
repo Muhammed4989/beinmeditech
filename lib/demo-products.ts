@@ -21,11 +21,21 @@ export type DemoProduct = {
 };
 
 // TEST DATA ONLY. These records must remain noindex and excluded from the sitemap.
+// Generic AI imagery follows the subcategory, not the named model or sale unit.
+const demoImages: Record<string, string> = {
+  'general-imaging': '/images/blog/ultrasound.webp',
+  portable: '/images/catalog/portable-ultrasound.webp',
+  systems: '/images/blog/endoscopy.webp',
+  components: '/images/catalog/endoscopy-components.webp',
+  bedside: '/images/blog/monitoring.webp',
+  transport: '/images/catalog/transport-monitor.webp',
+};
+
 export const demoProducts: DemoProduct[] = [
   {
     slug: 'demo-siemens-acuson-nx3-2019',
     name: 'Siemens ACUSON NX3 Ultrasound System', brand: 'Siemens Healthineers', model: 'ACUSON NX3', category: 'Ultrasound', subcategory: 'general-imaging',
-    year: 2019, condition: 'Excellent used condition', price: 11900, currency: 'EUR', location: 'Lübeck, Germany', availability: 'Demo: In stock', image: '/images/demo-ultrasound.svg',
+    year: 2019, condition: 'Excellent used condition', price: 11900, currency: 'EUR', location: 'Lübeck, Germany', availability: 'Demo: In stock', image: demoImages['general-imaging'],
     shortDescription: 'Professional ultrasound system prepared as a demonstration listing for testing the marketplace design and quotation journey.',
     cardDetails: 'Professional ultrasound system with three demo probes for general imaging, vascular and OB/GYN applications.',
     included: ['Three demonstration probes', 'Operator console', 'Power cable', 'Basic export packing'],
@@ -34,7 +44,7 @@ export const demoProducts: DemoProduct[] = [
   {
     slug: 'demo-olympus-evis-exera-iii',
     name: 'Olympus EVIS EXERA III Endoscopy Tower', brand: 'Olympus', model: 'EVIS EXERA III', category: 'Endoscopy', subcategory: 'systems',
-    year: 2018, condition: 'Refurbished demo condition', price: 18500, currency: 'EUR', location: 'Hamburg, Germany', availability: 'Demo: In stock', image: '/images/demo-endoscopy.svg',
+    year: 2018, condition: 'Refurbished demo condition', price: 18500, currency: 'EUR', location: 'Hamburg, Germany', availability: 'Demo: In stock', image: demoImages.systems,
     shortDescription: 'Demonstration endoscopy configuration used to test category cards, specifications and delivered-price enquiries.',
     cardDetails: 'Complete demo tower with video processor, light source, medical monitor and mobile trolley.',
     included: ['Video processor', 'Light source', 'Medical-grade monitor', 'Mobile trolley'],
@@ -43,7 +53,7 @@ export const demoProducts: DemoProduct[] = [
   {
     slug: 'demo-philips-intellivue-mx750',
     name: 'Philips IntelliVue MX750 Patient Monitor', brand: 'Philips', model: 'IntelliVue MX750', category: 'Patient Monitoring', subcategory: 'bedside',
-    year: 2021, condition: 'Very good used condition', price: 4750, currency: 'EUR', location: 'Berlin, Germany', availability: 'Demo: In stock', image: '/images/demo-monitor.svg',
+    year: 2021, condition: 'Very good used condition', price: 4750, currency: 'EUR', location: 'Berlin, Germany', availability: 'Demo: In stock', image: demoImages.bedside,
     shortDescription: 'Demonstration patient-monitor listing with fictional commercial details for interface testing only.',
     cardDetails: 'Patient monitor configured for ECG, SpO₂ and NIBP, including a demo cable and sensor set.',
     included: ['Display unit', 'Power supply', 'ECG cable set', 'SpO₂ sensor'],
@@ -66,7 +76,7 @@ const examples = [
 for (const [slug, name, category, subcategory, price, condition, details] of examples) {
   demoProducts.push({
     slug: `demo-${slug}`, name, model: name, category, subcategory, brand: 'Demo Manufacturer', year: 2020, condition: `${condition[0].toUpperCase()}${condition.slice(1)} demonstration condition`, price, currency: 'EUR', location: 'Germany (demo)', availability: 'Demonstration only',
-    image: category === 'Ultrasound' ? '/images/demo-ultrasound.svg' : category === 'Endoscopy' ? '/images/demo-endoscopy.svg' : '/images/demo-monitor.svg',
+    image: demoImages[subcategory],
     shortDescription: details, cardDetails: details,
     included: ['Fictional equipment configuration for website testing', 'Illustrative accessories only'],
     specifications: [{ label: 'Equipment type', value: category }, { label: 'Condition', value: `${condition} (fictional)` }, { label: 'Configuration', value: 'Demonstration data; not a commercial offer' }],

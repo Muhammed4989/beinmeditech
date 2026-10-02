@@ -23,16 +23,16 @@ export type BlogArticle = {
 export const BLOG_UPDATED = '2026-10-02';
 export const BLOG_DATE_LABEL = '2 October 2026';
 
-/** Local editorial artwork, deliberately separate from demonstration inventory. */
+/** Photorealistic AI illustrations, never photographs of a specific sale unit. */
 export function blogCover(article: BlogArticle) {
   const subject = article.topic[1];
   const covers: Record<string, { src: string; alt: string }> = {
-    ultrasound: { src: '/images/blog/ultrasound.svg', alt: 'Illustration of an ultrasound console and transducer' },
-    endoscopy: { src: '/images/blog/endoscopy.svg', alt: 'Illustration of an endoscopy tower and its components' },
-    'patient-monitoring': { src: '/images/blog/monitoring.svg', alt: 'Illustration of a patient monitor and measurement modules' },
-    'used-equipment': { src: '/images/blog/procurement.svg', alt: 'Illustration of a medical equipment assessment checklist' },
-    'quotations-delivery': { src: '/images/blog/procurement.svg', alt: 'Illustration of an equipment quotation and shipping package' },
-    integration: { src: '/images/blog/integration.svg', alt: 'Illustration of connected medical equipment and information systems' },
+    ultrasound: { src: '/images/blog/ultrasound.webp', alt: 'AI-generated illustration of a generic ultrasound system and probes in an examination room' },
+    endoscopy: { src: '/images/blog/endoscopy.webp', alt: 'AI-generated illustration of an endoscopy equipment tower and scope tray in a clinical room' },
+    'patient-monitoring': { src: '/images/blog/monitoring.webp', alt: 'AI-generated illustration of a generic patient monitor on a mobile stand beside an empty bed' },
+    'used-equipment': { src: '/images/blog/procurement.webp', alt: 'AI-generated illustration of equipment assessment paperwork and a transport case on an office desk' },
+    'quotations-delivery': { src: '/images/blog/procurement.webp', alt: 'AI-generated illustration of a medical equipment quotation workspace with documents and calculator' },
+    integration: { src: '/images/blog/integration.webp', alt: 'AI-generated illustration of a medical monitor, laptop and network switch in a biomedical workstation' },
   };
   return covers[subject] || covers['used-equipment'];
 }
