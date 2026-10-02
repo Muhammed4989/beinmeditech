@@ -22,6 +22,16 @@ const catalog = load('lib/catalog.ts');
 const products = load('lib/demo-products.ts');
 const filters = load('lib/catalog-filters.ts');
 const ai = load('lib/ai-reference.ts');
+const guideContent = load('lib/catalog-guide.ts');
+function guideFor(page, state = filters.readFilters(catalog.collectionPath(page.segments))) {
+  const guide = guideContent.catalogGuide(page, state);
+  const text = guideContent.catalogGuideText(guide);
+  const words = text.trim().split(/\s+/).length;
+  assert(words >= 800, 'Equipment guide must have at least 800 body words: ' + guide.title + ' (' + words + ')');
+  assert.equal(new Set(guide.sections.map((section) => section.title)).size, guide.sections.length, 'No duplicate guide sections');
+  for (const label of filters.filterLabels(state)) assert(guide.title.includes(label) || (label === 'Siemens Healthineers' && guide.title.includes('ACUSON NX3')), 'Guide describes selected filter: ' + label);
+  return { guide, text, words };
+}
 const topicPaths = blog.blogTopics.map((topic) => blog.blogPath(topic.segments));
 const articlePaths = blog.blogArticles.map(blog.articlePath);
 const collectionPaths = catalog.seoCollections.map((page) => catalog.collectionPath(page.segments));
@@ -47,12 +57,15 @@ for (const product of products.demoProducts) {
   assert(product.slug.startsWith('demo-'), 'Fictional inventory must be labelled');
 }
 for (const page of catalog.seoCollections) {
+  guideFor(page);
   for (const crumb of catalog.collectionBreadcrumbs(page)) assert(crumb.href === '/' || collectionPaths.includes(crumb.href), 'Equipment breadcrumb must exist');
   for (const child of catalog.collectionChildren(page)) assert(catalog.collectionPath(child.segments).startsWith(catalog.collectionPath(page.segments) + '/'), 'Direct descendants only');
 }
 
 function subsets(items) { return Array.from({ length: 2 ** items.length }, (_, mask) => items.filter((_, index) => mask & (1 << index))); }
 let filterCases = 0;
+let minimumGuideWords = Infinity;
+let maximumGuideWords = 0;
 for (const category of subsets(['ultrasound', 'endoscopy', 'patient-monitors'])) {
   for (const condition of subsets(['used', 'refurbished', 'new'])) {
     for (const brand of subsets(['siemens', 'philips', 'olympus', 'ge-healthcare', 'demo'])) {
@@ -61,6 +74,9 @@ for (const category of subsets(['ultrasound', 'endoscopy', 'patient-monitors']))
         const url = new URL(filters.filterPath(requested), 'https://example.test');
         assert(collectionPaths.includes(url.pathname), 'Filter path must be a real landing page');
         assert.deepEqual(filters.readFilters(url.pathname, Object.fromEntries(url.searchParams)), requested, 'URL must preserve every filter: ' + url);
+        const { words } = guideFor(catalog.findCollection(url.pathname.split('/').slice(2)), requested);
+        minimumGuideWords = Math.min(minimumGuideWords, words);
+        maximumGuideWords = Math.max(maximumGuideWords, words);
         filterCases++;
       }
     }
@@ -71,7 +87,18 @@ const matches = products.demoProducts.filter((product) => filters.matchesFilters
 assert(matches.length > 0 && matches.every((product) => product.category === 'Ultrasound' && product.condition.toLowerCase().includes('used')), 'Used ultrasound must exclude other categories and conditions');
 for (const url of [...topicPaths, ...articlePaths, ...collectionPaths]) assert(ai.aiReference().includes(url), 'AI directory must include real public content');
 assert(!ai.aiReference().includes('/for-sale/'), 'Removed destination routes must not return');
-console.log(JSON.stringify({ topics: topicPaths.length, articles: articlePaths.length, collections: collectionPaths.length, demoProducts: productPaths.length, filterRoundTrips: filterCases, status: 'passed' }, null, 2));
+const rootPage = catalog.findCollection([]);
+const ultrasoundGuide = guideFor(rootPage, filters.readFilters('/medical-equipment/ultrasound')).text;
+const endoscopyGuide = guideFor(rootPage, filters.readFilters('/medical-equipment/endoscopy')).text;
+assert(ultrasoundGuide.includes('Treat the probes as individual assets') && !endoscopyGuide.includes('Treat the probes as individual assets'), 'Category changes body content, not just its title');
+const refurbishedGuide = guideFor(rootPage, filters.readFilters('/medical-equipment', { condition: 'refurbished' })).text;
+assert(refurbishedGuide.includes('dated record identifying the assessment'), 'Condition-specific guidance');
+const componentGuide = guideFor(rootPage, filters.readFilters('/medical-equipment', { subcategory: 'components' })).text;
+assert(componentGuide.includes('An endoscopy enquiry') && componentGuide.includes('nameplate photographs'), 'Subcategory-only query uses the parent category and component guidance');
+const invalidGuide = guideFor(rootPage, filters.readFilters('/medical-equipment', { brand: '<script>alert(1)</script>' })).text;
+assert(!invalidGuide.includes('<script>'), 'Unknown input is never interpolated into guide content');
+assert(ai.aiReference(true).includes(ultrasoundGuide.split('\n\n')[1]), 'AI extended reference matches visible guide copy');
+console.log(JSON.stringify({ topics: topicPaths.length, articles: articlePaths.length, collections: collectionPaths.length, demoProducts: productPaths.length, filterRoundTrips: filterCases, minimumGuideWords, maximumGuideWords, status: 'passed' }, null, 2));
 
 async function verifyHttp(base) {
   for (let i = 0; i < allPaths.length; i += 6) {
@@ -91,6 +118,16 @@ async function verifyHttp(base) {
         assert(html.includes('id="checklist"'), route + ' keeps article anchors');
       }
       if (route.includes('/demo-')) assert(/name="robots" content="[^"]*noindex/.test(html), route + ' demo noindex');
+      if (collectionPaths.includes(route)) {
+        const disclosure = html.match(/<details[^>]*id="equipment-buying-guide"[^>]*>([\s\S]*?)<\/details>/);
+        assert(disclosure, route + ' has server-rendered guide');
+        assert(!disclosure[0].split('>')[0].includes('open'), route + ' starts collapsed');
+        assert(disclosure[1].replace(/<[^>]*>/g, ' ').trim().split(/\s+/).length >= 800, route + ' has full text before interaction');
+        assert(disclosure[1].includes('Read more') && disclosure[1].includes('Read less'), route + ' native toggle labels');
+        assert(!html.includes('Explore this equipment category') && !html.includes('Understand the equipment'), route + ' removes old card and duplicate content sections');
+        const page = catalog.findCollection(route.split('/').slice(2));
+        for (const child of catalog.collectionChildren(page)) assert(html.includes('href="' + catalog.collectionPath(child.segments) + '"'), route + ' keeps crawlable descendant links');
+      }
     }));
   }
   const sitemap = await (await fetch(base + '/sitemap.xml')).text();
@@ -103,6 +140,10 @@ async function verifyHttp(base) {
   assert(/name="robots" content="[^"]*noindex/.test(query), 'Filtered results noindex');
   assert(query.includes('Siemens Healthineers Equipment'), 'Filtered H1 describes selection');
   assert(query.replace(/<!--.*?-->/g, '').includes('1 demonstration result'), 'Server returns filtered inventory');
+  assert(query.includes('Reviewing Siemens Healthineers equipment') && query.includes('What to check when buying used equipment'), 'Server guide follows combined filters');
+  const multi = await (await fetch(base + '/medical-equipment?category=ultrasound,endoscopy&condition=refurbished&brand=philips')).text();
+  assert(multi.includes('Defining an endoscopy package') && multi.includes('Comparing ultrasound configurations') && multi.includes('Ask what refurbishment actually included') && multi.includes('Reviewing Philips equipment'), 'Multi-select server guide includes each selection');
+  assert(!multi.includes('What to check when buying used equipment'), 'Previous condition does not leak into new selection');
   const invalid = await fetch(base + '/blog/equipment-guides/no-such-topic');
   assert.equal(invalid.status, 404, 'Unknown hierarchy returns a 404');
   console.log('HTTP checks passed for ' + allPaths.length + ' routes, metadata, sitemap, filters and redirects.');

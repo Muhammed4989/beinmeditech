@@ -1,5 +1,7 @@
 import { blogArticles, blogTopics, blogPath, articlePath } from './blog';
 import { seoCollections, collectionPath, SITE_URL } from './catalog';
+import { catalogGuide } from './catalog-guide';
+import { readFilters } from './catalog-filters';
 
 export function aiReference(full = false) {
   const introduction = `# beIN MediTech
@@ -36,7 +38,10 @@ Each directory contains its own explanatory content and links to its descendants
   const articles = blogArticles.map((article) => `- [${article.title}](${SITE_URL}${articlePath(article)}): ${article.description}`).join('\n');
   const directories = `${introduction}\n${equipment}\n\n## Blog topics\n\n${topics}\n\n## Practical guides\n\n${articles}\n\n- [XML sitemap](${SITE_URL}/sitemap.xml)\n- [Extended text](${SITE_URL}/llms-full.txt)\n`;
   if (!full) return directories;
-  return directories + '\n## Equipment reference content\n\n' + seoCollections.map((page) => `### ${page.h1}\nSource: ${SITE_URL}${collectionPath(page.segments)}\n\n${page.intro}\n\n${page.sections.map((s) => `#### ${s.title}\n${s.body}`).join('\n\n')}`).join('\n\n')
+  return directories + '\n## Equipment reference content\n\n' + seoCollections.map((page) => {
+    const guide = catalogGuide(page, readFilters(collectionPath(page.segments)));
+    return `### ${page.h1}\nSource: ${SITE_URL}${collectionPath(page.segments)}\n\n${guide.introduction}\n\n${guide.sections.map((section) => `#### ${section.title}\n${section.paragraphs.join('\n\n')}`).join('\n\n')}`;
+  }).join('\n\n')
     + '\n\n## Blog topic reference content\n\n' + blogTopics.map((topic) => `### ${topic.title}\nSource: ${SITE_URL}${blogPath(topic.segments)}\n\n${topic.intro}\n\n${topic.sections.map((s) => `#### ${s.title}\n${s.body}`).join('\n\n')}`).join('\n\n')
     + '\n\n## Article reference content\n\n' + blogArticles.map((article) => `### ${article.title}\nSource: ${SITE_URL}${articlePath(article)}\n\n${article.intro}\n\n${article.sections.map((s) => `#### ${s.title}\n${s.body}`).join('\n\n')}\n\nChecklist:\n${article.checklist.map((item) => `- ${item}`).join('\n')}`).join('\n\n');
 }

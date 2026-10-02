@@ -263,6 +263,21 @@
   transform: scale(1.05);
 }
 
+/* Two-line equipment introduction; full HTML stays in the native disclosure. */
+.catalog-guide-summary { list-style: none; cursor: pointer; }
+.catalog-guide-summary::-webkit-details-marker { display: none; }
+.catalog-guide-preview {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.catalog-guide-less { display: none; }
+.catalog-guide[open] .catalog-guide-preview { display: block; }
+.catalog-guide[open] .catalog-guide-more { display: none; }
+.catalog-guide[open] .catalog-guide-less { display: inline; }
+.catalog-guide[open] .catalog-guide-chevron { transform: rotate(180deg); }
+
 @keyframes filterDropdownIn {
   from { opacity: 0; transform: translateY(-6px) scale(0.985); }
   to { opacity: 1; transform: translateY(0) scale(1); }

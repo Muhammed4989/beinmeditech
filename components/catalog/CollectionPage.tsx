@@ -8,12 +8,16 @@ import Breadcrumbs from '@/components/content/Breadcrumbs';
 import ArticleCards from '@/components/blog/ArticleCards';
 import CatalogNavigation from './CatalogNavigation';
 import DemoInventoryGrid from './DemoInventoryGrid';
+import CatalogGuide from './CatalogGuide';
+import { catalogGuide } from '@/lib/catalog-guide';
 
 export default function CollectionPage({ page, searchParams = {} }: { page: SeoCollection; searchParams?: SearchParameters }) {
   const path = collectionPath(page.segments);
   const filters = readFilters(path, searchParams);
   const products = demoProducts.filter((product) => matchesFilters(product, filters) && (page.segments.at(-1) !== 'acuson-nx3' || product.model === 'ACUSON NX3'));
   const children = collectionChildren(page);
+  const guide = catalogGuide(page, filters);
+  const relatedLinks = [...new Map([...children.map((child) => ({ label: child.h1, href: collectionPath(child.segments) })), ...page.related].map((link) => [link.href, link])).values()];
   const crumbs = collectionBreadcrumbs(page);
   const functionalKeys = Object.keys(searchParams).filter((key) => !/^(utm_|gclid$|fbclid$)/.test(key));
   const hasFilters = functionalKeys.length > 0;
@@ -41,18 +45,14 @@ export default function CollectionPage({ page, searchParams = {} }: { page: SeoC
       </div>
     </section>
     <CatalogNavigation key={path + JSON.stringify(filters)} initial={filters} />
-    {children.length > 0 && <section className="border-b border-primary-100 bg-primary-50 py-10"><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <h2 className="mb-5 text-2xl font-bold text-primary-900">{page.segments.length ? 'Explore this equipment category' : 'Browse equipment categories'}</h2>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{children.map((child) => <Link key={collectionPath(child.segments)} href={collectionPath(child.segments)} className="content-card p-6"><p className="text-sm font-semibold text-orange-700">{child.eyebrow}</p><h3 className="mt-2 text-xl font-bold text-primary-900">{child.h1}</h3><p className="mt-3 text-sm leading-6 text-gray-600">{child.intro}</p></Link>)}</div>
-    </div></section>}
+    <CatalogGuide key={path + JSON.stringify(filters)} guide={guide} />
     <section className="bg-white py-12" data-nosnippet><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="mb-7 rounded-xl border border-orange-100 bg-orange-50 px-4 py-3 text-sm leading-6 text-primary-600"><strong>Demonstration inventory.</strong> These products, prices and configurations are fictional examples for testing the site, not commercial offers.</div>
       <div className="mb-7 flex flex-wrap items-end justify-between gap-3"><h2 className="text-2xl font-bold text-primary-900">Equipment examples</h2><p className="text-sm text-gray-600">{products.length} demonstration result{products.length === 1 ? '' : 's'}</p></div>
       <DemoInventoryGrid products={products} />
     </div></section>
-    <section className="border-y border-primary-100 bg-primary-50 py-14"><div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_2fr] lg:px-8"><div><p className="text-sm font-bold uppercase tracking-wider text-orange-700">Before you enquire</p><h2 className="mt-3 text-3xl font-bold text-primary-900">Understand the equipment</h2></div><div className="space-y-8">{page.sections.map((section) => <section key={section.title}><h3 className="mb-3 text-xl font-bold text-primary-900">{section.title}</h3><p className="leading-8 text-gray-700">{section.body}</p></section>)}</div></div></section>
     <section className="py-14"><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="mb-7 flex flex-wrap items-center justify-between gap-3"><h2 className="text-2xl font-bold text-primary-900">Useful buying guides</h2><Link href="/blog" className="text-sm font-semibold text-orange-700 hover:underline">Explore the blog</Link></div><ArticleCards articles={guides} /></div></section>
     <section className="bg-primary-50 py-14"><div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8"><h2 className="mb-7 text-2xl font-bold text-primary-900">Questions before buying</h2><div className="space-y-3">{page.faqs.map((faq) => <details key={faq.question} className="rounded-xl border border-primary-100 bg-white"><summary className="cursor-pointer p-5 font-semibold text-primary-900">{faq.question}</summary><p className="px-5 pb-5 leading-7 text-gray-700">{faq.answer}</p></details>)}</div></div></section>
-    <section className="py-10"><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><h2 className="mb-4 text-lg font-bold text-primary-900">Related equipment</h2><div className="flex flex-wrap gap-3">{page.related.map((link) => <Link key={link.href} href={link.href} className="rounded-full border border-primary-200 px-4 py-2 text-sm text-primary-600 hover:border-orange">{link.label}</Link>)}</div></div></section>
+    <section className="py-10"><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><h2 className="mb-4 text-lg font-bold text-primary-900">Related equipment</h2><div className="flex flex-wrap gap-3">{relatedLinks.map((link) => <Link key={link.href} href={link.href} className="rounded-full border border-primary-200 px-4 py-2 text-sm text-primary-600 hover:border-orange">{link.label}</Link>)}</div></div></section>
   </>;
 }
