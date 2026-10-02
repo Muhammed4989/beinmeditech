@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import PageIntro from '@/components/content/PageIntro';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -10,19 +11,10 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <>
-      <section className="bg-gradient-to-br from-primary-900 to-primary-700 text-white pt-28 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="text-primary-300 text-sm mb-4" aria-label="Breadcrumb">
-            <Link href="/" className="hover:text-white">Home</Link>
-            <span className="mx-2">/</span>
-            <span className="text-white">Privacy Policy</span>
-          </nav>
-          <h1 className="text-4xl md:text-5xl font-extrabold">Privacy Policy</h1>
-        </div>
-      </section>
+      <PageIntro title="Privacy Policy" crumbs={[{ name: 'Home', href: '/' }, { name: 'Privacy Policy', href: '/privacy' }]} />
 
       <section className="py-16 bg-white">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-gray prose-lg">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 site-legal">
           <p className="text-gray-600">Last updated: June 2026</p>
 
           <h2>1. Introduction</h2>

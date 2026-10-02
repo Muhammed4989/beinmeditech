@@ -1,12 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
-  if (!process.env.RESEND_API_KEY) {
-    return NextResponse.json({ error: 'no_key' }, { status: 503 });
-  }
-
   try {
-    const { firstName, lastName, email, phone, subject, message } = await req.json();
+    const input = await req.json().catch(() => null);
+    if (!input || typeof input !== 'object' || Array.isArray(input)) return NextResponse.json({ error: 'Invalid enquiry.' }, { status: 400 });
+    const limits: Record<string, number> = { firstName: 80, lastName: 80, email: 254, phone: 50, subject: 240, message: 10000 };
+    if (Object.entries(limits).some(([key, limit]) => input[key] !== undefined && (typeof input[key] !== 'string' || input[key].length > limit))) {
+      return NextResponse.json({ error: 'Invalid enquiry fields.' }, { status: 400 });
+    }
+    const replyEmail = (input.email || '').trim();
+    if (!input.firstName?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(replyEmail)) {
+      return NextResponse.json({ error: 'Name and a valid email are required.' }, { status: 400 });
+    }
+    if (!process.env.RESEND_API_KEY) return NextResponse.json({ error: 'no_key' }, { status: 503 });
+    const escape = (value: string) => value.replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]!));
+    const { firstName, lastName, email, phone, subject, message } = Object.fromEntries(Object.keys(limits).map((key) => [key, escape((input[key] || '').trim())]));
 
     if (!firstName || !email) {
       return NextResponse.json({ error: 'Name and email are required.' }, { status: 400 });
@@ -58,15 +66,14 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         from: 'beIN Meditech <onboarding@resend.dev>',
         to: ['info@beinmeditech.com'],
-        reply_to: email,
-        subject: `[beIN Meditech] New enquiry from ${firstName} ${lastName || ''}`,
+        reply_to: replyEmail,
+        subject: '[beIN Meditech] Website enquiry',
         html,
       }),
     });
 
     if (!response.ok) {
-      const err = await response.text();
-      console.error('Resend error:', err);
+      console.error('Contact provider returned status:', response.status);
       return NextResponse.json({ error: 'Failed to send message.' }, { status: 500 });
     }
 

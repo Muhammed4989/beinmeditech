@@ -1,148 +1,60 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
+import BrandLogo from './BrandLogo';
+import { serviceDirectory } from '@/lib/services';
 
-const services = [
-  { name: 'Medical Devices Trading', href: '/services/medical-devices-trading' },
-  { name: 'Software & Hardware Consultation', href: '/services/software-and-hardware-consultation' },
-  { name: 'Training & Support Services', href: '/services/training-and-support-services' },
-  { name: 'Custom IT Solutions for Healthcare', href: '/services/custom-it-solutions-for-healthcare' },
-  { name: 'Integration Services', href: '/services/medical-integration-services' },
-];
+const links = [{ href: '/', label: 'Home' }, { href: '/about', label: 'About' }, { href: '/medical-equipment', label: 'Equipment' }, { href: '/blog', label: 'Insights' }, { href: '/contact', label: 'Contact' }];
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const header = useRef<HTMLElement>(null);
+  const servicesButton = useRef<HTMLButtonElement>(null);
+  const menuButton = useRef<HTMLButtonElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const active = (href: string) => href === '/' ? pathname === '/' : pathname.startsWith(href);
+  const close = () => { setMobileOpen(false); setServicesOpen(false); };
 
+  useEffect(() => { setMobileOpen(false); setServicesOpen(false); }, [pathname]);
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    if (!mobileOpen && !servicesOpen) return;
+    const outside = (event: PointerEvent) => { if (!header.current?.contains(event.target as Node)) close(); };
+    const escape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      if (mobileOpen) menuButton.current?.focus(); else servicesButton.current?.focus();
+      close();
+    };
+    document.addEventListener('pointerdown', outside);
+    document.addEventListener('keydown', escape);
+    return () => { document.removeEventListener('pointerdown', outside); document.removeEventListener('keydown', escape); };
+  }, [mobileOpen, servicesOpen]);
 
-  return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white shadow-md py-2' : 'bg-white/95 backdrop-blur-sm py-3'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="flex-shrink-0">
-            <Image
-              src="/images/logo.svg"
-              alt="beIN Meditech – Medical Devices & Healthcare IT Solutions"
-              width={160}
-              height={48}
-              priority
-              className="h-10 w-auto"
-            />
-          </Link>
-
-          {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-6" aria-label="Main navigation">
-            <Link href="/" className="text-gray-700 hover:text-orange font-medium transition-colors">
-              Home
-            </Link>
-            <Link href="/about" className="text-gray-700 hover:text-orange font-medium transition-colors">
-              About Us
-            </Link>
-            <Link href="/medical-equipment" className="text-gray-700 hover:text-orange font-medium transition-colors">
-              Medical Equipment
-            </Link>
-
-            {/* Services dropdown */}
-            <div className="relative" onMouseEnter={() => setServicesOpen(true)} onMouseLeave={() => setServicesOpen(false)}>
-              <button
-                type="button"
-                onClick={() => setServicesOpen(!servicesOpen)}
-                onKeyDown={(event) => { if (event.key === 'Escape') setServicesOpen(false); }}
-                className="flex items-center gap-1 text-gray-700 hover:text-orange font-medium transition-colors"
-                aria-haspopup="true"
-                aria-expanded={servicesOpen}
-              >
-                Healthcare Services
-                <svg className={`w-4 h-4 transition-transform ${servicesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {servicesOpen && (
-                <div className="absolute top-full left-0 mt-1 w-72 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
-                  {services.map((s) => (
-                    <Link
-                      key={s.href}
-                      href={s.href}
-                      className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-primary-50 hover:text-orange transition-colors"
-                    >
-                      {s.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <Link href="/blog" className="text-gray-700 hover:text-orange font-medium transition-colors">Blog</Link>
-            <Link href="/contact" className="btn-primary text-sm py-2.5">
-              Contact Us
-            </Link>
-          </nav>
-
-          {/* Mobile hamburger */}
-          <button
-            className="lg:hidden p-2 rounded-lg text-gray-600 hover:text-orange hover:bg-gray-100"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
-            aria-expanded={mobileOpen}
-          >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              {mobileOpen
-                ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />}
-            </svg>
-          </button>
+  return <header ref={header} className="site-header" onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setServicesOpen(false); }}>
+    <div className="site-container header-inner">
+      <Link href="/" onClick={close} className="brand-link" aria-label="beIN Meditech home"><BrandLogo priority /></Link>
+      <nav className="desktop-navigation" aria-label="Main navigation">
+        {links.slice(0, 3).map((link) => <Link key={link.href} href={link.href} className="nav-link" aria-current={active(link.href) ? 'page' : undefined}>{link.label}</Link>)}
+        <div className="services-navigation">
+          <button ref={servicesButton} type="button" className="nav-link" onClick={() => setServicesOpen((open) => !open)} aria-expanded={servicesOpen} aria-controls="desktop-services" data-active={active('/services') || undefined}>Services <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m6 9 6 6 6-6" /></svg></button>
+          {servicesOpen && <div id="desktop-services" className="services-panel">
+            <Link href="/services" onClick={close} className="services-overview">Explore all services <span aria-hidden="true">↗</span></Link>
+            {serviceDirectory.map((service) => <Link key={service.href} href={service.href} onClick={close} aria-current={pathname === service.href ? 'page' : undefined}>{service.title}</Link>)}
+          </div>}
         </div>
-
-        {/* Mobile menu */}
-        {mobileOpen && (
-          <nav className="lg:hidden border-t border-gray-100 py-4 space-y-1" aria-label="Mobile navigation">
-            <Link href="/" className="block px-3 py-2 text-gray-700 hover:text-orange font-medium" onClick={() => setMobileOpen(false)}>Home</Link>
-            <Link href="/about" className="block px-3 py-2 text-gray-700 hover:text-orange font-medium" onClick={() => setMobileOpen(false)}>About Us</Link>
-            <Link href="/medical-equipment" className="block px-3 py-2 text-gray-700 hover:text-orange font-medium" onClick={() => setMobileOpen(false)}>Medical Equipment</Link>
-            <Link href="/blog" className="block px-3 py-2 text-gray-700 hover:text-orange font-medium" onClick={() => setMobileOpen(false)}>Blog & Buying Guides</Link>
-            <div>
-              <button
-                className="flex items-center gap-1 w-full px-3 py-2 text-gray-700 font-medium"
-                onClick={() => setServicesOpen(!servicesOpen)}
-              >
-                Healthcare Services
-                <svg className={`w-4 h-4 ml-auto transition-transform ${servicesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {servicesOpen && (
-                <div className="pl-4 space-y-1">
-                  {services.map((s) => (
-                    <Link
-                      key={s.href}
-                      href={s.href}
-                      className="block px-3 py-2 text-sm text-gray-600 hover:text-orange"
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      {s.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-            <Link href="/contact" className="block mx-3 mt-2 btn-primary text-sm text-center" onClick={() => setMobileOpen(false)}>
-              Contact Us
-            </Link>
-          </nav>
-        )}
-      </div>
-    </header>
-  );
+        {links.slice(3).map((link) => <Link key={link.href} href={link.href} className="nav-link" aria-current={active(link.href) ? 'page' : undefined}>{link.label}</Link>)}
+      </nav>
+      <Link href="/request-quote" className="btn-primary header-quote">Request a quote <span aria-hidden="true">↗</span></Link>
+      <button ref={menuButton} type="button" className="mobile-menu-button" aria-label={mobileOpen ? 'Close menu' : 'Open menu'} aria-expanded={mobileOpen} aria-controls="mobile-navigation" onClick={() => { setMobileOpen((open) => !open); setServicesOpen(false); }}>
+        <svg width="24" height="24" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d={mobileOpen ? 'M6 6l12 12M6 18L18 6' : 'M4 6h16M4 12h16M4 18h16'} /></svg>
+      </button>
+    </div>
+    {mobileOpen && <nav className="mobile-navigation site-container" id="mobile-navigation" aria-label="Mobile navigation">
+      {links.map((link) => <Link key={link.href} href={link.href} onClick={close} aria-current={active(link.href) ? 'page' : undefined}>{link.label}</Link>)}
+      <button type="button" aria-expanded={servicesOpen} aria-controls="mobile-services" onClick={() => setServicesOpen((open) => !open)}>Services <span aria-hidden="true">{servicesOpen ? '−' : '+'}</span></button>
+      {servicesOpen && <div id="mobile-services"><Link href="/services" onClick={close}>All services</Link>{serviceDirectory.map((service) => <Link key={service.href} href={service.href} onClick={close}>{service.title}</Link>)}</div>}
+      <Link href="/request-quote" className="btn-primary" onClick={close}>Request a quotation</Link>
+    </nav>}
+  </header>;
 }

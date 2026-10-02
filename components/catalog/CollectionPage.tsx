@@ -35,12 +35,12 @@ export default function CollectionPage({ page, searchParams = {} }: { page: SeoC
   };
   return <>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(schema) }} />
-    <section className="bg-primary-600 pb-12 pt-28 text-white sm:pt-32">
+    <section className="page-intro">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-primary-100"><Breadcrumbs items={crumbs} /></div>
-        <p className="mb-3 text-sm font-bold uppercase tracking-widest text-orange-100">{page.eyebrow}</p>
+        <div className="text-gray-600"><Breadcrumbs items={crumbs} /></div>
+        <p className="mb-3 text-sm font-bold uppercase tracking-widest text-orange-700">{page.eyebrow}</p>
         <h1 className="max-w-4xl text-3xl font-bold leading-tight sm:text-5xl">{heading}</h1>
-        <p className="mt-5 max-w-3xl text-lg leading-8 text-primary-100">{hasFilters ? 'Browse equipment matching your selections. Configuration, availability and commercial terms are confirmed for each quotation.' : page.intro}</p>
+        <p className="mt-5 max-w-3xl text-lg leading-8 text-gray-600">{hasFilters ? 'Browse equipment matching your selections. Configuration, availability and commercial terms are confirmed for each quotation.' : page.intro}</p>
         <Link href={'/request-quote?equipment=' + encodeURIComponent(heading)} className="btn-primary mt-6">Request a Quotation</Link>
       </div>
     </section>

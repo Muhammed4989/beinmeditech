@@ -1,0 +1,34 @@
+{
+  "created": "2026-10-02",
+  "method": "Built-in image_gen",
+  "purpose": "Website editorial images, not actual staff, facilities or stock; transparent logo prepared from the approved social logo.",
+  "originalDirectory": "output/site-review/originals",
+  "assets": [
+    {
+      "name": "medical-equipment-hero",
+      "prompt": "Use case: photorealistic-natural. Create ONE premium editorial photograph for the homepage hero of a medical equipment sourcing and healthcare IT company. Landscape 3:2. A bright, sophisticated equipment demonstration room: a realistic unbranded ultrasound cart with folded probe cables in the foreground, a compact patient monitor on a separate trolley behind it, a clean examination bed and generous architectural daylight from the side. Equipment clearly recognizable, arranged naturally and physically plausible. Warm white walls, restrained deep purple upholstery, tiny orange detail, clean oak cabinetry. Eye-level 35mm architectural photography, natural materials, believable shadows, no glossy CGI, no infographic, no decorative medical cross, no collage. No people, patients, readable text, labels, brand logos, certifications or watermark. Complete equipment centered with room around it for a 4:5 crop as well as 3:2. Image illustrates medical technology, not actual stock or a real company facility.",
+      "alt": "AI-generated editorial view of ultrasound and monitoring equipment in a bright clinical demonstration room",
+      "source": "exec-2cb7dcc5-1507-453b-a7c9-fe540932c9f4.png",
+      "output": "public/images/site/medical-equipment-hero.webp"
+    },
+    {
+      "name": "equipment-consultation",
+      "prompt": "Use case: photorealistic-natural. Landscape 3:2 professional editorial photograph. A medical equipment sourcing consultation: two fictional adult professionals in business casual clothes seated beside each other at a light oak table in a quiet clinic planning room. One folded equipment floorplan, a closed sample folder and laptop viewed from the back, a generic diagnostic trolley softly out of focus beyond glass. The people naturally discuss a configuration, no handshake, no staged camera-facing pose. Warm daylight, neutral cream and deep purple details, documentary photographic realism. No readable paperwork, branding, names, identity badges, patient data, watermark or graphics. Not a photograph of actual staff. Keep subjects centered with wide safe margins.",
+      "alt": "AI-generated editorial scene of two professionals planning a medical equipment configuration",
+      "source": "exec-5406fc0d-3b32-44df-b3fd-9f4e7290400c.png",
+      "output": "public/images/site/equipment-consultation.webp"
+    },
+    {
+      "name": "clinical-team-training",
+      "prompt": "Use case: photorealistic-natural. Landscape 3:2 documentary editorial photograph of a small medical equipment orientation session in a modern empty treatment room. A fictional biomedical instructor in a blue shirt points to the physical control panel of a generic ultrasound cart while two fictional clinical staff members in neutral scrubs observe attentively. Equipment screen turned off, no patient, no procedure, no visible personal data. Natural professional body language, believable hands, ordinary real-world technology. Soft morning window light, warm pale walls, muted purple stool, authentic hospital material textures. No labels, legible text, manufacturer logos, certification claims, watermark or collage. Wide view with complete equipment and crop-safe people.",
+      "alt": "AI-generated editorial scene of a small clinical team attending an equipment orientation",
+      "source": "exec-dcd16621-dd3d-424c-80b2-ad694373a833.png",
+      "output": "public/images/site/clinical-team-training.webp"
+    }
+  ],
+  "logo": {
+    "source": "exec-c36c6855-93e0-4be7-8190-a3c3a8b7b420.png",
+    "output": "public/images/brand/bein-meditech.png",
+    "prompt": "Use case: background-extraction, precise-object-edit. Edit target: the supplied approved beIN Meditech logo image. Prepare the SAME logo for a white website header. Remove the entire purple rectangular background to genuine transparent alpha. Preserve EXACT existing letterforms, proportions, spacing and two-line layout: upper wordmark exactly as reference, lower word exactly 'Meditech', including the orange dot over the upper i. Change ONLY the white upper letter fill to solid deep purple #28214C; keep the orange dot and lower 'Meditech' in solid #FF6400. Remove raster shadows/embossing for a clean flat edge. Do NOT redesign or re-typeset, add an icon, change typography, add text, add a box, or introduce any background/shadow. Fit the unchanged complete lockup tightly with about 3% transparent padding all around, landscape aspect matching source. Crisp branding asset, not a mockup."
+  }
+}

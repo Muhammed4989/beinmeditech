@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import BrandLogo from '@/components/BrandLogo';
 import Link from 'next/link';
 import type { BlogArticle } from '@/lib/blog';
 import { sectionId } from '@/lib/content';
@@ -13,7 +13,7 @@ export function ArticleContents({ article }: { article: BlogArticle }) {
 
 function AuthorCard() {
   return <section className="journal-author-card" aria-label="About the publisher">
-    <Link href="/about"><Image src="/images/logo.svg" alt="beIN MediTech" width={170} height={55} className="mx-auto h-auto" /><h2>By beIN MediTech</h2></Link>
+    <Link href="/about"><BrandLogo /><h2>By beIN MediTech</h2></Link>
     <p>Practical equipment and purchasing guides from our medical technology team.</p>
     <Link href="/about" className="journal-author-link">About our company <span aria-hidden="true">→</span></Link>
   </section>;

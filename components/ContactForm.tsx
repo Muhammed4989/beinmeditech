@@ -1,164 +1,62 @@
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
+
+const fieldClass = 'w-full rounded-xl border border-primary-200 bg-white px-4 py-3 text-sm text-primary-900 focus:border-primary-600';
 
 export default function ContactForm({ initialSubject = '' }: { initialSubject?: string }) {
   const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState(false);
+  const [result, setResult] = useState<'sent' | 'email' | null>(null);
+  const [emailDraft, setEmailDraft] = useState('');
   const [error, setError] = useState('');
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(event.currentTarget)) as Record<string, string>;
     setSubmitting(true);
     setError('');
-    const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form));
-
+    setResult(null);
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      const json = await res.json();
-      if (json.success) {
-        setDone(true);
+      const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      const json = await response.json();
+      if (response.ok && json.success) {
+        setResult('sent');
       } else if (json.error === 'no_key') {
-        // No email service configured — open mailto
-        const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
-        const body = encodeURIComponent(
-          `Name: ${data.firstName || ''} ${data.lastName || ''}
-Email: ${data.email || ''}
-Phone: ${data.phone || ''}
-Subject: ${data.subject || ''}
-
-${data.message || ''}`
-        );
-        window.location.href = `mailto:info@beinmeditech.com?subject=Enquiry%20from%20${encodeURIComponent(data.firstName || 'Website')}&body=${body}`;
-        setDone(true);
+        const body = ['Name: ' + data.firstName + ' ' + data.lastName, 'Email: ' + data.email, 'Phone: ' + data.phone, 'Subject: ' + data.subject, '', data.message].join('\n');
+        setEmailDraft('mailto:info@beinmeditech.com?subject=' + encodeURIComponent(data.subject || 'Equipment enquiry') + '&body=' + encodeURIComponent(body));
+        setResult('email');
       } else {
-        setError(json.error || 'Something went wrong. Please try again.');
+        setError('Your message was not sent. Please try again or email info@beinmeditech.com.');
       }
     } catch {
-      setError('Network error. Please try again later.');
-    } finally {
-      setSubmitting(false);
-    }
+      setError('We could not send your message. Check your connection or email info@beinmeditech.com.');
+    } finally { setSubmitting(false); }
   }
 
-  if (done) {
-    return (
-      <div className="text-center py-12">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-          </svg>
-        </div>
-        <h4 className="text-xl font-bold text-gray-900 mb-2">Message Sent!</h4>
-        <p className="text-gray-600">Thank you for reaching out. We will get back to you within 24 hours.</p>
-      </div>
-    );
-  }
+  if (result === 'sent') return <div role="status" className="rounded-2xl border border-primary-200 bg-white p-8">
+    <p className="section-label">Enquiry received</p><h3 className="mt-3 text-2xl font-bold text-primary-600">Thank you for getting in touch.</h3><p className="mt-4 text-gray-600">Your message was sent successfully. Our team will review your enquiry and reply to the email address you provided.</p><button type="button" className="btn-outline mt-6" onClick={() => setResult(null)}>Write another message</button>
+  </div>;
 
-  return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
-            First Name *
-          </label>
-          <input
-            type="text"
-            id="firstName"
-            name="firstName"
-            required
-            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent bg-white text-gray-900 text-sm"
-            placeholder="John"
-          />
-        </div>
-        <div>
-          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
-            Last Name
-          </label>
-          <input
-            type="text"
-            id="lastName"
-            name="lastName"
-            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent bg-white text-gray-900 text-sm"
-            placeholder="Doe"
-          />
-        </div>
+  return <form onSubmit={handleSubmit}>
+    <fieldset disabled={submitting} className="space-y-5">
+      <legend className="sr-only">Your enquiry details</legend>
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div><label htmlFor="firstName" className="form-label">First name *</label><input id="firstName" name="firstName" type="text" autoComplete="given-name" maxLength={80} required className={fieldClass} /></div>
+        <div><label htmlFor="lastName" className="form-label">Last name</label><input id="lastName" name="lastName" type="text" autoComplete="family-name" maxLength={80} className={fieldClass} /></div>
       </div>
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-          Email Address *
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent bg-white text-gray-900 text-sm"
-          placeholder="john@hospital.com"
-        />
-      </div>
-      <div>
-        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-          Phone Number
-        </label>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent bg-white text-gray-900 text-sm"
-          placeholder="+1 000 000 0000"
-        />
-      </div>
-      <div>
-        <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-          Subject
-        </label>
-        <select
-          id="subject"
-          name="subject"
-          defaultValue={initialSubject}
-          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent bg-white text-gray-900 text-sm"
-        >
-          <option value="">Select a service…</option>
-          {initialSubject && <option value={initialSubject}>{initialSubject}</option>}
-          <option>Medical Equipment Sourcing &amp; Delivered Quote</option>
-          <option>Medical Devices Trading</option>
-          <option>Software &amp; Hardware Consultation</option>
-          <option>Training &amp; Support Services</option>
-          <option>Custom IT Solutions for Healthcare</option>
-          <option>Integration Services</option>
-          <option>General Inquiry</option>
-        </select>
-      </div>
-      <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-          Message
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          rows={5}
-          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent bg-white text-gray-900 text-sm resize-none"
-          placeholder="Tell us about your healthcare facility and how we can help…"
-        />
-      </div>
-      {error && (
-        <p className="text-red-600 text-sm">{error}</p>
-      )}
-      <button
-        type="submit"
-        disabled={submitting}
-        className="btn-primary w-full justify-center disabled:opacity-60"
-      >
-        {submitting ? 'Sending...' : 'Send Message'}
-      </button>
-      <p className="text-xs text-gray-500 text-center">
-        We typically respond within 24 hours.
-      </p>
-    </form>
-  );
-        }
+      <div><label htmlFor="email" className="form-label">Email address *</label><input id="email" name="email" type="email" autoComplete="email" maxLength={254} required className={fieldClass} /></div>
+      <div><label htmlFor="phone" className="form-label">Phone number</label><input id="phone" name="phone" type="tel" autoComplete="tel" maxLength={50} className={fieldClass} /></div>
+      <div><label htmlFor="subject" className="form-label">What can we help with?</label><select id="subject" name="subject" defaultValue={initialSubject} className={fieldClass}>
+        <option value="">Select a topic</option>{initialSubject && <option value={initialSubject}>{initialSubject}</option>}
+        {['Medical Equipment Sourcing & Delivered Quote', 'Medical Devices Trading', 'Software & Hardware Consultation', 'Training & Support Services', 'Custom IT Solutions for Healthcare', 'Integration Services', 'General Enquiry'].filter((option) => option !== initialSubject).map((option) => <option key={option}>{option}</option>)}
+      </select></div>
+      <div><label htmlFor="message" className="form-label">Your requirements</label><textarea id="message" name="message" rows={5} maxLength={10000} className={fieldClass + ' resize-y'} placeholder="Equipment, configuration, intended use and delivery requirements…" /></div>
+      {error && <p role="alert" className="text-red-700 text-sm leading-6">{error}</p>}
+      {result === 'email' && <div role="status" className="rounded-xl border border-primary-200 bg-white p-5 text-sm leading-7">
+        <p className="font-bold text-primary-600">Your message has not been sent yet.</p><p className="mt-2 text-gray-600">Online delivery is not configured. Open the prepared email below, review it and press Send in your email app. Your entries are still here.</p><a className="btn-outline mt-4" href={emailDraft}>Open prepared email <span aria-hidden="true">↗</span></a>
+      </div>}
+      <button type="submit" disabled={submitting} className="btn-primary w-full disabled:opacity-60">{submitting ? 'Sending your enquiry…' : 'Send enquiry'}</button>
+      <p className="text-xs text-gray-600 leading-6">Please do not send patient or sensitive medical information. <Link href="/privacy" className="underline underline-offset-4">Read our privacy policy</Link>.</p>
+    </fieldset>
+  </form>;
+}

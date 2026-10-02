@@ -4,7 +4,7 @@ import ServicePage from '@/components/ServicePage';
 export const metadata: Metadata = {
   title: 'Medical Devices Trading',
   description:
-    'beIN Meditech trades state-of-the-art medical devices including diagnostic equipment, therapeutic devices, and surgical tools — sourced from certified global manufacturers.',
+    'Explore medical equipment sourcing with beIN Meditech. Discuss the model, configuration, condition, available documentation and delivery requirements before quotation.',
   alternates: { canonical: 'https://beinmeditech.com/services/medical-devices-trading' },
 };
 
@@ -39,13 +39,13 @@ export default function MedicalDevicesTradingPage() {
       highlights={['Enhanced Patient Care', 'Operational Efficiency', 'Customized Solutions', 'After-Sales Support']}
       faqs={[
         { q: 'What types of medical devices does beIN Meditech offer?', a: 'We offer a wide range of state-of-the-art medical devices including diagnostic, therapeutic, and surgical equipment tailored to various medical specialties.' },
-        { q: 'How does beIN Meditech ensure the quality of its medical devices?', a: 'We ensure quality by sourcing from certified manufacturers and conducting rigorous quality checks and compliance with international standards.' },
+        { q: 'What should I check before purchasing a device?', a: 'Request the exact model, configuration, condition report, service history and available documentation. Inspection, warranty and delivery terms should be confirmed in the quotation. Availability and destination-specific requirements must be checked for each device.' },
         { q: 'Can beIN Meditech provide customized medical device solutions?', a: 'Yes, we provide customized solutions based on specific healthcare facility needs and requirements.' },
         { q: 'What is the process for ordering medical devices from beIN Meditech?', a: 'Contact us with your requirements, receive a consultation, and we will guide you through selection, ordering, and delivery.' },
         { q: 'How does beIN Meditech support clients after purchase?', a: 'We provide comprehensive after-sales support including installation, training, and maintenance services.' },
       ]}
-      imageUrl="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=600&q=60"
-      imageAlt="Medical devices trading – beIN Meditech"
+      imageUrl="/images/blog/ultrasound.webp"
+      imageAlt="AI-generated editorial illustration of a generic ultrasound system"
       schema={schema}
     />
   );
