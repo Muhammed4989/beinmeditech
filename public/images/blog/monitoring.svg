@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" fill="none">
+<rect width="960" height="600" fill="#F0F1F8"/><circle cx="756" cy="156" r="162" fill="#E1DDEE"/><circle cx="239" cy="410" r="170" fill="#FFE1CD"/><ellipse cx="492" cy="500" rx="258" ry="21" fill="#28214C" opacity=".07"/>
+<path d="M394 122v-9a24 24 0 0 1 24-24h106a24 24 0 0 1 24 24v9" stroke="#6355C4" stroke-width="15"/>
+<rect x="244" y="127" width="472" height="322" rx="27" fill="#FFF"/><rect x="264" y="147" width="388" height="242" rx="10" fill="#28214C"/>
+<path d="M285 206h38l14-22 21 67 24-103 20 58h104M285 286h30q16-30 32 0t32 0 32 0 32 0 32 0h31M285 343h30l15-16 17 29 20-29 22 16h116" stroke="#D5D0F5" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="537" y="181" width="85" height="43" rx="5" fill="#6355C4"/><rect x="537" y="257" width="85" height="43" rx="5" fill="#6355C4"/><rect x="537" y="325" width="85" height="28" rx="5" fill="#6355C4"/>
+<circle cx="683" cy="344" r="13" fill="#FF6400"/><path d="M672 181h20m-20 24h20m-20 24h20" stroke="#D5D0F5" stroke-width="5" stroke-linecap="round"/>
+<path d="M434 450v33h96v-33" fill="#6355C4"/><path d="M377 490h212" stroke="#28214C" stroke-width="15" stroke-linecap="round"/>
+<path d="M709 373c89 8 122 93 75 128" stroke="#8877ED" stroke-width="7" stroke-linecap="round"/><rect x="753" y="491" width="40" height="48" rx="13" fill="#28214C"/>
+</svg>

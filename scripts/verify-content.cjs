@@ -35,6 +35,9 @@ for (const topic of blog.blogTopics) {
 }
 for (const article of blog.blogArticles) {
   assert(blog.findBlogTopic(article.topic), 'Article topic must exist');
+  const cover = blog.blogCover(article);
+  assert(cover.src.startsWith('/images/blog/') && fs.existsSync(path.join(root, 'public', cover.src)), 'Every article has local editorial artwork');
+  assert(cover.alt.length > 20, 'Editorial artwork has a descriptive alternative');
   assert(article.sections.length >= 3 && article.checklist.length >= 3, 'Articles must contain useful content');
   for (const crumb of blog.blogBreadcrumbs([...article.topic, article.slug], article)) assert(crumb.href === '/' || allPaths.includes(crumb.href), 'Breadcrumb target must exist: ' + crumb.href);
 }
@@ -79,6 +82,14 @@ async function verifyHttp(base) {
       assert.equal((html.match(/<h1(?:\s|>)/g) || []).length, 1, route + ' has one H1');
       assert(html.includes('rel="canonical" href="' + catalog.SITE_URL + route + '"'), route + ' canonical');
       assert(html.includes('application/ld+json'), route + ' structured data');
+      if (topicPaths.includes(route)) {
+        assert(html.includes('journal-list-item'), route + ' uses the editorial archive layout');
+        assert(html.includes('journal-introduction'), route + ' preserves expandable category content');
+      }
+      if (articlePaths.includes(route)) {
+        assert(html.includes('journal-article-body') && html.includes('journal-cover'), route + ' has the reading layout and cover');
+        assert(html.includes('id="checklist"'), route + ' keeps article anchors');
+      }
       if (route.includes('/demo-')) assert(/name="robots" content="[^"]*noindex/.test(html), route + ' demo noindex');
     }));
   }

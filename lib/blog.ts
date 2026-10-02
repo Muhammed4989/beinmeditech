@@ -21,6 +21,21 @@ export type BlogArticle = {
 };
 
 export const BLOG_UPDATED = '2026-10-02';
+export const BLOG_DATE_LABEL = '2 October 2026';
+
+/** Local editorial artwork, deliberately separate from demonstration inventory. */
+export function blogCover(article: BlogArticle) {
+  const subject = article.topic[1];
+  const covers: Record<string, { src: string; alt: string }> = {
+    ultrasound: { src: '/images/blog/ultrasound.svg', alt: 'Illustration of an ultrasound console and transducer' },
+    endoscopy: { src: '/images/blog/endoscopy.svg', alt: 'Illustration of an endoscopy tower and its components' },
+    'patient-monitoring': { src: '/images/blog/monitoring.svg', alt: 'Illustration of a patient monitor and measurement modules' },
+    'used-equipment': { src: '/images/blog/procurement.svg', alt: 'Illustration of a medical equipment assessment checklist' },
+    'quotations-delivery': { src: '/images/blog/procurement.svg', alt: 'Illustration of an equipment quotation and shipping package' },
+    integration: { src: '/images/blog/integration.svg', alt: 'Illustration of connected medical equipment and information systems' },
+  };
+  return covers[subject] || covers['used-equipment'];
+}
 const ultrasound = { label: 'Ultrasound systems', href: '/medical-equipment/ultrasound' };
 const endoscopy = { label: 'Endoscopy equipment', href: '/medical-equipment/endoscopy' };
 const monitoring = { label: 'Patient monitors', href: '/medical-equipment/patient-monitors' };
