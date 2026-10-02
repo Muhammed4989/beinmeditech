@@ -1,5 +1,6 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const crypto = require('node:crypto');
 const path = require('node:path');
 const Module = require('node:module');
 const ts = require('typescript');
@@ -36,8 +37,13 @@ const topicPaths = blog.blogTopics.map((topic) => blog.blogPath(topic.segments))
 const articlePaths = blog.blogArticles.map(blog.articlePath);
 const collectionPaths = catalog.seoCollections.map((page) => catalog.collectionPath(page.segments));
 const productPaths = products.demoProducts.map(products.demoProductPath);
-const imagePaths = [...new Set([...blog.blogArticles.map((article) => blog.blogCover(article).src), ...products.demoProducts.map((product) => product.image)])];
-assert.equal(imagePaths.length, 8, 'Five editorial scenes and three additional equipment formats');
+const articleImages = blog.blogArticles.map((article) => blog.blogCover(article).src);
+const productImages = products.demoProducts.map((product) => product.image);
+assert.equal(new Set(articleImages).size, blog.blogArticles.length, 'Every article needs its own image, never a shared category fallback');
+assert(articleImages.every((image) => !productImages.includes(image)), 'Blog artwork must not reuse product listing images');
+const articleImageHashes = articleImages.map((image) => crypto.createHash('sha256').update(fs.readFileSync(path.join(root, 'public', image))).digest('hex'));
+assert.equal(new Set(articleImageHashes).size, articleImages.length, 'Distinct filenames must not hide copies of the same blog image');
+const imagePaths = [...new Set([...articleImages, ...productImages])];
 for (const image of imagePaths) {
   assert(image.endsWith('.webp'), 'Realistic website imagery uses optimized WebP: ' + image);
   const bytes = fs.readFileSync(path.join(root, 'public', image));
@@ -54,6 +60,7 @@ for (const topic of blog.blogTopics) {
 for (const article of blog.blogArticles) {
   assert(blog.findBlogTopic(article.topic), 'Article topic must exist');
   const cover = blog.blogCover(article);
+  assert(cover.src === '/images/blog/articles/' + article.slug + '.webp', 'Image is attached to the individual article');
   assert(cover.src.startsWith('/images/blog/') && fs.existsSync(path.join(root, 'public', cover.src)), 'Every article has local editorial artwork');
   assert(cover.alt.length > 20, 'Editorial artwork has a descriptive alternative');
   assert(article.sections.length >= 3 && article.checklist.length >= 3, 'Articles must contain useful content');
@@ -128,6 +135,13 @@ async function verifyHttp(base) {
         assert(html.includes('journal-article-body') && html.includes('journal-cover'), route + ' has the reading layout and cover');
         assert(html.includes('id="checklist"'), route + ' keeps article anchors');
         assert(html.includes('AI-generated editorial image'), route + ' identifies generated imagery');
+        const article = blog.blogArticles.find((item) => blog.articlePath(item) === route);
+        const image = catalog.SITE_URL + blog.blogCover(article).src;
+        assert(html.includes('property="og:image" content="' + image + '"'), route + ' shares its own cover on Open Graph');
+        assert(html.includes('name="twitter:image" content="' + image + '"'), route + ' shares its own cover on Twitter');
+        const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((match) => JSON.parse(match[1]));
+        const posting = schemas.flatMap((schema) => schema['@graph'] || [schema]).find((schema) => schema['@type'] === 'BlogPosting');
+        assert.deepEqual(posting.image, [image], route + ' structured data matches its own cover');
       }
       if (route.includes('/demo-')) {
         assert(/name="robots" content="[^"]*noindex/.test(html), route + ' demo noindex');

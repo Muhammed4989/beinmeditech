@@ -10,6 +10,7 @@ export type BlogTopic = {
   equipment: ContentLink[];
 };
 export type BlogArticle = {
+  cover: { src: string; alt: string };
   topic: string[];
   slug: string;
   title: string;
@@ -23,18 +24,9 @@ export type BlogArticle = {
 export const BLOG_UPDATED = '2026-10-02';
 export const BLOG_DATE_LABEL = '2 October 2026';
 
-/** Photorealistic AI illustrations, never photographs of a specific sale unit. */
+/** Every article owns a unique editorial image; no shared category fallback. */
 export function blogCover(article: BlogArticle) {
-  const subject = article.topic[1];
-  const covers: Record<string, { src: string; alt: string }> = {
-    ultrasound: { src: '/images/blog/ultrasound.webp', alt: 'AI-generated illustration of a generic ultrasound system and probes in an examination room' },
-    endoscopy: { src: '/images/blog/endoscopy.webp', alt: 'AI-generated illustration of an endoscopy equipment tower and scope tray in a clinical room' },
-    'patient-monitoring': { src: '/images/blog/monitoring.webp', alt: 'AI-generated illustration of a generic patient monitor on a mobile stand beside an empty bed' },
-    'used-equipment': { src: '/images/blog/procurement.webp', alt: 'AI-generated illustration of equipment assessment paperwork and a transport case on an office desk' },
-    'quotations-delivery': { src: '/images/blog/procurement.webp', alt: 'AI-generated illustration of a medical equipment quotation workspace with documents and calculator' },
-    integration: { src: '/images/blog/integration.webp', alt: 'AI-generated illustration of a medical monitor, laptop and network switch in a biomedical workstation' },
-  };
-  return covers[subject] || covers['used-equipment'];
+  return article.cover;
 }
 const ultrasound = { label: 'Ultrasound systems', href: '/medical-equipment/ultrasound' };
 const endoscopy = { label: 'Endoscopy equipment', href: '/medical-equipment/endoscopy' };
@@ -138,6 +130,7 @@ export const blogTopics: BlogTopic[] = [
 export const blogArticles: BlogArticle[] = [
   {
     topic: ['equipment-guides', 'ultrasound'], slug: 'ultrasound-configuration-checklist',
+    cover: { src: '/images/blog/articles/ultrasound-configuration-checklist.webp', alt: "AI-generated editorial scene of an empty ultrasound examination room prepared for equipment planning" },
     title: 'What to Include in an Ultrasound Equipment Enquiry',
     description: 'Build an ultrasound RFQ around examinations, probes, installed options and the evidence needed to compare complete offers.',
     intro: 'An ultrasound enquiry is most useful when it describes the working package your team needs. Starting with a model and a budget can leave probes, options and workflow requirements unresolved. Use a short specification that separates essential features from preferences and gives suppliers a consistent basis for responding.',
@@ -150,6 +143,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     topic: ['equipment-guides', 'ultrasound'], slug: 'probe-package-comparison',
+    cover: { src: '/images/blog/articles/probe-package-comparison.webp', alt: "AI-generated overhead scene of two ultrasound probe sets arranged in separate protective cases" },
     title: 'How to Compare Two Ultrasound Probe Packages',
     description: 'Compare ultrasound offers using probe identity, compatibility evidence, included quantities and condition records rather than probe count alone.',
     intro: 'Two offers that both include three probes can describe very different packages. Compare exact identities and the examinations they are intended to support, then connect each probe to the proposed console and its installed options.',
@@ -161,6 +155,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     topic: ['equipment-guides', 'endoscopy'], slug: 'endoscopy-tower-scope',
+    cover: { src: '/images/blog/articles/endoscopy-tower-scope.webp', alt: "AI-generated editorial scene of an endoscopy package and separate components in a staging area" },
     title: 'What Is Included in an Endoscopy Tower Quotation?',
     description: 'Use a component-by-component scope to compare endoscopy tower offers and identify omitted scopes, displays, accessories or service work.',
     intro: 'The phrase complete endoscopy tower needs a written definition. A processor, light source, display and trolley may be pictured together while scopes or supporting accessories are priced separately. Establish the package boundary before comparing totals.',
@@ -172,6 +167,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     topic: ['equipment-guides', 'endoscopy'], slug: 'replacement-component-enquiry',
+    cover: { src: '/images/blog/articles/replacement-component-enquiry.webp', alt: "AI-generated close-up of a biomedical technician checking an endoscopy component connector" },
     title: 'Preparing an Enquiry for an Endoscopy Replacement Component',
     description: 'Identify the installed system, replacement component and evidence needed for a focused endoscopy sourcing enquiry.',
     intro: 'Replacing one part of an endoscopy system begins with identification of the existing equipment. A complete description helps the supplier distinguish an exact replacement from a proposed alternative and makes the technical review more focused.',
@@ -183,6 +179,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     topic: ['equipment-guides', 'patient-monitoring'], slug: 'monitor-configuration-checklist',
+    cover: { src: '/images/blog/articles/monitor-configuration-checklist.webp', alt: "AI-generated architectural view of an empty monitored hospital room prepared for a new installation" },
     title: 'Patient Monitor Configuration: A Buyer’s Checklist',
     description: 'Prepare a patient-monitor specification covering required measurements, modules, accessories, mounting and existing-system connections.',
     intro: 'A patient monitor should be compared as a configured package. The display name alone does not show which measurement modules, accessories or connections are included. A clear enquiry makes those choices visible to the supplier and reviewing team.',
@@ -194,6 +191,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     topic: ['equipment-guides', 'patient-monitoring'], slug: 'monitor-accessory-comparison',
+    cover: { src: '/images/blog/articles/monitor-accessory-comparison.webp', alt: "AI-generated flat-lay of monitoring cuffs, sensor clips and cables arranged on a service mat" },
     title: 'Comparing Patient Monitor Accessories Across Offers',
     description: 'Build a monitor accessory schedule that exposes missing cables, sensors, mounts and configuration assumptions before purchase.',
     intro: 'Accessories can change the value and completeness of a monitor offer. Prepare a schedule that records what is needed, what the supplier includes and what the facility will provide from its own inventory.',
@@ -205,6 +203,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     topic: ['procurement', 'used-equipment'], slug: 'used-equipment-evidence',
+    cover: { src: '/images/blog/articles/used-equipment-evidence.webp', alt: "AI-generated scene of a technician photographing equipment identification for a condition record" },
     title: 'What Evidence to Request for Used Medical Equipment',
     description: 'Connect a used medical equipment offer to identifiers, condition records, service information and the exact included package.',
     intro: 'A used medical equipment listing is an invitation to investigate a particular unit. Ask for evidence that identifies that unit and explains its offered condition, configuration and outstanding work before relying on a headline price.',
@@ -216,6 +215,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     topic: ['procurement', 'used-equipment'], slug: 'used-and-refurbished-offers',
+    cover: { src: '/images/blog/articles/used-and-refurbished-offers.webp', alt: "AI-generated editorial scene of a biomedical refurbishment workbench with a technician and equipment housing" },
     title: 'Used and Refurbished Offers: Ask What Work Was Done',
     description: 'Review used and refurbished medical equipment descriptions by asking for a documented work scope and unit-specific evidence.',
     intro: 'Condition labels are useful for browsing, but they do not tell the whole story of a pre-owned system. When comparing a used offer with one described as refurbished, ask what the seller means and what records support that description.',
@@ -227,6 +227,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     topic: ['procurement', 'quotations-delivery'], slug: 'compare-equipment-quotations',
+    cover: { src: '/images/blog/articles/compare-equipment-quotations.webp', alt: "AI-generated editorial scene of two purchasing colleagues comparing equipment quotation folders" },
     title: 'How to Compare Medical Equipment Quotations',
     description: 'Compare equipment offers on a consistent basis covering configuration, excluded costs, validity and delivery responsibilities.',
     intro: 'The lowest headline price may describe a smaller package. A fair quotation comparison begins with a shared specification and a list of the work required to deliver the agreed equipment to the buyer.',
@@ -238,6 +239,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     topic: ['procurement', 'quotations-delivery'], slug: 'equipment-shipping-handover',
+    cover: { src: '/images/blog/articles/equipment-shipping-handover.webp', alt: "AI-generated editorial scene of medical equipment shipping crates prepared for dispatch" },
     title: 'Medical Equipment Shipment Handover Checklist',
     description: 'Plan equipment identification, packing scope, shipment documents and receiving-site responsibilities before collection.',
     intro: 'Shipment planning starts before the equipment is packed. The supplier, transport provider and receiving team need a shared record of the package, collection arrangements and work required at arrival.',
@@ -249,6 +251,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     topic: ['healthcare-it', 'integration'], slug: 'medical-integration-brief',
+    cover: { src: '/images/blog/articles/medical-integration-brief.webp', alt: "AI-generated editorial scene of hospital IT staff planning connections between clinical systems" },
     title: 'Writing a Medical Equipment Integration Brief',
     description: 'Describe existing systems, required information exchanges and ownership of configuration and testing in an equipment integration brief.',
     intro: 'A useful integration enquiry describes the workflow the facility wants to achieve. Listing connectivity as a requirement is too broad to establish the systems, interfaces and work involved.',
@@ -260,6 +263,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     topic: ['healthcare-it', 'integration'], slug: 'connected-equipment-handover',
+    cover: { src: '/images/blog/articles/connected-equipment-handover.webp', alt: "AI-generated editorial scene of a clinician and engineer reviewing a handover beside newly installed equipment" },
     title: 'Planning the Handover of Connected Medical Equipment',
     description: 'Prepare configuration records, acceptance evidence, support ownership and user guidance for connected equipment handover.',
     intro: 'A connected equipment project is easier to hand over when the final configuration and responsibilities are recorded. Plan these deliverables during procurement so they are available when the facility takes over routine operation.',

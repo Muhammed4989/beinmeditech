@@ -2,7 +2,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
-const manifest = require('../assets/medical-photography/prompts.json');
+const manifestPath = path.resolve(root, process.argv[3] || 'assets/medical-photography/prompts.json');
+const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 const sourceDirectory = process.argv[2];
 if (!sourceDirectory) throw new Error('Pass the directory containing the generated PNG files.');
 const sharp = require(require.resolve('sharp', { paths: [process.env.SHARP_MODULE_ROOT || root] }));
@@ -11,7 +12,7 @@ async function prepare() {
   for (const asset of manifest.assets) {
     const source = path.join(sourceDirectory, asset.source);
     const output = path.join(root, asset.output);
-    const original = path.join(root, 'output/medical-photography/originals', asset.name + '.png');
+    const original = path.join(root, manifest.originalDirectory || 'output/medical-photography/originals', asset.name + '.png');
     fs.mkdirSync(path.dirname(output), { recursive: true });
     fs.mkdirSync(path.dirname(original), { recursive: true });
     fs.copyFileSync(source, original);
