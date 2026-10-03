@@ -19,7 +19,13 @@ export default function AboutPage() {
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'AboutPage', name: 'About beIN Meditech', url: 'https://beinmeditech.com/about', mainEntity: { '@id': 'https://beinmeditech.com/#organization' } }) }} />
     <PageIntro title="Medical technology. A practical partnership." eyebrow="About beIN Meditech" description="Helping healthcare facilities turn equipment and technology requirements into a clear next step." crumbs={[{ name: 'Home', href: '/' }, { name: 'About', href: '/about' }]} />
     <section className="site-section"><div className="site-container split-section">
-      <figure className="editorial-figure"><Image src="/images/site/equipment-consultation.webp" alt="AI-generated editorial scene of a medical equipment planning discussion" width={1440} height={960} sizes="(max-width: 959px) 100vw, 560px" /><figcaption>Editorial illustration — not a photograph of our staff or premises.</figcaption></figure>
+      <figure className="mx-auto w-full max-w-[353px]" aria-labelledby="bilal-alhasan-name">
+        <Image src="/images/team/bilal-alhasan.png" alt="Bilal Alhasan, Business Developer Manager and Co-Founder of beIN Meditech" width={353} height={399} sizes="(max-width: 400px) calc(100vw - 48px), 353px" className="h-auto w-full rounded-2xl shadow-sm" />
+        <figcaption className="mt-5 text-center">
+          <p id="bilal-alhasan-name" className="text-xl font-bold text-primary-600">Bilal Alhasan</p>
+          <p className="mt-1 text-sm font-semibold leading-6 text-orange-700">Business Developer Manager<br />Co-Founder</p>
+        </figcaption>
+      </figure>
       <div><p className="section-label">What we do</p><h2 className="section-title">Equipment sourcing meets healthcare IT.</h2><p className="section-copy">beIN Meditech works with equipment enquiries, software and hardware consultation, training and system integration. Our contact points in Germany and Türkiye support discussions with hospitals, clinics and equipment buyers.</p><p className="section-copy">We focus on the details that make an enquiry useful: intended application, required configuration, condition, accessories and handover expectations. Availability and the precise scope of each offer are confirmed in the quotation.</p></div>
     </div></section>
     <section className="site-section surface-tint"><div className="site-container"><p className="section-label">Our approach</p><h2 className="section-title">Clarity at every stage.</h2><div className="principles-grid">{principles.map((item) => <article className="service-card" key={item.title}><span className="icon-tile"><ServiceIcon name={item.icon} /></span><h3>{item.title}</h3><p>{item.text}</p></article>)}</div></div></section>

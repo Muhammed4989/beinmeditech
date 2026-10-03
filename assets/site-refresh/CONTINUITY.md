@@ -7,6 +7,7 @@
 - Use `codex/content-hierarchy` and Vercel Preview only. Never promote, change production/main, DNS, mail settings, or spend money without fresh authority.
 - The user specifically rejected the redesigned homepage body. Its former section order and hero were restored from `fca293e`. Preserve `app/page.tsx`; do not redesign it during routine follow-up work.
 - Keep the newer logo, Header/mobile navigation, footer, shared accessibility improvements, brand colours and all other page improvements.
+- Preserve the user-confirmed real portrait of Bilal Alhasan on About Us, with the approved name and role. Do not substitute generated imagery for this person or remove his profile in routine refreshes.
 - Legacy home statistics/achievements/testimonial remain unverified layout content, with a visible notice. Do not reuse them as company facts. Confirmation is required before production publication.
 - Keep user/unrelated untracked files out of commits, especially monitoring and email configuration. Never reuse exposed credentials from chat history.
 
@@ -35,6 +36,13 @@
 - Archive lists now sort by publication date without mutating `blogArticles`, so new articles appear in Latest articles while the restored homepage's explicit selections stay unchanged.
 - No changes to homepage, logo, menu, production, DNS or email settings.
 - Verified: production build passed with 81 static pages; 49-route content checks and 16,384 filter round trips passed; 15-template/60-link/24-image smoke checks and mocked contact tests passed. Desktop/mobile browser checks confirmed the article, dates, unique cover and no horizontal overflow; the archive puts it first and its lazy-loaded thumbnail decoded successfully after loading. No browser errors. Automated accessibility check reported zero violations (not a certification). Screenshots are retained locally in `output/site-review/`.
+
+## Bilal portrait restoration — 3 October 2026
+
+- User confirmed the portrait recovered from the company profile on IT-Service-Net and asked to restore it. About Us now shows Bilal Alhasan, Business Developer Manager / Co-Founder, in place of the generic editorial consultation image.
+- Saved the original photograph locally as `public/images/team/bilal-alhasan.png` (353 × 399, 72,472 bytes), with no retouching or cropping. Source and approval recorded in `assets/site-refresh/bilal-alhasan-photo.json`. No facial image generation was used.
+- Added regression checks for the approved image, original dimensions, name/role and SHA-256 integrity. No change to the homepage, brand assets, navigation, blog content or production settings.
+- Verified: build passed (81 static pages); site checks passed for 15 templates, 60 links and 25 images; 49-route content checks and 16,384 filter round trips passed. Desktop/mobile browser checks confirmed the original 353 × 399 aspect ratio, name/role, successful image loading and no horizontal overflow or browser errors. Screenshots saved locally in `output/about-recovery/`.
 
 ## Remaining launch prerequisites
 

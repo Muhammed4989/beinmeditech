@@ -21,6 +21,19 @@ async function main() {
       assert(!html.includes('The right technology.'), 'Do not reapply the rejected homepage redesign');
       assert(html.includes('unverified placeholders'), 'Legacy company claims remain visibly unverified');
     } else assert(!html.includes('hero.svg'), route + ' no legacy hero outside home');
+    if (route === '/about') {
+      const portrait = html.match(/<figure[^>]*aria-labelledby="bilal-alhasan-name"[^>]*>[\s\S]*?<\/figure>/)?.[0];
+      assert(portrait, 'About retains the user-confirmed Bilal portrait');
+      assert(portrait.includes('bilal-alhasan.png'), 'Portrait uses a local asset');
+      assert(portrait.includes('Bilal Alhasan') && portrait.includes('Business Developer Manager') && portrait.includes('Co-Founder'), 'Portrait retains the approved name and role');
+      assert(portrait.includes('width="353"') && portrait.includes('height="399"'), 'Portrait retains its original aspect ratio');
+      assert(!html.includes('equipment-consultation.webp') && !portrait.includes('AI-generated'), 'Do not replace the real portrait with an illustration');
+      const asset = await fetch(base + '/images/team/bilal-alhasan.png');
+      assert.equal(asset.status, 200, 'Original portrait is available');
+      assert(asset.headers.get('content-type')?.includes('image/png'), 'Portrait serves as a PNG');
+      const hash = require('node:crypto').createHash('sha256').update(Buffer.from(await asset.arrayBuffer())).digest('hex');
+      assert.equal(hash, require('../assets/site-refresh/bilal-alhasan-photo.json').sha256, 'Preserve the approved photograph without alteration');
+    }
     assert(html.includes('rel="canonical"'), route + ' canonical');
     for (const match of html.matchAll(/<a[^>]+href="([^"]+)"/g)) {
       const href = match[1].replace(/&amp;/g, '&');
