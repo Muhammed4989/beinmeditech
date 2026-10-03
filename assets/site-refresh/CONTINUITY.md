@@ -3,6 +3,7 @@
 ## User-approved boundaries
 
 - Daily writing/development follow-up is enabled in this chat (automation `bein-meditech`, 10:00 Europe/Istanbul, no end date). Work is performed in scheduled rounds, not a continuously running writer.
+- Latest user clarification: keep adding NEW content. The daily automation now prioritizes one new original article, not just revisions; aim for 900–1400 useful words with a unique local cover. If the cover or verification is blocked, keep a non-public draft and report the blocker. Do not count an old-article expansion as the regular replacement for a new post. Do not batch-publish missed days.
 - Use `codex/content-hierarchy` and Vercel Preview only. Never promote, change production/main, DNS, mail settings, or spend money without fresh authority.
 - The user specifically rejected the redesigned homepage body. Its former section order and hero were restored from `fca293e`. Preserve `app/page.tsx`; do not redesign it during routine follow-up work.
 - Keep the newer logo, Header/mobile navigation, footer, shared accessibility improvements, brand colours and all other page improvements.
@@ -20,11 +21,20 @@
 
 ## Next useful work
 
-1. Expand the shipment handover guide with a useful receiving-team document checklist and a clearly separated receipt/technical-acceptance workflow. Avoid clinical procedures or unverified legal requirements.
+1. New article opportunity: a receiving-site readiness checklist (access route, unloading ownership, receiving contacts and document handover), distinct from the existing shipment handover guide. Avoid clinical procedures or unverified legal requirements. Also improve the earlier guide when useful, without counting that as the daily new article.
 2. Expand category articles by answering distinct buyer questions, not by repeating general sourcing copy. Use current primary sources for technical/regulatory claims.
 3. New articles require a new, unique, optimized local cover. Do not duplicate another article or listing photo. Existing articles can be deepened without generating a new cover.
 4. Set explicit `publishedAt` for new articles; set `updatedAt` only when the article materially changes. `BLOG_UPDATED` is the legacy fallback, not a daily freshness switch. If a topic's own copy changes without an article change, introduce a topic-specific date rather than bumping unrelated dates.
 5. Maintain this log, run `npm run build`, `node scripts/verify-site.cjs`, `node scripts/verify-contact.cjs` and `npm run test:content -- http://127.0.0.1:3030`; verify the affected UI on desktop/mobile before pushing. Mock email delivery only.
+
+## New-content follow-up — 3 October 2026
+
+- Added original article `medical-equipment-photo-checklist` under Procurement → Used Equipment, with 1,034 body words plus an enquiry checklist. It explains how buyers can request unit-specific views, identification, accessory evidence, disclosed wear, sensible file naming and clarification records; photographs are not represented as technical approval.
+- Publication date: 2026-10-03. English title: Medical Equipment Photo Checklist for Buyers. The article is linked from the quotation comparison guide and links back to relevant purchasing resources.
+- New unique editorial cover: `public/images/blog/articles/medical-equipment-photo-checklist.webp`, 1200 × 800, 58,580 bytes. Generated with built-in `image_gen`; prompt/source record in `assets/blog-article-photography/medical-equipment-photo-checklist.json`. Original remains in the Codex generated-image directory. The image is labelled illustrative on the page.
+- Archive lists now sort by publication date without mutating `blogArticles`, so new articles appear in Latest articles while the restored homepage's explicit selections stay unchanged.
+- No changes to homepage, logo, menu, production, DNS or email settings.
+- Verified: production build passed with 81 static pages; 49-route content checks and 16,384 filter round trips passed; 15-template/60-link/24-image smoke checks and mocked contact tests passed. Desktop/mobile browser checks confirmed the article, dates, unique cover and no horizontal overflow; the archive puts it first and its lazy-loaded thumbnail decoded successfully after loading. No browser errors. Automated accessibility check reported zero violations (not a certification). Screenshots are retained locally in `output/site-review/`.
 
 ## Remaining launch prerequisites
 

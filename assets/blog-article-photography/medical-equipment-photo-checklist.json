@@ -1,0 +1,10 @@
+{
+  "slug": "medical-equipment-photo-checklist",
+  "mode": "built-in image_gen",
+  "prompt": "Use case: photorealistic-natural. Create one landscape 3:2 editorial photograph for a medical equipment purchasing guide about documenting an offered unit in photographs. A tidy biomedical equipment staging room, clearly not a patient treatment scene. A fictional equipment coordinator, seen from the side/back in a plain navy work shirt, carefully photographing an unbranded mobile patient monitor with a small handheld camera. The compact monitor is on a stable medical trolley, screen dark with no data. Nearby on a light oak workbench are neatly separated coiled cables, a closed transport case, and a blank paper checklist turned away from camera. Show coherent spatial arrangement and plausible equipment, natural human hands, realistic materials, soft side daylight. A warm neutral wall, subtle deep purple storage boxes and a tiny orange folder provide restrained brand accents. This should feel like professional documentary photography, not CGI, not a collage, not a product mockup. Main action centered with safe room for both landscape and square thumbnail crops. No patients, treatment, readable text, serial numbers, brand logos, badges, certification symbols, text overlays or watermark. Do not imply actual company staff, facility or offered inventory.",
+  "output": "public/images/blog/articles/medical-equipment-photo-checklist.webp",
+  "created": "2026-10-03",
+  "source": "exec-f7763cb2-068b-4ce2-ae7f-69415b86a924.png",
+  "purpose": "Unique editorial cover, not actual staff or offered inventory",
+  "alt": "AI-generated editorial scene of an equipment coordinator photographing a patient monitor beside an accessory checklist"
+}

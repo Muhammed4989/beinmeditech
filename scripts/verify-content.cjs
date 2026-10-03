@@ -36,6 +36,21 @@ function guideFor(page, state = filters.readFilters(catalog.collectionPath(page.
 const topicPaths = blog.blogTopics.map((topic) => blog.blogPath(topic.segments));
 const articlePaths = blog.blogArticles.map(blog.articlePath);
 const revisedQuoteGuide = blog.blogArticles.find((article) => article.slug === 'compare-equipment-quotations');
+const photoGuide = blog.blogArticles.find((article) => article.slug === 'medical-equipment-photo-checklist');
+assert(photoGuide, 'New photo checklist is available');
+const photoBodyWords = [photoGuide.intro, ...photoGuide.sections.map((section) => section.body)].join(' ').trim().split(/\s+/).length;
+assert(photoBodyWords >= 900 && photoBodyWords <= 1400, 'New article has substantial, focused body content');
+assert.equal(blog.articlePublishedDate(photoGuide), '2026-10-03', 'New article has its own publication date');
+assert.equal(blog.articleUpdatedDate(photoGuide), '2026-10-03', 'New publication is not falsely marked as revised');
+for (const segmentSet of [[], photoGuide.topic]) {
+  const ordered = blog.topicArticles(segmentSet);
+  const dates = ordered.map(blog.articlePublishedDate);
+  assert.deepEqual(dates, [...dates].sort().reverse(), 'Archive uses descending publication dates');
+  assert(ordered.some((article) => article.slug === photoGuide.slug), 'New article is present in relevant archives');
+}
+assert.equal(blog.blogArticles[0].slug, 'ultrasound-configuration-checklist', 'Sorting must not mutate homepage article selections');
+assert.equal(blog.blogArticles[8].slug, 'compare-equipment-quotations', 'Keep the restored homepage article selections stable');
+assert(revisedQuoteGuide.equipment.some((link) => link.href === blog.articlePath(photoGuide)), 'New article is linked from an existing guide');
 assert.equal(blog.articlePublishedDate(revisedQuoteGuide), '2026-10-02', 'An update preserves the original publication date');
 assert.equal(blog.articleUpdatedDate(revisedQuoteGuide), '2026-10-03', 'Updated guide has its own date');
 assert.equal(blog.articleUpdatedDate(blog.blogArticles[0]), '2026-10-02', 'Updating one article must not refresh other dates');
@@ -185,6 +200,11 @@ async function verifyHttp(base) {
   }
   for (const route of [...topicPaths, ...articlePaths, ...collectionPaths]) assert(sitemap.includes(catalog.SITE_URL + route + '</loc>'), route + ' in sitemap');
   assert(!sitemap.includes('/demo-'), 'Demo products excluded from sitemap');
+  const archive = await (await fetch(base + '/blog')).text();
+  const firstArticleHeading = archive.match(/<h3><a[^>]+href="([^"]+)"/);
+  assert.equal(firstArticleHeading?.[1], blog.articlePath(blog.topicArticles([])[0]), 'Latest articles follows the publication date order');
+  const fullReference = await (await fetch(base + '/llms-full.txt')).text();
+  assert(fullReference.includes(photoGuide.intro) && fullReference.includes(photoGuide.sections[0].body), 'AI reference includes the actual new article content');
   for (const article of blog.blogArticles) {
     assert(sitemap.includes('<loc>' + catalog.SITE_URL + blog.articlePath(article) + '</loc>\n<lastmod>' + blog.articleUpdatedDate(article) + 'T00:00:00.000Z</lastmod>'), 'Sitemap uses article-specific date: ' + article.slug);
     for (const link of article.equipment) assert.equal((await fetch(base + link.href)).status, 200, 'Reachable contextual link ' + link.href);
