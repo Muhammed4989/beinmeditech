@@ -22,7 +22,7 @@
 
 ## Next useful work
 
-1. New article opportunity: a receiving-site readiness checklist (access route, unloading ownership, receiving contacts and document handover), distinct from the existing shipment handover guide. Avoid clinical procedures or unverified legal requirements. Also improve the earlier guide when useful, without counting that as the daily new article.
+1. New article opportunity: a buyer's equipment configuration revision log (tracking model/accessory substitutions, quotation revisions, review owners and final scope), distinct from quotation comparison and receiving-site planning. Avoid clinical procedures or unverified legal requirements. Also improve earlier guides when useful, without counting that as the daily new article.
 2. Expand category articles by answering distinct buyer questions, not by repeating general sourcing copy. Use current primary sources for technical/regulatory claims.
 3. New articles require a new, unique, optimized local cover. Do not duplicate another article or listing photo. Existing articles can be deepened without generating a new cover.
 4. Set explicit `publishedAt` for new articles; set `updatedAt` only when the article materially changes. `BLOG_UPDATED` is the legacy fallback, not a daily freshness switch. If a topic's own copy changes without an article change, introduce a topic-specific date rather than bumping unrelated dates.
@@ -43,6 +43,15 @@
 - Saved the original photograph locally as `public/images/team/bilal-alhasan.png` (353 × 399, 72,472 bytes), with no retouching or cropping. Source and approval recorded in `assets/site-refresh/bilal-alhasan-photo.json`. No facial image generation was used.
 - Added regression checks for the approved image, original dimensions, name/role and SHA-256 integrity. No change to the homepage, brand assets, navigation, blog content or production settings.
 - Verified: build passed (81 static pages); site checks passed for 15 templates, 60 links and 25 images; 49-route content checks and 16,384 filter round trips passed. Desktop/mobile browser checks confirmed the original 353 × 399 aspect ratio, name/role, successful image loading and no horizontal overflow or browser errors. Screenshots saved locally in `output/about-recovery/`.
+
+## New article — 4 October 2026
+
+- Added `receiving-site-readiness` under Procurement → Quotations & Delivery, titled Medical Equipment Delivery: Receiving-Site Checklist. It has 1,112 body words plus a nine-item checklist, with its own publication date of 2026-10-04. General coordination guidance covers the named handover point, task owners, package information, facilities route review, arrival access, unloading scope, storage, document handover and change handling; no medical procedures, price claims or regulatory requirements were introduced.
+- Added a link from the shipment handover guide and contextual links to shipment, quotation comparison, used equipment and the enquiry form. A link-only update did not change the earlier article's date. Homepage array positions remain unchanged.
+- Unique editorial cover: `public/images/blog/articles/receiving-site-readiness.webp` (1200 × 800, 64,946 bytes), generated with built-in image_gen and labelled illustrative in the shared article view. Generation and targeted logo-removal edit prompts are saved in `assets/blog-article-photography/receiving-site-readiness.json`.
+- Removed a fixed procurement-topic date from an existing test so its expectation follows article-specific dates when new articles are published. Other date checks remain unchanged. Daily automation `bein-meditech` is still ACTIVE at 10:00 Europe/Istanbul without an end date.
+- Homepage, brand/navigation, Bilal's portrait, production, DNS and mail configuration were not edited.
+- Verified: build passed with 82 static pages; 15-template/61-link/26-image site checks passed; 50-route content, metadata, sitemap and redirect checks and 16,384 filter round trips passed; mocked contact tests passed with no email sent. Desktop/mobile browser checks confirmed archive-first placement, working archive navigation, 4 October publication date, loaded thumbnail/cover and no horizontal overflow or browser errors. Screenshots retained in `output/site-review/receiving-guide-desktop.png` and `receiving-guide-mobile.png`.
 
 ## Remaining launch prerequisites
 

@@ -55,7 +55,7 @@ assert.equal(blog.articlePublishedDate(revisedQuoteGuide), '2026-10-02', 'An upd
 assert.equal(blog.articleUpdatedDate(revisedQuoteGuide), '2026-10-03', 'Updated guide has its own date');
 assert.equal(blog.articleUpdatedDate(blog.blogArticles[0]), '2026-10-02', 'Updating one article must not refresh other dates');
 assert.equal(blog.blogTopicUpdatedDate(['equipment-guides']), '2026-10-02', 'Unchanged topic stays unchanged');
-assert.equal(blog.blogTopicUpdatedDate(['procurement']), '2026-10-03', 'Parent reflects revised guide');
+assert.equal(blog.blogTopicUpdatedDate(['procurement']), [...blog.topicArticles(['procurement']).map(blog.articleUpdatedDate)].sort().at(-1), 'Parent reflects the latest article date as new guides are added');
 assert.equal(blog.formatBlogDate('2026-10-03'), '3 October 2026', 'Deterministic timezone-safe display');
 assert([revisedQuoteGuide.intro, ...revisedQuoteGuide.sections.map((section) => section.body)].join(' ').split(/\s+/).length >= 900, 'Expanded comparison guide has substantive body content');
 const collectionPaths = catalog.seoCollections.map((page) => catalog.collectionPath(page.segments));

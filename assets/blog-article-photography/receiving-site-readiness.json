@@ -1,0 +1,14 @@
+{
+  "slug": "receiving-site-readiness",
+  "mode": "built-in image_gen",
+  "prompt": "Use case: photorealistic-natural. Create one original landscape 3:2 editorial documentary photograph for a guide on preparing a healthcare facility to receive medical equipment. A bright, believable hospital receiving area viewed from inside a wide open pair of service doors. A female facilities coordinator in a plain navy work shirt holds a clipboard and discusses the clear delivery route with a second logistics colleague seen from the back. Three modest sealed shipping crates are stationary on a low industrial flatbed trolley in the foreground; blank paper packing sheets are clipped to a small desk. A clean corridor with wide doors extends into the background, giving a clear sense of space and access planning. No unpacked medical devices and no treatment rooms or patients. Soft natural daylight, warm pale walls, authentic wood crate textures and metal trolley, realistic anatomy and perspective. Restrained purple storage folder and small orange safety bollard as subtle brand accents. Subject and action remain clear in landscape and square thumbnail crops. No readable text, logos, certification badges, serial numbers, watermarks or advertising overlays. Fictional editorial scene; do not imply actual company premises, inventory or staff. Photographic realism, not CGI, collage or an illustration.",
+  "editPrompt": "Edit this editorial photograph with one precise change: remove every embroidered logo, symbol and letter from the woman's navy shirt, leaving plain navy fabric with natural folds and lighting. Keep the two foreground people, faces, anatomy, composition, three shipping crates, trolley, corridor, orange bollard, purple folders, camera perspective and all other details unchanged. No new text or logos. Preserve photorealistic documentary texture.",
+  "output": "public/images/blog/articles/receiving-site-readiness.webp",
+  "created": "2026-10-04",
+  "source": "exec-96f6613b-53f7-4729-a1e6-6374ef53912f.png",
+  "purpose": "Unique editorial cover for receiving-site preparation, not actual premises, staff or inventory",
+  "alt": "AI-generated editorial scene of a facilities coordinator reviewing a medical equipment delivery route beside sealed shipping crates",
+  "width": 1200,
+  "height": 800,
+  "bytes": 64946
+}
