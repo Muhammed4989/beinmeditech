@@ -22,7 +22,7 @@
 
 ## Next useful work
 
-1. New article opportunity: a buyer's equipment configuration revision log (tracking model/accessory substitutions, quotation revisions, review owners and final scope), distinct from quotation comparison and receiving-site planning. Avoid clinical procedures or unverified legal requirements. Also improve earlier guides when useful, without counting that as the daily new article.
+1. New article opportunity: a buyer's post-delivery documentation index (organising received unit records, accessory lists, open-item owners and supplier follow-up), distinct from receiving-site access planning and configuration change tracking. Avoid clinical procedures or unverified legal requirements. Also improve earlier guides when useful, without counting that as the daily new article.
 2. Expand category articles by answering distinct buyer questions, not by repeating general sourcing copy. Use current primary sources for technical/regulatory claims.
 3. New articles require a new, unique, optimized local cover. Do not duplicate another article or listing photo. Existing articles can be deepened without generating a new cover.
 4. Set explicit `publishedAt` for new articles; set `updatedAt` only when the article materially changes. `BLOG_UPDATED` is the legacy fallback, not a daily freshness switch. If a topic's own copy changes without an article change, introduce a topic-specific date rather than bumping unrelated dates.
@@ -52,6 +52,14 @@
 - Removed a fixed procurement-topic date from an existing test so its expectation follows article-specific dates when new articles are published. Other date checks remain unchanged. Daily automation `bein-meditech` is still ACTIVE at 10:00 Europe/Istanbul without an end date.
 - Homepage, brand/navigation, Bilal's portrait, production, DNS and mail configuration were not edited.
 - Verified: build passed with 82 static pages; 15-template/61-link/26-image site checks passed; 50-route content, metadata, sitemap and redirect checks and 16,384 filter round trips passed; mocked contact tests passed with no email sent. Desktop/mobile browser checks confirmed archive-first placement, working archive navigation, 4 October publication date, loaded thumbnail/cover and no horizontal overflow or browser errors. Screenshots retained in `output/site-review/receiving-guide-desktop.png` and `receiving-guide-mobile.png`.
+
+## New article — 5 October 2026
+
+- Added `equipment-configuration-revision-log` under Procurement → Quotations & Delivery, titled Tracking Medical Equipment Configuration Changes. Its 1,035 body words plus a nine-item checklist cover stable baseline item references, proposed changes, review owners, evidence, consequences, quotation reconciliation and final scope snapshots. Published on 2026-10-05; one new article today, no catch-up publishing.
+- Content is original general purchasing coordination guidance, not medical, compatibility or regulatory advice. The accessory example is explicitly fictional; no specifications, inventory, prices or certification claims were introduced.
+- Unique local cover: `public/images/blog/articles/equipment-configuration-revision-log.webp`, 1200 × 800, 69,422 bytes. Built-in image_gen prompt and source recorded in `assets/blog-article-photography/equipment-configuration-revision-log.json`; shared article template labels the scene illustrative.
+- Linked from the quotation comparison guide without changing its publication/update dates. Appended the article so the restored homepage's fixed article selections remain unchanged. Homepage, logo/menu, Bilal portrait, production, DNS and mail configuration remain untouched.
+- Verified: production build passed with 83 static pages; 15-template/62-link/27-image site checks passed; 51-route content, metadata, sitemap and redirect checks and 16,384 filter round trips passed; mocked contact tests passed with no email sent. An initial site smoke check ran before the local server was started and returned connection refused; its rerun against the ready server passed. Desktop (1440 × 1000) and mobile (390 × 844) checks confirmed archive-first placement, working archive navigation, 5 October publication date, loaded thumbnail/cover, the illustrative-image label, no horizontal overflow and no browser errors. Screenshots retained in `output/site-review/configuration-log-desktop.png` and `configuration-log-mobile.png`.
 
 ## Remaining launch prerequisites
 

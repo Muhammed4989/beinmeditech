@@ -1,0 +1,13 @@
+{
+  "slug": "equipment-configuration-revision-log",
+  "mode": "built-in image_gen",
+  "prompt": "Use case: photorealistic-natural. Create one original landscape 3:2 editorial photograph for an article about tracking medical equipment configuration changes. Overhead three-quarter camera angle on a tidy procurement workbench: a single coordinator in a plain long-sleeved neutral shirt, face out of frame, arranging two small unbranded accessory kits in separate shallow trays beside a paper component schedule and a closed purple folder. One kit contains a coiled grey cable and a compact grey adapter; the other contains a different coiled black cable and compact black adapter. These are generic disconnected illustrative components, not a specific medical product or compatible package. A hand points to a row on a simple paper grid while an orange pencil lies beside it. The paper grid has only soft unreadable strokes, no words or numbers. Bright diffused window light, authentic paper, cable and brushed desk textures, realistic hands and perspective, uncluttered composition. Communicate careful component comparison and version control, not device operation or repair. No people beyond the one coordinator, no patients, logos, readable text, screens, certification badges, watermarks or advertising overlays. Fictional editorial scene, not actual company staff, inventory or premises. Photographic realism, not CGI or collage. Keep core objects clear in both landscape and square thumbnail crops.",
+  "output": "public/images/blog/articles/equipment-configuration-revision-log.webp",
+  "created": "2026-10-05",
+  "source": "exec-3956f4c6-69c6-45d6-b0e4-7b8256dd5d4d.png",
+  "purpose": "Unique fictional editorial cover for component change tracking, not actual inventory, compatibility evidence, premises or staff",
+  "alt": "AI-generated editorial scene of a coordinator comparing two generic accessory kits beside a component schedule",
+  "width": 1200,
+  "height": 800,
+  "bytes": 69422
+}
