@@ -2,6 +2,7 @@ import { blogArticles, blogTopics, blogPath, articlePath } from './blog';
 import { seoCollections, collectionPath, SITE_URL } from './catalog';
 import { catalogGuide } from './catalog-guide';
 import { readFilters } from './catalog-filters';
+import { companyPhone } from './company-contact';
 
 export function aiReference(full = false) {
   const introduction = `# beIN MediTech
@@ -9,7 +10,7 @@ export function aiReference(full = false) {
 > Medical equipment sourcing and healthcare IT services for hospitals, clinics and distributors.
 
 Website: ${SITE_URL}
-Contact: info@beinmeditech.com | +49 176 419 63598
+Contact: info@beinmeditech.com | ${companyPhone.display}
 Office: Kirchwerderstraße 12, 23556 Lübeck, Germany
 
 Category and model pages describe sourcing requirements. They do not confirm current inventory. Equipment identity, condition, configuration, availability, price and delivery scope are confirmed in the quotation. International delivery depends on applicable destination requirements.

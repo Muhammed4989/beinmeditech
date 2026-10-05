@@ -47,15 +47,18 @@ Once deployed on Vercel:
 
 ## 4. Configure Contact Form
 
-The contact form currently points to Formspree (placeholder). To activate:
+The owner selected the existing Rackspace mailbox on 5 October 2026. Both contact and quotation forms use the same server-only `/api/contact` route. Resend and Formspree are not used by this route.
 
-1. Go to [formspree.io](https://formspree.io) → create a free account
-2. Create a new form → get your form ID
-3. In `app/contact/page.tsx`, replace:
-   ```
-   action="https://formspree.io/f/placeholder"
-   ```
-   with your actual Formspree form URL.
+In Vercel → beinmeditech → Settings → Environment Variables, configure **Preview**, scoped to `codex/content-hierarchy` where possible:
+
+- `RACKSPACE_SMTP_USER`: the full existing company mailbox address, normally `info@beinmeditech.com`.
+- `RACKSPACE_SMTP_PASSWORD`: its SMTP/mailbox password, entered directly in the secure Vercel settings. Never paste it into chat, source code or a tracked file.
+
+The route uses `secure.emailsrvr.com`, port 465 with TLS and certificate verification. Sender is the authenticated mailbox; recipient stays fixed at `info@beinmeditech.com`; the visitor address is Reply-To, never From. These are the [documented Rackspace settings](https://docs.rackspace.com/docs/rackspace-email-settings).
+
+Redeploy the preview after adding or changing environment variables. Missing credentials return an honest not-configured message with prepared email and WhatsApp alternatives; no success is claimed. The form preserves entries on failure. SMTP acceptance does not guarantee inbox delivery.
+
+Run `node scripts/verify-contact.cjs` for mocked configuration, validation, escaping, recipient rejection and error checks. It never contacts SMTP or sends email. An actual delivery test and production activation require separate approval. Do not change Rackspace settings, mailbox passwords, MX/DNS or production environment variables to activate the preview.
 
 ## 5. Performance Checklist
 

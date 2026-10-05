@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import Script from 'next/script';
+import { companyPhone } from '@/lib/company-contact';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://beinmeditech.com'),
@@ -86,7 +87,7 @@ const organizationSchema = {
   ],
   contactPoint: {
     '@type': 'ContactPoint',
-    telephone: '+4917641963598',
+    telephone: companyPhone.international,
     contactType: 'customer service',
     email: 'info@beinmeditech.com',
     availableLanguage: ['English', 'German', 'Turkish'],

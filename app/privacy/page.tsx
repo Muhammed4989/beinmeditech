@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { companyPhone } from '@/lib/company-contact';
 import PageIntro from '@/components/content/PageIntro';
 
 export const metadata: Metadata = {
@@ -83,7 +84,7 @@ export default function PrivacyPage() {
           <p>If you have any questions about this Privacy Policy or wish to exercise your data protection rights, please contact us:</p>
           <p>
             <strong>Email:</strong> <a href="mailto:info@beinmeditech.com" className="text-orange">info@beinmeditech.com</a><br />
-            <strong>Phone:</strong> <a href="tel:+4917641963598" className="text-orange">(+49) 176 419 63598</a><br />
+            <strong>Phone:</strong> <a href={companyPhone.href} className="text-orange">{companyPhone.display}</a><br />
             <strong>Address:</strong> Kirchwerderstraße 12, 23556 Lübeck, Germany
           </p>
         </div>

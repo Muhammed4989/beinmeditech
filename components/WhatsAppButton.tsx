@@ -1,9 +1,10 @@
 import Link from 'next/link';
+import { companyPhone } from '@/lib/company-contact';
 
 export default function WhatsAppButton() {
   return (
     <Link
-      href="https://wa.me/4917641963598"
+      href={companyPhone.whatsapp}
       target="_blank"
       rel="noopener noreferrer"
       className="whatsapp-float"

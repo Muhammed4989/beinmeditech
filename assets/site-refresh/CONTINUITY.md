@@ -63,6 +63,20 @@
 
 ## Remaining launch prerequisites
 
+## Owner-requested contact correction — 5 October 2026
+
+- Owner confirmed the company number as +49 177 6319537. Centralised it in `lib/company-contact.ts` and updated Contact, shared footer/WhatsApp, home telephone link, privacy/terms, Organization schema and AI reference output. The homepage edit is limited to the specifically requested telephone correction and its import; no design/body restoration was changed.
+- Owner selected the existing Rackspace mailbox rather than Resend. Replaced the route's hard-coded Resend testing sender with authenticated Rackspace SMTP (`secure.emailsrvr.com`, 465, TLS certificate verification), fixed company recipient, visitor Reply-To, escaped HTML/plain-text bodies and connection timeouts. Success requires SMTP acceptance of the recipient, not just a request returning successfully. No inbox delivery guarantee is made.
+- Required a message on client and server. Missing configuration, network and provider errors preserve the form fields and provide explicit prepared-email/WhatsApp alternatives. Those alternatives require the visitor to review and send in the selected app; they are not automatic delivery. Unknown submission outcomes warn about duplicate resends.
+- Updated obsolete contact activation instructions in DEPLOY.md. Added only `RACKSPACE_SMTP_USER=info@beinmeditech.com` in Preview scoped to `codex/content-hierarchy`, as authorised by the Rackspace choice. `RACKSPACE_SMTP_PASSWORD` is still missing and must be entered securely in Vercel settings, never chat. Existing global RESEND_API_KEY was found by the unfiltered Preview listing but is no longer used; it was not read, removed or changed. Initial branch-filtered listing had omitted that global variable. No production/DNS/mailbox settings changed.
+- Local Vercel linking created ignored `.vercel/` and `.env.local` (OIDC); neither is staged. Connector access to the team returned 403, while existing local CLI authentication permitted the scoped configuration check. No historical conversation secrets were used.
+- Verified: build passed (83 static pages), 15-template/62-link/27-image site checks passed with new telephone assertions, 51-route content/metadata/sitemap checks and 16,384 filter round trips passed. Mocked SMTP tests passed for configuration, validation, escaping, TLS settings, recipient acceptance/rejection, error handling and transport cleanup. Browser tests (1440 desktop/390 mobile) used entirely mocked fetch responses for missing configuration, network failure and success; confirmed retained entries, correct draft links, no overflow or uncaught browser errors. Screenshots retained locally in `output/site-review/contact-corrected-desktop.png` and `contact-corrected-mobile.png`.
+- Initial sandbox build/localhost checks failed with EPERM/EACCES and passed when rerun with the required execution permission. Auto-review rejected a command that could submit real email; it was not run. All subsequent form submission checks replaced browser fetch with mock responses and made no contact POST/SMTP delivery. Real authentication and inbox delivery remain unverified pending credentials and separately authorised testing.
+- Dependency audit flags existing Next.js/PostCSS/Tailwind-related vulnerabilities, including a critical Next.js entry. The newly added Nodemailer package is not in that report. Plan a separate tested security update before production; no broad/forced dependency update was applied in this contact fix.
+
+## Remaining launch prerequisites
+
 - Verified inventory, actual unit photographs, prices, evidence and approved company claims.
-- A configured and verified email sender, production abuse protection and a separately authorized real delivery test.
+- Secure Rackspace SMTP credentials, production abuse protection and a separately authorized real delivery test.
+- A tested security update for existing framework/tooling vulnerabilities before production.
 - Legal review where appropriate. No regulatory certification is implied by the website or editorial material.

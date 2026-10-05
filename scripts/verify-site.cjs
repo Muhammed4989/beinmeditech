@@ -13,6 +13,9 @@ async function main() {
     assert(html.includes('Skip to content'), route + ' keyboard skip link');
     assert(html.includes('site-header') && html.includes('site-footer'), route + ' shared shell');
     assert(html.includes('bein-meditech.png'), route + ' uses the repaired brand asset');
+    assert(html.includes('tel:+491776319537') && html.includes('+49 177 6319537'), route + ' uses the owner-confirmed telephone');
+    assert(html.includes('https://wa.me/491776319537'), route + ' WhatsApp uses the confirmed telephone');
+    assert(!html.includes('4917641963598') && !html.includes('176 419 63598'), route + ' has no superseded telephone');
     assert(!html.includes('/images/logo.svg') && !html.includes('/images/logo-white.svg'), route + ' has no tiny placeholder logo');
     assert(!html.includes('images.unsplash.com'), route + ' has no remote image dependency');
     if (route === '/') {

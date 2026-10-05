@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { companyPhone } from '@/lib/company-contact';
 import { blogArticles } from '@/lib/blog';
 import ArticleCards from '@/components/blog/ArticleCards';
 
@@ -88,13 +89,13 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="py-12">
-              <a href="tel:+4917641963598" className="inline-flex items-center gap-2 text-orange font-semibold text-sm mb-6 hover:text-orange-600 transition-colors">
+              <a href={companyPhone.href} className="inline-flex items-center gap-2 text-orange font-semibold text-sm mb-6 hover:text-orange-600 transition-colors">
                 <span className="w-8 h-8 rounded-full bg-orange flex items-center justify-center">
                   <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                   </svg>
                 </span>
-                (+49) 176 419 63598
+                {companyPhone.display}
               </a>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-primary-600 mb-4 speakable">
                 Empowering Care,<br />

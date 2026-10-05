@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createTransport } from 'nodemailer';
+
+export const runtime = 'nodejs';
+export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,7 +16,12 @@ export async function POST(req: NextRequest) {
     if (!input.firstName?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(replyEmail)) {
       return NextResponse.json({ error: 'Name and a valid email are required.' }, { status: 400 });
     }
-    if (!process.env.RESEND_API_KEY) return NextResponse.json({ error: 'no_key' }, { status: 503 });
+    if (!input.message?.trim()) return NextResponse.json({ error: 'A message is required.' }, { status: 400 });
+    const sender = process.env.RACKSPACE_SMTP_USER?.trim();
+    const password = process.env.RACKSPACE_SMTP_PASSWORD;
+    if (!sender || !password || !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(sender) || sender.split('@')[1].toLowerCase() !== 'beinmeditech.com') {
+      return NextResponse.json({ error: 'delivery_not_configured' }, { status: 503 });
+    }
     const escape = (value: string) => value.replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]!));
     const { firstName, lastName, email, phone, subject, message } = Object.fromEntries(Object.keys(limits).map((key) => [key, escape((input[key] || '').trim())]));
 
@@ -57,29 +66,39 @@ export async function POST(req: NextRequest) {
       </div>
     `;
 
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: 'beIN Meditech <onboarding@resend.dev>',
+    const transport = createTransport({
+      host: 'secure.emailsrvr.com',
+      port: 465,
+      secure: true,
+      auth: { user: sender, pass: password },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 15000,
+      disableFileAccess: true,
+      disableUrlAccess: true,
+      tls: { minVersion: 'TLSv1.2', rejectUnauthorized: true },
+    });
+    let receipt;
+    try {
+      receipt = await transport.sendMail({
+        from: { name: 'beIN Meditech', address: sender },
         to: ['info@beinmeditech.com'],
-        reply_to: replyEmail,
+        replyTo: replyEmail,
         subject: '[beIN Meditech] Website enquiry',
         html,
-      }),
-    });
-
-    if (!response.ok) {
-      console.error('Contact provider returned status:', response.status);
-      return NextResponse.json({ error: 'Failed to send message.' }, { status: 500 });
+        text: ['Website enquiry', `Name: ${input.firstName.trim()} ${(input.lastName || '').trim()}`, `Email: ${replyEmail}`, `Phone: ${(input.phone || '').trim()}`, `Subject: ${(input.subject || '').trim()}`, '', input.message.trim()].join('\n'),
+      });
+    } finally {
+      transport.close();
     }
-
+    if (!receipt.accepted?.some((address) => String(address).toLowerCase() === 'info@beinmeditech.com')) {
+      console.error('Rackspace did not accept the enquiry recipient.');
+      return NextResponse.json({ error: 'Unable to confirm message submission.' }, { status: 502 });
+    }
     return NextResponse.json({ success: true });
-  } catch (err) {
-    console.error('Contact route error:', err);
+  } catch {
+    // Never log submitted personal data or provider credentials.
+    console.error('Contact route could not confirm message submission.');
     return NextResponse.json({ error: 'Server error.' }, { status: 500 });
   }
 }
