@@ -5,14 +5,15 @@ import { articlePublishedDate, articleUpdatedDate, blogTopicUpdatedDate, article
 import { jsonLd } from '@/lib/content';
 import { BlogArchive, BlogArticleView } from '@/components/blog/BlogViews';
 
-type Props = { params: { segments?: string[] } };
+type Props = { params: Promise<{ segments?: string[] }> };
 export const dynamicParams = false;
 
 export function generateStaticParams() {
   return [...blogTopics.map((topic) => ({ segments: topic.segments })), ...blogArticles.map((article) => ({ segments: [...article.topic, article.slug] }))];
 }
 
-export function generateMetadata({ params }: Props): Metadata {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const segments = params.segments || [];
   const article = findBlogArticle(segments);
   const entry = article || findBlogTopic(segments);
@@ -28,7 +29,8 @@ export function generateMetadata({ params }: Props): Metadata {
   };
 }
 
-export default function BlogPage({ params }: Props) {
+export default async function BlogPage(props: Props) {
+  const params = await props.params;
   const segments = params.segments || [];
   const article = findBlogArticle(segments);
   const topic = findBlogTopic(segments);

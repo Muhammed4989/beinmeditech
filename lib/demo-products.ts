@@ -1,4 +1,5 @@
 import { equipmentCategorySlug } from './equipment-taxonomy';
+import { publicSite } from './release-mode';
 
 export type DemoProduct = {
   slug: string;
@@ -88,5 +89,7 @@ export function demoProductPath(product: DemoProduct) {
 }
 
 export function findDemoProduct(slug: string) {
-  return demoProducts.find((product) => product.slug === slug);
+  return publicSite ? undefined : demoProducts.find((product) => product.slug === slug);
 }
+
+export const visibleDemoProducts = publicSite ? [] : demoProducts;

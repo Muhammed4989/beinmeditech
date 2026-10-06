@@ -1,68 +1,58 @@
 # Deployment Guide — beIN Meditech on Vercel
 
-## 1. Push to GitHub
+## 1. Existing project and public release
 
-```bash
-cd "C:\Users\moham\Claude\Projects\BeinMeditech.com"
-git init
-git add .
-git commit -m "Initial commit: beIN Meditech Next.js site"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/beinmeditech.git
-git push -u origin main
+Repository: `Muhammed4989/beinmeditech`. Working branch: `codex/content-hierarchy`. Vercel project: `beinmeditech`, scope `muhammeds-projects-1419b173`. Stage only tested website files, never the whole workspace. Keep monitoring files, output files and secrets out of commits.
+
+The owner authorised publishing after successful tests on 6 October 2026. Daily content automation remains Preview-only; this one-time release is not ongoing production authority.
+
+`lib/release-mode.ts` uses public presentation in `VERCEL_ENV=production`, or in a Preview explicitly built with server-only `SITE_RELEASE_MODE=public`. Fictional inventory is unavailable: detail URLs return 404, collections show honest sourcing/enquiry alternatives, and no fictional prices or stock are rendered. Unverified homepage figures and the sample testimonial are replaced with requirements/enquiry text while preserving the restored section order and design. All demo pages stay out of the sitemap.
+
+Real listings still require approved identity, condition, configuration, actual unit photographs, availability, commercial terms and supporting records. Never turn a demo into an offer simply by removing its disclosure.
+
+## 2. Build, verify and deploy
+
+```powershell
+npm.cmd audit --omit=dev
+node scripts/verify-contact.cjs
+npm.cmd run test:content
+$env:SITE_RELEASE_MODE='public'
+npm.cmd run build
+npm.cmd run start -- --port 3042
 ```
 
-## 2. Deploy to Vercel
+Against the ready local server, run `node scripts/verify-site.cjs http://127.0.0.1:3042 --public` and `npm.cmd run test:content -- http://127.0.0.1:3042 --public`. Check desktop/mobile menus, images, filters, breadcrumbs, Read more and contact states in the browser, with all contact submissions mocked.
 
-1. Go to [vercel.com](https://vercel.com) and sign in (or create a free account)
-2. Click **Add New → Project**
-3. Import your GitHub repository (`beinmeditech`)
-4. Vercel will auto-detect Next.js — click **Deploy**
-5. Your site will be live at `https://beinmeditech.vercel.app` in ~2 minutes
+Record the current Production deployment as a rollback target. Commit and push only completed files on the working branch. Create a Production-target candidate with `--skip-domain`, inspect READY/source and test it before assigning domains with `vercel promote`. Do not promote a legacy/demo Preview build as the public site. There is no need to overwrite `main` for this release.
 
-## 3. Connect beinmeditech.com from name.com
+Framework security update: Next.js 15.5.27, React 19, patched PostCSS override. See [the official security release](https://nextjs.org/blog/september-2026-security-release) and [upgrade guide](https://nextjs.org/docs/app/guides/upgrading/version-15). A zero runtime-package audit is not a complete security certification; track remaining trusted-input build-tool advisories separately.
 
-Once deployed on Vercel:
+Optional Google Tag Manager remains disabled in public mode until a suitable visitor-choice/consent implementation is reviewed. Its existing ID is preserved in the labelled legacy Preview. The privacy page describes the actual Vercel/Rackspace enquiry flow; this technical release is not a legal compliance certification.
 
-### In Vercel:
-1. Go to your project → **Settings → Domains**
-2. Click **Add Domain**
-3. Type `beinmeditech.com` and click **Add**
-4. Also add `www.beinmeditech.com`
-5. Vercel will show you the DNS records to add
+## 3. Existing domain and email DNS
 
-### In name.com:
-1. Log in to [name.com](https://www.name.com)
-2. Go to your domain **beinmeditech.com → Manage → DNS Records**
-3. **Delete** any existing A records or CNAME records for `@` and `www`
-4. Add these records from Vercel:
-
-| Type  | Host | Value                  | TTL  |
-|-------|------|------------------------|------|
-| A     | @    | 76.76.21.21            | 300  |
-| CNAME | www  | cname.vercel-dns.com   | 300  |
-
-5. Save. DNS propagation takes 5–30 minutes.
-6. Back in Vercel, click **Verify** — once DNS propagates, your domain goes live with HTTPS automatically.
+Both `beinmeditech.com` and `www.beinmeditech.com` are already attached to this Vercel project and resolve to Vercel as of 6 October 2026. Do not replace their working records with historic generic values. Check HTTPS and apex/www behaviour after promotion. Preserve the Rackspace MX records (`mx1.emailsrvr.com` and `mx2.emailsrvr.com`), nameservers, SPF, DKIM and DMARC. A website release does not require mailbox password or mail-routing changes.
 
 ## 4. Configure Contact Form
 
 The owner selected the existing Rackspace mailbox on 5 October 2026. Both contact and quotation forms use the same server-only `/api/contact` route. Resend and Formspree are not used by this route.
 
-In Vercel → beinmeditech → Settings → Environment Variables, configure **Preview**, scoped to `codex/content-hierarchy` where possible:
+In Vercel → beinmeditech → Settings → Environment Variables, configure separate **Production** variables for launch and retain **Preview** variables scoped to `codex/content-hierarchy`:
 
 - `RACKSPACE_SMTP_USER`: the full existing company mailbox address, normally `info@beinmeditech.com`.
 - `RACKSPACE_SMTP_PASSWORD`: its SMTP/mailbox password, entered directly in the secure Vercel settings. Never paste it into chat, source code or a tracked file.
 
 The route uses `secure.emailsrvr.com`, port 465 with TLS and certificate verification. Sender is the authenticated mailbox; recipient stays fixed at `info@beinmeditech.com`; the visitor address is Reply-To, never From. These are the [documented Rackspace settings](https://docs.rackspace.com/docs/rackspace-email-settings).
 
-Redeploy the preview after adding or changing environment variables. Missing credentials return an honest not-configured message with prepared email and WhatsApp alternatives; no success is claimed. The form preserves entries on failure. SMTP acceptance does not guarantee inbox delivery.
+Use Secret/sensitive types. A branch-restricted Preview variable cannot also target Production. Do not clear its branch restriction or export its secret value to work around this: create a separate Production variable and let the owner enter the password directly. Rebuild for the target environment after configuration changes. Missing credentials return an honest not-configured message with prepared email and WhatsApp alternatives; no success is claimed. The form preserves entries on failure. SMTP acceptance does not guarantee inbox delivery.
 
-Run `node scripts/verify-contact.cjs` for mocked configuration, validation, escaping, recipient rejection and error checks. It never contacts SMTP or sends email. An actual delivery test and production activation require separate approval. Do not change Rackspace settings, mailbox passwords, MX/DNS or production environment variables to activate the preview.
+The route enforces same-origin JSON, a streamed 64 KiB payload cap, field limits, a honeypot and a bounded per-instance attempt limit. The in-memory backstop is not distributed and resets on new serverless instances. Scope the Vercel firewall rate-limit rule to POST `/api/contact`; do not block SEO/AI crawlers across the site. The owner explicitly authorised the metered rate-limit feature on 6 October 2026; no plan upgrade or other purchase was authorised.
+
+Run `node scripts/verify-contact.cjs` for mocked configuration, validation, abuse checks, escaping, recipient rejection and failure handling. It never contacts SMTP or sends email. Preview Inbox delivery passed the owner's one authorised test on 6 October 2026. Any further real test email requires fresh permission. Do not send again merely because a deployment changes.
 
 ## 5. Performance Checklist
 
-- ✅ Static site generation (all pages pre-rendered)
+- ✅ Static editorial pages; filtered/catalogue and quotation requests render server-side where request parameters are required
 - ✅ next/image for all images (auto-optimized)
 - ✅ Security headers via vercel.json
 - ✅ Immutable cache headers for static assets

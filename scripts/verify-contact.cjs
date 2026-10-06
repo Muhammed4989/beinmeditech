@@ -32,7 +32,7 @@ mod._compile(ts.transpileModule(fs.readFileSync(file, 'utf8'), { compilerOptions
 const keys = ['RACKSPACE_SMTP_USER', 'RACKSPACE_SMTP_PASSWORD'];
 const originalEnv = Object.fromEntries(keys.map((key) => [key, process.env[key]]));
 const originalFetch = global.fetch;
-const send = (data) => mod.exports.POST(new Request('http://localhost/api/contact', { method: 'POST', body: typeof data === 'string' ? data : JSON.stringify(data), headers: { 'Content-Type': 'application/json' } }));
+const send = (data, headers = {}) => mod.exports.POST(new Request('http://localhost/api/contact', { method: 'POST', body: typeof data === 'string' ? data : JSON.stringify(data), headers: { 'Content-Type': 'application/json', Origin: 'http://localhost', ...headers } }));
 const valid = { firstName: 'Test', email: 'test@example.com', message: 'Request a quotation.' };
 async function main() {
   try {
@@ -42,6 +42,11 @@ async function main() {
     assert.equal(missing.status, 503);
     assert.deepEqual(await missing.json(), { error: 'delivery_not_configured' });
     assert.equal((await send('{bad json')).status, 400);
+    assert.equal((await send(valid, { Origin: 'https://other.example' })).status, 403);
+    assert.equal((await send(valid, { Origin: '' })).status, 403);
+    assert.equal((await send(valid, { 'Content-Type': 'text/plain' })).status, 415);
+    assert.equal((await send('x'.repeat(65537))).status, 413);
+    assert.equal((await send({ ...valid, website: 'spam.example' })).status, 400);
     assert.equal((await send({ ...valid, firstName: [] })).status, 400);
     assert.equal((await send({ ...valid, email: 'invalid' })).status, 400);
     assert.equal((await send({ ...valid, message: ' '.repeat(3) })).status, 400);
@@ -76,6 +81,13 @@ async function main() {
     outcome = 'error';
     assert.equal((await send(valid)).status, 500, 'SMTP error is not success');
     assert.equal(closeCalls, 3, 'Transport closes after success, rejection and failure');
+    outcome = 'accepted';
+    for (let i = 0; i < 5; i++) assert.equal((await send(valid, { 'x-forwarded-for': '192.0.2.1' })).status, 200);
+    const previousCalls = smtpCalls;
+    const throttled = await send(valid, { 'x-forwarded-for': '192.0.2.1' });
+    assert.equal(throttled.status, 429);
+    assert.equal(throttled.headers.get('retry-after'), '900');
+    assert.equal(smtpCalls, previousCalls, 'Abuse checks must reject before SMTP');
     console.log('Rackspace configuration, TLS, validation, escaping, accepted/rejected recipients and failure handling passed. SMTP mocked; no external email sent.');
   } finally {
     global.fetch = originalFetch;

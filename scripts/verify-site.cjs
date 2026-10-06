@@ -1,5 +1,6 @@
 const assert = require('node:assert/strict');
 const base = process.argv[2] || 'http://127.0.0.1:3030';
+const publicBuild = process.argv.includes('--public');
 const routes = ['/', '/about', '/contact', '/request-quote', '/services', '/services/medical-devices-trading', '/services/software-and-hardware-consultation', '/services/training-and-support-services', '/services/custom-it-solutions-for-healthcare', '/services/medical-integration-services', '/privacy', '/terms', '/blog', '/medical-equipment', '/medical-equipment/used'];
 async function main() {
   const links = new Set();
@@ -18,11 +19,13 @@ async function main() {
     assert(!html.includes('4917641963598') && !html.includes('176 419 63598'), route + ' has no superseded telephone');
     assert(!html.includes('/images/logo.svg') && !html.includes('/images/logo-white.svg'), route + ' has no tiny placeholder logo');
     assert(!html.includes('images.unsplash.com'), route + ' has no remote image dependency');
+    if (publicBuild) assert(!html.includes('googletagmanager.com'), route + ' does not load optional tracking before a visitor-choice setup');
     if (route === '/') {
       assert(html.includes('Empowering Care,') && html.includes('Enhancing Life'), 'Restored homepage headline');
       assert(html.includes('hero.svg'), 'Preserve the user-requested legacy home hero');
       assert(!html.includes('The right technology.'), 'Do not reapply the rejected homepage redesign');
-      assert(html.includes('unverified placeholders'), 'Legacy company claims remain visibly unverified');
+      assert(publicBuild ? !html.includes('unverified placeholders') : html.includes('unverified placeholders'), 'Company claims follow the release mode');
+      if (publicBuild) for (const claim of ['Ahmet Alzen', '5 patented', '500+', '95%', '85%', 'Trusted by healthcare facilities worldwide']) assert(!html.includes(claim), 'Public home excludes unverified claim: ' + claim);
     } else assert(!html.includes('hero.svg'), route + ' no legacy hero outside home');
     if (route === '/about') {
       const portrait = html.match(/<figure[^>]*aria-labelledby="bilal-alhasan-name"[^>]*>[\s\S]*?<\/figure>/)?.[0];

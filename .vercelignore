@@ -1,0 +1,20 @@
+# Upload only the website source. Keep unrelated local work and secrets off Vercel.
+*
+!app
+!app/**
+!components
+!components/**
+!lib
+!lib/**
+!public
+!public/**
+public/social
+public/social/**
+!package.json
+!package-lock.json
+!next.config.js
+!next-env.d.ts
+!tsconfig.json
+!tailwind.config.js
+!postcss.config.js
+!vercel.json

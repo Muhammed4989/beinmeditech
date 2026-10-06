@@ -1,13 +1,59 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createTransport } from 'nodemailer';
+import { createHash } from 'node:crypto';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
+// Bounded per-instance backstop, not a distributed limiter. Enforce the public
+// /api/contact rule at Vercel's firewall too; serverless instances do not share this map.
+const attempts = new Map<string, { count: number; expires: number }>();
+const windowMs = 15 * 60 * 1000;
+function reserveAttempt(req: NextRequest) {
+  const now = Date.now();
+  for (const [key, value] of attempts) if (value.expires <= now) attempts.delete(key);
+  const address = (req.headers.get('x-forwarded-for') || 'unknown').split(',')[0].trim().slice(0, 128);
+  const key = createHash('sha256').update(address).digest('hex');
+  const current = attempts.get(key);
+  if (current && current.count >= 5) return false;
+  if (!current && attempts.size >= 1024) return false;
+  attempts.set(key, { count: (current?.count || 0) + 1, expires: current?.expires || now + windowMs });
+  return true;
+}
+
+async function readEnquiry(req: NextRequest) {
+  const reader = req.body?.getReader();
+  if (!reader) return null;
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  try {
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > 65536) {
+        await reader.cancel();
+        return 'too_large';
+      }
+      chunks.push(value);
+    }
+    const bytes = Buffer.concat(chunks);
+    return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes));
+  } catch {
+    return null;
+  } finally {
+    reader.releaseLock();
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
-    const input = await req.json().catch(() => null);
+    if (req.headers.get('origin') !== new URL(req.url).origin) return NextResponse.json({ error: 'This form must be submitted from this website.' }, { status: 403 });
+    if (req.headers.get('content-type')?.split(';')[0].trim().toLowerCase() !== 'application/json') return NextResponse.json({ error: 'JSON is required.' }, { status: 415 });
+    const input = await readEnquiry(req);
+    if (input === 'too_large') return NextResponse.json({ error: 'Enquiry is too large.' }, { status: 413 });
     if (!input || typeof input !== 'object' || Array.isArray(input)) return NextResponse.json({ error: 'Invalid enquiry.' }, { status: 400 });
+    if (input.website !== undefined && (typeof input.website !== 'string' || input.website.trim())) return NextResponse.json({ error: 'Invalid enquiry.' }, { status: 400 });
     const limits: Record<string, number> = { firstName: 80, lastName: 80, email: 254, phone: 50, subject: 240, message: 10000 };
     if (Object.entries(limits).some(([key, limit]) => input[key] !== undefined && (typeof input[key] !== 'string' || input[key].length > limit))) {
       return NextResponse.json({ error: 'Invalid enquiry fields.' }, { status: 400 });
@@ -22,6 +68,7 @@ export async function POST(req: NextRequest) {
     if (!sender || !password || !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(sender) || sender.split('@')[1].toLowerCase() !== 'beinmeditech.com') {
       return NextResponse.json({ error: 'delivery_not_configured' }, { status: 503 });
     }
+    if (!reserveAttempt(req)) return NextResponse.json({ error: 'Too many enquiries. Please wait or contact us directly.' }, { status: 429, headers: { 'Retry-After': '900' } });
     const escape = (value: string) => value.replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]!));
     const { firstName, lastName, email, phone, subject, message } = Object.fromEntries(Object.keys(limits).map((key) => [key, escape((input[key] || '').trim())]));
 

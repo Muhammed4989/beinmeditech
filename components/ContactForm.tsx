@@ -28,6 +28,9 @@ export default function ContactForm({ initialSubject = '' }: { initialSubject?: 
         setResult('sent');
       } else if (json?.error === 'no_key' || json?.error === 'delivery_not_configured') {
         setResult('email');
+      } else if (response.status === 429) {
+        setError('Too many enquiries were submitted. Please wait 15 minutes or use a direct contact option below. Your entries are preserved.');
+        setResult('email');
       } else {
         setError('We could not confirm submission. Your entries are preserved. Use a contact option below; resending may create a duplicate.');
         setResult('email');
@@ -45,6 +48,7 @@ export default function ContactForm({ initialSubject = '' }: { initialSubject?: 
   return <form onSubmit={handleSubmit}>
     <fieldset disabled={submitting} className="space-y-5">
       <legend className="sr-only">Your enquiry details</legend>
+      <div hidden aria-hidden="true"><label htmlFor="website">Leave this field empty</label><input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" /></div>
       <div className="grid sm:grid-cols-2 gap-4">
         <div><label htmlFor="firstName" className="form-label">First name *</label><input id="firstName" name="firstName" type="text" autoComplete="given-name" maxLength={80} required className={fieldClass} /></div>
         <div><label htmlFor="lastName" className="form-label">Last name</label><input id="lastName" name="lastName" type="text" autoComplete="family-name" maxLength={80} className={fieldClass} /></div>

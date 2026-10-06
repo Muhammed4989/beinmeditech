@@ -9,7 +9,8 @@ export const metadata: Metadata = {
   alternates: { canonical: `${SITE_URL}/request-quote` },
 };
 
-export default function RequestQuotePage({ searchParams }: { searchParams?: { equipment?: string } }) {
+export default async function RequestQuotePage(props: { searchParams?: Promise<{ equipment?: string }> }) {
+  const searchParams = await props.searchParams;
   const equipment = typeof searchParams?.equipment === 'string' ? searchParams.equipment.slice(0, 120) : '';
   const subject = equipment ? `Delivered quote: ${equipment}` : 'Medical Equipment Sourcing & Delivered Quote';
   const schema = {

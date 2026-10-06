@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { collectionBreadcrumbs, collectionChildren, collectionPath, SITE_URL, type SeoCollection } from '@/lib/catalog';
-import { demoProducts } from '@/lib/demo-products';
+import { visibleDemoProducts } from '@/lib/demo-products';
+import { publicSite } from '@/lib/release-mode';
 import { filterLabels, matchesFilters, readFilters, type SearchParameters } from '@/lib/catalog-filters';
 import { blogArticles } from '@/lib/blog';
 import { jsonLd } from '@/lib/content';
@@ -14,7 +15,7 @@ import { catalogGuide } from '@/lib/catalog-guide';
 export default function CollectionPage({ page, searchParams = {} }: { page: SeoCollection; searchParams?: SearchParameters }) {
   const path = collectionPath(page.segments);
   const filters = readFilters(path, searchParams);
-  const products = demoProducts.filter((product) => matchesFilters(product, filters) && (page.segments.at(-1) !== 'acuson-nx3' || product.model === 'ACUSON NX3'));
+  const products = visibleDemoProducts.filter((product) => matchesFilters(product, filters) && (page.segments.at(-1) !== 'acuson-nx3' || product.model === 'ACUSON NX3'));
   const children = collectionChildren(page);
   const guide = catalogGuide(page, filters);
   const relatedLinks = [...new Map([...children.map((child) => ({ label: child.h1, href: collectionPath(child.segments) })), ...page.related].map((link) => [link.href, link])).values()];
@@ -46,11 +47,11 @@ export default function CollectionPage({ page, searchParams = {} }: { page: SeoC
     </section>
     <CatalogNavigation key={path + JSON.stringify(filters)} initial={filters} />
     <CatalogGuide key={path + JSON.stringify(filters)} guide={guide} />
-    <section className="bg-white py-12" data-nosnippet><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    {publicSite ? <section className="bg-white py-12"><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><h2 className="text-2xl font-bold text-primary-900">Equipment sourcing enquiries</h2><p className="mt-4 max-w-3xl leading-7 text-gray-600">No verified units are listed here yet. Tell us the model, configuration and condition you need. Availability, unit photographs and commercial terms must be confirmed in an individual quotation.</p><Link href={'/request-quote?equipment=' + encodeURIComponent(heading)} className="btn-outline mt-6">Ask about this equipment</Link></div></section> : <section className="bg-white py-12" data-nosnippet><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="mb-7 rounded-xl border border-orange-100 bg-orange-50 px-4 py-3 text-sm leading-6 text-primary-600"><strong>Demonstration inventory.</strong> These products, prices and configurations are fictional examples for testing the site, not commercial offers.</div>
       <div className="mb-7 flex flex-wrap items-end justify-between gap-3"><h2 className="text-2xl font-bold text-primary-900">Equipment examples</h2><p className="text-sm text-gray-600">{products.length} demonstration result{products.length === 1 ? '' : 's'}</p></div>
       <DemoInventoryGrid products={products} />
-    </div></section>
+    </div></section>}
     <section className="py-14"><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="mb-7 flex flex-wrap items-center justify-between gap-3"><h2 className="text-2xl font-bold text-primary-900">Useful buying guides</h2><Link href="/blog" className="text-sm font-semibold text-orange-700 hover:underline">Explore the blog</Link></div><ArticleCards articles={guides} /></div></section>
     <section className="bg-primary-50 py-14"><div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8"><h2 className="mb-7 text-2xl font-bold text-primary-900">Questions before buying</h2><div className="space-y-3">{page.faqs.map((faq) => <details key={faq.question} className="rounded-xl border border-primary-100 bg-white"><summary className="cursor-pointer p-5 font-semibold text-primary-900">{faq.question}</summary><p className="px-5 pb-5 leading-7 text-gray-700">{faq.answer}</p></details>)}</div></div></section>
     <section className="py-10"><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><h2 className="mb-4 text-lg font-bold text-primary-900">Related equipment</h2><div className="flex flex-wrap gap-3">{relatedLinks.map((link) => <Link key={link.href} href={link.href} className="rounded-full border border-primary-200 px-4 py-2 text-sm text-primary-600 hover:border-orange">{link.label}</Link>)}</div></div></section>

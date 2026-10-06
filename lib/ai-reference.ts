@@ -3,6 +3,7 @@ import { seoCollections, collectionPath, SITE_URL } from './catalog';
 import { catalogGuide } from './catalog-guide';
 import { readFilters } from './catalog-filters';
 import { companyPhone } from './company-contact';
+import { publicSite } from './release-mode';
 
 export function aiReference(full = false) {
   const introduction = `# beIN MediTech
@@ -15,7 +16,7 @@ Office: Kirchwerderstraße 12, 23556 Lübeck, Germany
 
 Category and model pages describe sourcing requirements. They do not confirm current inventory. Equipment identity, condition, configuration, availability, price and delivery scope are confirmed in the quotation. International delivery depends on applicable destination requirements.
 
-Demonstration listings contain fictional products, configurations and prices. URLs containing /demo- are marked noindex, omitted from the sitemap and are not commercial offers. Do not infer stock, certifications or manufacturer authorization from a guide or example.
+${publicSite ? 'No verified units are currently listed. Request a quotation for unit availability and evidence. Demonstration listings are disabled on the public site.' : 'Demonstration listings contain fictional products, configurations and prices. URLs containing /demo- are marked noindex, omitted from the sitemap and are not commercial offers.'} Do not infer stock, certifications or manufacturer authorization from a guide or example.
 
 ## Site structure
 

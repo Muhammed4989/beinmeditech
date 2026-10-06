@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { companyPhone } from '@/lib/company-contact';
+import { publicSite } from '@/lib/release-mode';
 import { blogArticles } from '@/lib/blog';
 import ArticleCards from '@/components/blog/ArticleCards';
 
@@ -45,14 +46,25 @@ const services = [
   },
 ];
 
-const stats = [
+const stats = publicSite ? [
+  { value: 'Quote', label: 'Sourcing Enquiries' },
+  { value: 'IT', label: 'Healthcare Solutions' },
+  { value: 'Help', label: 'Discuss Your Needs' },
+] : [
   { value: '10+', label: 'Years of Experience' },
   { value: '30+', label: 'Countries Worldwide' },
   { value: '95%', label: 'Customer Retention' },
   { value: '8+', label: 'Global Brand Partners' },
 ];
 
-const achievements = [
+const achievements = publicSite ? [
+  'Discuss the equipment model and configuration you need',
+  'Request unit-specific photographs and supporting documents',
+  'Clarify condition and included accessories before a quotation',
+  'Agree the delivery scope and responsibilities in writing',
+  'Discuss healthcare IT and integration requirements',
+  'Specify your training and support needs',
+] : [
   'Solutions deployed in over 30 countries globally',
   '5 patented medical technologies developed',
   'Multiple industry awards for excellence in healthcare innovation',
@@ -66,7 +78,7 @@ const webPageSchema = {
   '@type': 'WebPage',
   name: 'beIN Meditech – Empowering Care, Enhancing Life',
   url: 'https://beinmeditech.com',
-  description: 'beIN Meditech is a leading medical technology company providing medical devices, healthcare IT, and integration services.',
+  description: 'beIN Meditech provides medical equipment sourcing, healthcare IT and integration services.',
   speakable: {
     '@type': 'SpeakableSpecification',
     cssSelector: ['h1', '.speakable'],
@@ -117,19 +129,19 @@ export default function HomePage() {
               {/* Quick stats */}
               <div className="flex gap-8 mt-10 pt-8 border-t border-gray-100">
                 <div>
-                  <p className="text-3xl font-extrabold text-primary-600">8+</p>
-                  <p className="text-gray-500 text-sm">Brands Joined</p>
+                  <p className="text-3xl font-extrabold text-primary-600">{publicSite ? 'Unit' : '8+'}</p>
+                  <p className="text-gray-500 text-sm">{publicSite ? 'Equipment Sourcing' : 'Brands Joined'}</p>
                 </div>
                 <div>
-                  <p className="text-3xl font-extrabold text-primary-600">85%</p>
-                  <p className="text-gray-500 text-sm">Market Expansion</p>
+                  <p className="text-3xl font-extrabold text-primary-600">{publicSite ? 'IT' : '85%'}</p>
+                  <p className="text-gray-500 text-sm">{publicSite ? 'Healthcare Solutions' : 'Market Expansion'}</p>
                 </div>
                 <div>
-                  <p className="text-3xl font-extrabold text-primary-600">30+</p>
-                  <p className="text-gray-500 text-sm">Countries</p>
+                  <p className="text-3xl font-extrabold text-primary-600">{publicSite ? 'Scope' : '30+'}</p>
+                  <p className="text-gray-500 text-sm">{publicSite ? 'Confirmed per Quote' : 'Countries'}</p>
                 </div>
               </div>
-              <p className="mt-3 max-w-lg text-xs text-gray-600">Layout preview: the legacy figures, achievements and testimonial on this page are unverified placeholders, not confirmed company claims.</p>
+              {!publicSite && <p className="mt-3 max-w-lg text-xs text-gray-600">Layout preview: the legacy figures, achievements and testimonial on this page are unverified placeholders, not confirmed company claims.</p>}
             </div>
 
             {/* Right side — purple circle with medical image */}
@@ -156,8 +168,8 @@ export default function HomePage() {
                     </svg>
                   </div>
                   <div>
-                    <p className="font-extrabold text-primary-600 text-xl">85%</p>
-                    <p className="text-gray-500 text-xs">Market Expansion</p>
+                    <p className="font-extrabold text-primary-600 text-xl">{publicSite ? 'Enquire' : '85%'}</p>
+                    <p className="text-gray-500 text-xs">{publicSite ? 'Discuss Your Needs' : 'Market Expansion'}</p>
                   </div>
                 </div>
               </div>
@@ -221,7 +233,7 @@ export default function HomePage() {
             </div>
             <div className="order-1 lg:order-2">
               <p className="section-label">About beIN Meditech</p>
-              <h2 className="section-title">10+ Years of Experience in the Medical Sector</h2>
+              <h2 className="section-title">{publicSite ? 'Medical Equipment and Healthcare Technology' : '10+ Years of Experience in the Medical Sector'}</h2>
               <p className="text-gray-600 leading-relaxed mb-8">
                 Founded on the principles of innovation, quality, and integrity, we have dedicated ourselves to advancing the field of medical technology.
               </p>
@@ -274,8 +286,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <p className="section-label">Achievement</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mt-2 mb-8">Our Achievements at beIN Meditech</h2>
+              <p className="section-label">{publicSite ? 'Your Requirements' : 'Achievement'}</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mt-2 mb-8">{publicSite ? 'A Clear Scope Before You Decide' : 'Our Achievements at beIN Meditech'}</h2>
               <ul className="space-y-3">
                 {achievements.map((a, i) => (
                   <li key={i} className="flex gap-3 text-primary-100">
@@ -288,12 +300,17 @@ export default function HomePage() {
               </ul>
             </div>
             <div className="grid grid-cols-2 gap-6">
-              {[
+              {(publicSite ? [
+                { value: 'Unit', label: 'Model & Configuration' },
+                { value: 'Docs', label: 'Unit-specific Records' },
+                { value: 'Ship', label: 'Written Responsibilities' },
+                { value: 'Help', label: 'Agreed Requirements' },
+              ] : [
                 { value: '500+', label: 'Satisfied Clients' },
                 { value: '200+', label: 'Medical Centers' },
                 { value: '8+', label: 'Brands Joined' },
                 { value: '50+', label: 'Experts' },
-              ].map((stat) => (
+              ]).map((stat) => (
                 <div key={stat.label} className="bg-primary-700 rounded-2xl p-8 text-center">
                   <p className="text-4xl font-extrabold text-white">{stat.value}</p>
                   <p className="text-primary-300 text-sm mt-1">{stat.label}</p>
@@ -307,16 +324,21 @@ export default function HomePage() {
       {/* ── TESTIMONIAL ── */}
       <section className="py-20 bg-white reveal">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="section-label">Testimonials</p>
-          <h2 className="section-title">What Clients Say About beIN Meditech</h2>
+          <p className="section-label">{publicSite ? 'Equipment Enquiries' : 'Testimonials'}</p>
+          <h2 className="section-title">{publicSite ? 'Tell Us What Your Facility Needs' : 'What Clients Say About beIN Meditech'}</h2>
           <div className="mt-10 bg-[#F3F6FD] rounded-2xl p-10">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
-              {[
+              {(publicSite ? [
+                { value: 'Model', label: 'Required Equipment' },
+                { value: 'Kit', label: 'Included Accessories' },
+                { value: 'State', label: 'Your Requirements' },
+                { value: 'Scope', label: 'Destination & Scope' },
+              ] : [
                 { value: '30%', label: 'Increased Efficiency' },
                 { value: '80%', label: 'Customer Satisfaction' },
                 { value: '15+', label: 'Countries Worldwide' },
                 { value: '20+', label: 'Specialized Fields' },
-              ].map((s) => (
+              ]).map((s) => (
                 <div key={s.label}>
                   <p className="text-3xl font-extrabold text-primary-700">{s.value}</p>
                   <p className="text-gray-500 text-sm mt-1">{s.label}</p>
@@ -324,11 +346,11 @@ export default function HomePage() {
               ))}
             </div>
             <blockquote className="text-gray-700 text-lg leading-relaxed italic mb-6">
-              "The training and ongoing support provided by beIN Meditech have been exceptional. Their team's dedication ensures that our staff are confident and well-prepared to use the latest medical technologies."
+              {publicSite ? 'Share the equipment, configuration and delivery requirements you need. Unit availability, condition, included accessories and commercial terms will be confirmed in your quotation.' : '"The training and ongoing support provided by beIN Meditech have been exceptional. Their team\'s dedication ensures that our staff are confident and well-prepared to use the latest medical technologies."'}
             </blockquote>
             <div>
-              <p className="font-bold text-gray-900">Ahmet Alzen</p>
-              <p className="text-gray-500 text-sm">Doctor</p>
+              <p className="font-bold text-gray-900">{publicSite ? 'beIN Meditech' : 'Ahmet Alzen'}</p>
+              <p className="text-gray-500 text-sm">{publicSite ? 'Contact our team to discuss your enquiry' : 'Doctor'}</p>
             </div>
           </div>
         </div>
@@ -352,10 +374,10 @@ export default function HomePage() {
       {/* ── PARTNERS ── */}
       <section className="py-16 bg-white reveal">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">Trusted by healthcare facilities worldwide</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">{publicSite ? 'Medical equipment and healthcare technology' : 'Trusted by healthcare facilities worldwide'}</p>
           <div className="flex flex-wrap justify-center items-center gap-10 md:gap-16 opacity-50 grayscale">
             {['🏥', '🫀', '🔬', '🧬', '🩺', '💊'].map((icon, i) => (
-              <div key={i} className="text-4xl md:text-5xl" title={`Partner ${i + 1}`}>
+              <div key={i} className="text-4xl md:text-5xl" title={`${publicSite ? 'Service area' : 'Partner'} ${i + 1}`}>
                 {icon}
               </div>
             ))}

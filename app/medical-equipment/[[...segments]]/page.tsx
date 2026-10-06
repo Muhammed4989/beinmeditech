@@ -3,14 +3,14 @@ import { notFound, permanentRedirect } from 'next/navigation';
 import CollectionPage from '@/components/catalog/CollectionPage';
 import ProductDetails from '@/components/catalog/ProductDetails';
 import { collectionPath, findCollection, seoCollections, SITE_URL } from '@/lib/catalog';
-import { demoProducts, demoProductPath, findDemoProduct } from '@/lib/demo-products';
+import { visibleDemoProducts, demoProductPath, findDemoProduct } from '@/lib/demo-products';
 import { filterLabels, filterPath, readFilters, type SearchParameters } from '@/lib/catalog-filters';
 
-type Props = { params: { segments?: string[] }; searchParams?: SearchParameters };
+type Props = { params: Promise<{ segments?: string[] }>; searchParams?: Promise<SearchParameters> };
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return [...seoCollections.map((page) => ({ segments: page.segments })), ...demoProducts.map((product) => ({ segments: demoProductPath(product).split('/').slice(2) }))];
+  return [...seoCollections.map((page) => ({ segments: page.segments })), ...visibleDemoProducts.map((product) => ({ segments: demoProductPath(product).split('/').slice(2) }))];
 }
 function routeProduct(segments: string[] = []) {
   const product = findDemoProduct(segments.at(-1) || '');
@@ -18,7 +18,9 @@ function routeProduct(segments: string[] = []) {
 }
 const isFunctional = (key: string) => !/^(utm_|gclid$|fbclid$)/.test(key);
 
-export function generateMetadata({ params, searchParams = {} }: Props): Metadata {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const searchParams = (await props.searchParams) || {};
+  const params = await props.params;
   const product = routeProduct(params.segments);
   if (product) return {
     title: '[Demo] ' + product.name,
@@ -40,7 +42,9 @@ export function generateMetadata({ params, searchParams = {} }: Props): Metadata
   };
 }
 
-export default function MedicalEquipmentPage({ params, searchParams = {} }: Props) {
+export default async function MedicalEquipmentPage(props: Props) {
+  const searchParams = (await props.searchParams) || {};
+  const params = await props.params;
   const product = routeProduct(params.segments);
   if (product) return <ProductDetails product={product} />;
   const page = findCollection(params.segments);

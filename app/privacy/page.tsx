@@ -5,7 +5,7 @@ import PageIntro from '@/components/content/PageIntro';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'beIN Meditech privacy policy — how we collect, use, and protect your personal data in compliance with GDPR and international standards.',
+  description: 'How beIN Meditech handles website enquiries, contact information and technical data.',
   alternates: { canonical: 'https://beinmeditech.com/privacy' },
 };
 
@@ -16,7 +16,7 @@ export default function PrivacyPage() {
 
       <section className="py-16 bg-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 site-legal">
-          <p className="text-gray-600">Last updated: June 2026</p>
+          <p className="text-gray-600">Last updated: 6 October 2026</p>
 
           <h2>1. Introduction</h2>
           <p>beIN Meditech ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.</p>
@@ -50,6 +50,7 @@ export default function PrivacyPage() {
           </ul>
 
           <h2>5. Data Sharing and Disclosure</h2>
+          <p>Our website is hosted on Vercel. Contact and quotation submissions are processed by the website server and sent to our company mailbox through Rackspace. When you choose a prepared email or WhatsApp link, your chosen app handles the message after you review and send it. Please do not include patient or sensitive medical information.</p>
           <p>We do not sell your personal information. We may share your data with:</p>
           <ul>
             <li>Service providers who assist us in operating our website and business</li>
@@ -72,10 +73,10 @@ export default function PrivacyPage() {
           </ul>
 
           <h2>8. Cookies</h2>
-          <p>Our website uses cookies to enhance your browsing experience. You can control cookie preferences through your browser settings. Essential cookies are necessary for the website to function, while analytics cookies help us improve our site.</p>
+          <p>The public website does not currently load our optional Google Tag Manager container. Hosting and security providers may process technical request data to serve and protect the website. Optional tracking will not be enabled without an appropriate visitor-choice setup. Links to external services are governed by those services&apos; privacy practices.</p>
 
           <h2>9. International Data Transfers</h2>
-          <p>As a company with operations in Germany and Turkey, your data may be processed in both countries. We ensure appropriate safeguards are in place for international data transfers in compliance with GDPR.</p>
+          <p>Our hosting, email and other service providers may process information outside your country. Contact us if you need details about the providers and arrangements relevant to your enquiry.</p>
 
           <h2>10. Security</h2>
           <p>We implement appropriate technical and organisational measures to protect your personal data against unauthorised access, alteration, disclosure, or destruction.</p>

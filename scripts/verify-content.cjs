@@ -147,8 +147,10 @@ assert(ai.aiReference(true).includes(ultrasoundGuide.split('\n\n')[1]), 'AI exte
 console.log(JSON.stringify({ topics: topicPaths.length, articles: articlePaths.length, collections: collectionPaths.length, demoProducts: productPaths.length, filterRoundTrips: filterCases, minimumGuideWords, maximumGuideWords, status: 'passed' }, null, 2));
 
 async function verifyHttp(base) {
-  for (let i = 0; i < allPaths.length; i += 6) {
-    await Promise.all(allPaths.slice(i, i + 6).map(async (route) => {
+  const publicBuild = process.argv.includes('--public');
+  const httpPaths = publicBuild ? allPaths.filter((route) => !productPaths.includes(route)) : allPaths;
+  for (let i = 0; i < httpPaths.length; i += 6) {
+    await Promise.all(httpPaths.slice(i, i + 6).map(async (route) => {
       const response = await fetch(base + route);
       assert.equal(response.status, 200, route + ' HTTP status');
       const html = await response.text();
@@ -181,6 +183,10 @@ async function verifyHttp(base) {
         assert(html.includes('Not a photograph of this model'), route + ' does not present generated imagery as a real unit');
       }
       if (collectionPaths.includes(route)) {
+        if (publicBuild) {
+          assert(!html.includes('/demo-') && !html.includes('Fictional price') && !html.includes('Demonstration inventory'), route + ' excludes test inventory');
+          assert(html.includes('No verified units are listed here yet'), route + ' gives an honest sourcing alternative');
+        }
         const disclosure = html.match(/<details[^>]*id="equipment-buying-guide"[^>]*>([\s\S]*?)<\/details>/);
         assert(disclosure, route + ' has server-rendered guide');
         assert(!disclosure[0].split('>')[0].includes('open'), route + ' starts collapsed');
@@ -212,16 +218,17 @@ async function verifyHttp(base) {
   const legacy = await fetch(base + '/products/demo-siemens-acuson-nx3-2019', { redirect: 'manual' });
   assert.equal(legacy.status, 308);
   assert.equal(legacy.headers.get('location'), products.demoProductPath(products.demoProducts[0]));
+  if (publicBuild) for (const route of productPaths) assert.equal((await fetch(base + route)).status, 404, 'Fictional listing unavailable on public site: ' + route);
   const query = await (await fetch(base + '/medical-equipment/used/ultrasound?brand=siemens')).text();
   assert(/name="robots" content="[^"]*noindex/.test(query), 'Filtered results noindex');
   assert(query.includes('Siemens Healthineers Equipment'), 'Filtered H1 describes selection');
-  assert(query.replace(/<!--.*?-->/g, '').includes('1 demonstration result'), 'Server returns filtered inventory');
+  assert(query.replace(/<!--.*?-->/g, '').includes(publicBuild ? 'No verified units are listed here yet' : '1 demonstration result'), 'Server inventory follows release mode');
   assert(query.includes('Reviewing Siemens Healthineers equipment') && query.includes('What to check when buying used equipment'), 'Server guide follows combined filters');
   const multi = await (await fetch(base + '/medical-equipment?category=ultrasound,endoscopy&condition=refurbished&brand=philips')).text();
   assert(multi.includes('Defining an endoscopy package') && multi.includes('Comparing ultrasound configurations') && multi.includes('Ask what refurbishment actually included') && multi.includes('Reviewing Philips equipment'), 'Multi-select server guide includes each selection');
   assert(!multi.includes('What to check when buying used equipment'), 'Previous condition does not leak into new selection');
   const invalid = await fetch(base + '/blog/equipment-guides/no-such-topic');
   assert.equal(invalid.status, 404, 'Unknown hierarchy returns a 404');
-  console.log('HTTP checks passed for ' + allPaths.length + ' routes, metadata, sitemap, filters and redirects.');
+  console.log('HTTP checks passed for ' + httpPaths.length + ' routes, metadata, sitemap, filters and redirects' + (publicBuild ? ', plus disabled demo routes.' : '.'));
 }
 if (process.argv[2]) verifyHttp(process.argv[2]).catch((error) => { console.error(error); process.exitCode = 1; });
