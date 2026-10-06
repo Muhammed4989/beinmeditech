@@ -4,6 +4,13 @@ import { catalogGuide } from './catalog-guide';
 import { readFilters } from './catalog-filters';
 import { companyPhone } from './company-contact';
 import { publicSite } from './release-mode';
+import { articleLinks, articleReferences } from './blog-editorial-links';
+
+function articleReadingLinks(slug: string) {
+  const links = articleLinks(slug).map(link => `- [${link.label}](${link.href.startsWith('/') ? SITE_URL + link.href : link.href}) — ${link.paragraph === 'intro' ? 'Introduction' : link.paragraph}`);
+  const references = articleReferences(slug).map(reference => `- ${reference.publisher}: [${reference.label}](${reference.href}). ${reference.note} Checked: ${reference.checkedAt}.`);
+  return '\n\nContextual reading links:\n' + links.join('\n') + (references.length ? '\n\nSources and further reading:\n' + references.join('\n') : '');
+}
 
 export function aiReference(full = false) {
   const introduction = `# beIN MediTech
@@ -45,5 +52,5 @@ Each directory contains its own explanatory content and links to its descendants
     return `### ${page.h1}\nSource: ${SITE_URL}${collectionPath(page.segments)}\n\n${guide.introduction}\n\n${guide.sections.map((section) => `#### ${section.title}\n${section.paragraphs.join('\n\n')}`).join('\n\n')}`;
   }).join('\n\n')
     + '\n\n## Blog topic reference content\n\n' + blogTopics.map((topic) => `### ${topic.title}\nSource: ${SITE_URL}${blogPath(topic.segments)}\n\n${topic.intro}\n\n${topic.sections.map((s) => `#### ${s.title}\n${s.body}`).join('\n\n')}`).join('\n\n')
-    + '\n\n## Article reference content\n\n' + blogArticles.map((article) => `### ${article.title}\nSource: ${SITE_URL}${articlePath(article)}\n\n${article.intro}\n\n${article.sections.map((s) => `#### ${s.title}\n${s.body}`).join('\n\n')}\n\nChecklist:\n${article.checklist.map((item) => `- ${item}`).join('\n')}`).join('\n\n');
+    + '\n\n## Article reference content\n\n' + blogArticles.map((article) => `### ${article.title}\nSource: ${SITE_URL}${articlePath(article)}\n\n${article.intro}\n\n${article.sections.map((s) => `#### ${s.title}\n${s.body}`).join('\n\n')}\n\nChecklist:\n${article.checklist.map((item) => `- ${item}`).join('\n')}${articleReadingLinks(article.slug)}`).join('\n\n');
 }

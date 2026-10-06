@@ -5,6 +5,7 @@ const path = require('node:path');
 const Module = require('node:module');
 const ts = require('typescript');
 const root = path.resolve(__dirname, '..');
+const editorialLinkTests = require('./verify-editorial-links.cjs');
 const cache = new Map();
 function load(name) {
   const file = path.resolve(root, name);
@@ -52,9 +53,9 @@ assert.equal(blog.blogArticles[0].slug, 'ultrasound-configuration-checklist', 'S
 assert.equal(blog.blogArticles[8].slug, 'compare-equipment-quotations', 'Keep the restored homepage article selections stable');
 assert(revisedQuoteGuide.equipment.some((link) => link.href === blog.articlePath(photoGuide)), 'New article is linked from an existing guide');
 assert.equal(blog.articlePublishedDate(revisedQuoteGuide), '2026-10-02', 'An update preserves the original publication date');
-assert.equal(blog.articleUpdatedDate(revisedQuoteGuide), '2026-10-03', 'Updated guide has its own date');
+assert.equal(blog.articleUpdatedDate(revisedQuoteGuide), '2026-10-06', 'Source-context revision has its own date');
 assert.equal(blog.articleUpdatedDate(blog.blogArticles[0]), '2026-10-02', 'Updating one article must not refresh other dates');
-assert.equal(blog.blogTopicUpdatedDate(['equipment-guides']), '2026-10-02', 'Unchanged topic stays unchanged');
+assert.equal(blog.blogTopicUpdatedDate(['equipment-guides', 'patient-monitoring']), '2026-10-02', 'Unchanged topic stays unchanged');
 assert.equal(blog.blogTopicUpdatedDate(['procurement']), [...blog.topicArticles(['procurement']).map(blog.articleUpdatedDate)].sort().at(-1), 'Parent reflects the latest article date as new guides are added');
 assert.equal(blog.formatBlogDate('2026-10-03'), '3 October 2026', 'Deterministic timezone-safe display');
 assert([revisedQuoteGuide.intro, ...revisedQuoteGuide.sections.map((section) => section.body)].join(' ').split(/\s+/).length >= 900, 'Expanded comparison guide has substantive body content');
@@ -229,6 +230,7 @@ async function verifyHttp(base) {
   assert(!multi.includes('What to check when buying used equipment'), 'Previous condition does not leak into new selection');
   const invalid = await fetch(base + '/blog/equipment-guides/no-such-topic');
   assert.equal(invalid.status, 404, 'Unknown hierarchy returns a 404');
+  await editorialLinkTests.verifyHttp(base);
   console.log('HTTP checks passed for ' + httpPaths.length + ' routes, metadata, sitemap, filters and redirects' + (publicBuild ? ', plus disabled demo routes.' : '.'));
 }
 if (process.argv[2]) verifyHttp(process.argv[2]).catch((error) => { console.error(error); process.exitCode = 1; });

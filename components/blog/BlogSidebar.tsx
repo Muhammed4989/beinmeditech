@@ -3,11 +3,12 @@ import Link from 'next/link';
 import type { BlogArticle } from '@/lib/blog';
 import { sectionId } from '@/lib/content';
 import TopicNavigation from './TopicNavigation';
+import { articleReferences } from '@/lib/blog-editorial-links';
 
 export function ArticleContents({ article }: { article: BlogArticle }) {
   return <nav aria-label="On this page" className="journal-contents">
     <h2>In this article</h2>
-    <ol>{article.sections.map((section) => <li key={section.title}><a href={`#${sectionId(section.title)}`}>{section.title}</a></li>)}<li><a href="#checklist">Enquiry checklist</a></li></ol>
+    <ol>{article.sections.map((section) => <li key={section.title}><a href={`#${sectionId(section.title)}`}>{section.title}</a></li>)}<li><a href="#checklist">Enquiry checklist</a></li>{articleReferences(article.slug).length > 0 && <li><a href="#references">Sources and further reading</a></li>}</ol>
   </nav>;
 }
 

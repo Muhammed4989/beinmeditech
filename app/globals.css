@@ -134,6 +134,14 @@
 .journal-article-body .journal-article-summary { padding: 20px 24px; border-left: 3px solid #ff6400; border-radius: 9px; background: #f3f2f8; color: #28214c; font-weight: 500; margin-bottom: 28px; }
 .journal-article-body > section { margin-top: 32px; scroll-margin-top: 110px; }
 .journal-article-body > section > h2 { font-size: 26px; font-weight: 700; color: #28214c; margin-bottom: 14px; line-height: 1.4; }
+.journal-inline-link { color: #a83b00; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.journal-inline-link:hover { color: #28214c; }
+.journal-inline-link:focus-visible { outline: 2px solid #28214c; outline-offset: 3px; border-radius: 2px; }
+.journal-references { border-top: 1px solid var(--journal-border); padding-top: 26px; }
+.journal-references ul { list-style: disc; padding-left: 22px; }
+.journal-references li + li { margin-top: 18px; }
+.journal-references li p { font-size: 14px; line-height: 1.75; margin-top: 8px; }
+.journal-references .journal-reference-date { color: #666376; font-size: 12px; }
 .journal-checklist ul { list-style: disc; padding-left: 22px; }
 .journal-checklist li { margin-top: 9px; padding-left: 4px; }
 .journal-checklist li::marker { color: #c04400; }

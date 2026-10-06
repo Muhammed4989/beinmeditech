@@ -5,6 +5,8 @@ import { sectionId, type Breadcrumb, type ContentLink } from '@/lib/content';
 import Breadcrumbs from '@/components/content/Breadcrumbs';
 import ArticleCards from './ArticleCards';
 import BlogSidebar, { ArticleContents } from './BlogSidebar';
+import LinkedText from './LinkedText';
+import { articleLinks, articleReferences } from '@/lib/blog-editorial-links';
 
 function EquipmentLinks({ links }: { links: ContentLink[] }) {
   return <section className="journal-equipment-links" aria-label="Related equipment">
@@ -51,6 +53,7 @@ export function BlogArticleView({ article, path, crumbs, related }: { article: B
   const cover = blogCover(article);
   const published = articlePublishedDate(article);
   const updated = articleUpdatedDate(article);
+  const references = articleReferences(article.slug);
   return <div className="journal journal-article">
     <header className="journal-article-heading journal-container">
       <Breadcrumbs items={crumbs} />
@@ -66,10 +69,11 @@ export function BlogArticleView({ article, path, crumbs, related }: { article: B
         <figure className="journal-cover"><Image src={cover.src} alt={cover.alt} width={1200} height={800} priority sizes="(max-width: 959px) 100vw, 848px" /><figcaption>AI-generated editorial image — not a photograph of a specific product or facility.</figcaption></figure>
         <article className="journal-article-body">
           <p className="journal-article-summary">{article.description}</p>
-          <p>{article.intro}</p>
+          <p data-editorial-paragraph="intro"><LinkedText text={article.intro} links={articleLinks(article.slug, 'intro')} /></p>
           <div className="journal-mobile-contents"><ArticleContents article={article} /></div>
-          {article.sections.map((section) => <section key={section.title} id={sectionId(section.title)}><h2>{section.title}</h2><p>{section.body}</p></section>)}
+          {article.sections.map((section) => <section key={section.title} id={sectionId(section.title)}><h2>{section.title}</h2><p data-editorial-paragraph={section.title}><LinkedText text={section.body} links={articleLinks(article.slug, section.title)} /></p></section>)}
           <section id="checklist" className="journal-checklist"><h2>Enquiry checklist</h2><ul>{article.checklist.map((item) => <li key={item}>{item}</li>)}</ul></section>
+          {references.length > 0 && <section id="references" className="journal-references" aria-labelledby="references-heading"><h2 id="references-heading">Sources and further reading</h2><ul>{references.map(reference => <li key={reference.href}><a href={reference.href} className="journal-inline-link" target="_blank" rel="noopener noreferrer">{reference.publisher}: {reference.label}<span className="sr-only"> (opens in a new tab)</span></a><p>{reference.note}</p><p className="journal-reference-date">Source checked <time dateTime={reference.checkedAt}>{formatBlogDate(reference.checkedAt)}</time>.</p></li>)}</ul></section>}
           <EquipmentLinks links={article.equipment} />
           <footer className="journal-article-footer"><span>Published by <Link href="/about">beIN MediTech</Link></span><Link href={blogPath(article.topic)}>More {findBlogTopic(article.topic)?.name.toLowerCase()} guides <span aria-hidden="true">→</span></Link></footer>
         </article>

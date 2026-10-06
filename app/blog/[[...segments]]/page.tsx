@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { SITE_URL } from '@/lib/catalog';
 import { articlePublishedDate, articleUpdatedDate, blogTopicUpdatedDate, articlePath, blogArticles, blogBreadcrumbs, blogCover, blogPath, blogTopics, findBlogArticle, findBlogTopic, topicArticles } from '@/lib/blog';
 import { jsonLd } from '@/lib/content';
+import { articleReferences } from '@/lib/blog-editorial-links';
 import { BlogArchive, BlogArticleView } from '@/components/blog/BlogViews';
 
 type Props = { params: Promise<{ segments?: string[] }> };
@@ -43,6 +44,7 @@ export default async function BlogPage(props: Props) {
     '@context': 'https://schema.org', '@graph': [
       { '@type': article ? 'BlogPosting' : segments.length ? 'CollectionPage' : 'Blog', '@id': `${SITE_URL}${path}#webpage`, url: `${SITE_URL}${path}`, name: entry.title, description: entry.description, inLanguage: 'en', dateModified: article ? articleUpdatedDate(article) : blogTopicUpdatedDate(segments),
         isPartOf: { '@id': article ? `${SITE_URL}${blogPath(article.topic)}#webpage` : segments.length ? `${SITE_URL}${blogPath(segments.slice(0, -1))}#webpage` : `${SITE_URL}/#website` },
+        ...(article && articleReferences(article.slug).length ? { citation: articleReferences(article.slug).map(reference => reference.href) } : {}),
         ...(article ? { headline: article.title, datePublished: articlePublishedDate(article), author: { '@type': 'Organization', name: 'beIN MediTech', url: `${SITE_URL}/about` }, publisher: { '@id': `${SITE_URL}/#organization` }, mainEntityOfPage: `${SITE_URL}${path}`, image: [`${SITE_URL}${blogCover(article).src}`], articleSection: findBlogTopic(article.topic)?.name, articleBody: [article.intro, ...article.sections.map((s) => `${s.title}\n${s.body}`), ...article.checklist].join('\n\n') } : {}),
       },
       { '@type': 'BreadcrumbList', itemListElement: crumbs.map((crumb, index) => ({ '@type': 'ListItem', position: index + 1, name: crumb.name, item: `${SITE_URL}${crumb.href}` })) },
