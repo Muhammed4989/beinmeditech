@@ -44,7 +44,7 @@ export default function TrainingAndSupportPage() {
         { q: 'What is your approach to problem-solving?', a: 'We proactively identify and solve potential issues before they impact operations, ensuring smooth functionality.' },
       ]}
       imageUrl="/images/site/clinical-team-training.webp"
-      imageAlt="AI-generated editorial scene of clinical equipment orientation"
+      imageAlt="Illustration of clinical equipment orientation"
       schema={schema}
     />
   );

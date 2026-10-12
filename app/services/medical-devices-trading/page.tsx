@@ -45,7 +45,7 @@ export default function MedicalDevicesTradingPage() {
         { q: 'How does beIN Meditech support clients after purchase?', a: 'We provide comprehensive after-sales support including installation, training, and maintenance services.' },
       ]}
       imageUrl="/images/blog/ultrasound.webp"
-      imageAlt="AI-generated editorial illustration of a generic ultrasound system"
+      imageAlt="Illustrative image of a generic ultrasound system"
       schema={schema}
     />
   );

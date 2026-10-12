@@ -13,7 +13,7 @@ export default function ServicesPage() {
     <PageIntro title="Support for the technology behind care." eyebrow="Healthcare services" description="From sourcing a device to planning its place in your facility. Explore the expertise available for your next project." crumbs={[{ name: 'Home', href: '/' }, { name: 'Services', href: '/services' }]} />
     <section className="site-section"><div className="site-container services-list">{serviceDirectory.map((service) => <article key={service.href} className="service-row">
       <div><span className="icon-tile"><ServiceIcon name={service.icon} /></span><h2>{service.title}</h2><p className="section-copy">{service.description}</p><ul className="feature-list">{service.features.map((feature) => <li key={feature}><ServiceIcon name="check" />{feature}</li>)}</ul><Link href={service.href} className="btn-outline">Explore service <span aria-hidden="true">↗</span></Link></div>
-      <figure className="editorial-figure"><Image src={service.image} alt={service.alt} width={1200} height={800} sizes="(max-width: 959px) 100vw, 560px" /><figcaption>AI-generated editorial illustration.</figcaption></figure>
+      <figure className="editorial-figure"><Image src={service.image} alt={service.alt} width={1200} height={800} sizes="(max-width: 959px) 100vw, 560px" /><figcaption>Illustrative image.</figcaption></figure>
     </article>)}</div></section>
     <SiteCTA title="Have an equipment or technology project in mind?" description="Tell us what you want to achieve and which parts of the project you need help with." href="/contact" label="Discuss your project" />
   </>;

@@ -222,14 +222,14 @@ export default function HomePage() {
             <div className="order-2 lg:order-1">
               <Image
                 src="/images/site/equipment-consultation.webp"
-                alt="AI-generated editorial illustration of a medical equipment consultation, not actual company staff"
+                alt="Illustrative image of a medical equipment consultation, not actual company staff"
                 width={540}
                 height={380}
                 loading="lazy"
                 sizes="(max-width: 768px) 100vw, 540px"
                 className="rounded-2xl object-cover w-full"
               />
-              <p className="mt-2 text-xs text-gray-600">AI-generated editorial illustration, not actual company staff.</p>
+              <p className="mt-2 text-xs text-gray-600">Illustrative image, not actual company staff.</p>
             </div>
             <div className="order-1 lg:order-2">
               <p className="section-label">About beIN Meditech</p>

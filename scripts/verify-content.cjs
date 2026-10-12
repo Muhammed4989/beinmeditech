@@ -165,7 +165,7 @@ async function verifyHttp(base) {
       if (articlePaths.includes(route)) {
         assert(html.includes('journal-article-body') && html.includes('journal-cover'), route + ' has the reading layout and cover');
         assert(html.includes('id="checklist"'), route + ' keeps article anchors');
-        assert(html.includes('AI-generated editorial image'), route + ' identifies generated imagery');
+        assert(html.includes('Illustrative image'), route + ' identifies illustrative imagery');
         const article = blog.blogArticles.find((item) => blog.articlePath(item) === route);
         const image = catalog.SITE_URL + blog.blogCover(article).src;
         assert(html.includes('property="og:image" content="' + image + '"'), route + ' shares its own cover on Open Graph');

@@ -45,7 +45,7 @@ export default function MedicalIntegrationServicesPage() {
         { q: 'Can you integrate a wide range of healthcare technologies?', a: 'Yes, we specialize in integrating a diverse array of medical devices, EMR systems, and IT solutions from multiple vendors.' },
       ]}
       imageUrl="/images/blog/monitoring.webp"
-      imageAlt="AI-generated editorial illustration of connected monitoring equipment"
+      imageAlt="Illustrative image of connected monitoring equipment"
       schema={schema}
     />
   );

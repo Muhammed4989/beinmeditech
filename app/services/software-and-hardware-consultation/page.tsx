@@ -44,7 +44,7 @@ export default function SoftwareHardwareConsultationPage() {
         { q: 'What kind of post-integration support do you offer?', a: 'We provide comprehensive support including troubleshooting, updates, and regular check-ins to ensure smooth operation.' },
       ]}
       imageUrl="/images/site/equipment-consultation.webp"
-      imageAlt="AI-generated editorial scene of an equipment consultation"
+      imageAlt="Illustration of an equipment consultation"
       schema={schema}
     />
   );

@@ -44,7 +44,7 @@ export default function CustomITSolutionsPage() {
         { q: 'How does beIN Meditech provide ongoing support?', a: 'We offer continuous optimization, regular updates, and responsive support to ensure your systems function smoothly at all times.' },
       ]}
       imageUrl="/images/blog/integration.webp"
-      imageAlt="AI-generated editorial illustration of a healthcare technology workspace"
+      imageAlt="Illustrative image of a healthcare technology workspace"
       schema={schema}
     />
   );
